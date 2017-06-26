@@ -25,11 +25,13 @@ class playScene: SKScene {
     private var n_back2 = SKLabelNode(text: "n_back: 1")
     private var arrayPositions = [Int]()
     
+    private var background = SKSpriteNode(imageNamed: "background_trans_final")
     
     override func didMove(to view: SKView) {
+        self.background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        self.background.zPosition = 1
         
-        self.backgroundColor = UIColor .blue
-        
+        self.addChild(self.background)
         
         score.text = "Score " + String(score2)
         score.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 75)
