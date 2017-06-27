@@ -13,15 +13,22 @@ class gameOver: SKScene {
     
     private var menuButton = SKLabelNode(text: "Back to Menu")
     private var playAgain = SKLabelNode(text: "Play Again")
+    private var background = SKSpriteNode(imageNamed: "background_trans_final")
     
     override func didMove(to view: SKView) {
         
+        self.background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        self.background.zPosition = 1
+        self.addChild(self.background)
+        
         menuButton.text = "Back to Menu"
-        menuButton.position = CGPoint(x: self.frame.midX - 50, y: self.frame.midY)
+        menuButton.position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY)
+        self.menuButton.zPosition = 2
         self.addChild(self.menuButton)
         
         playAgain.text = "Play Again"
-        playAgain.position = CGPoint(x: self.frame.midX + 50, y: self.frame.midY)
+        playAgain.position = CGPoint(x: self.frame.midX + 100, y: self.frame.midY)
+        self.playAgain.zPosition = 2
         self.addChild(self.playAgain)
     }
     
@@ -30,21 +37,23 @@ class gameOver: SKScene {
             let location = touch.location(in: self)
             
             if(self.atPoint(location) == self.menuButton) {
-                let scene = GameScene(size: CGSize(width: self.frame.width, height: self.frame.height))
-                scene.size = self.size
-                let skview = self.view!
-                skview.ignoresSiblingOrder = true
-                scene.scaleMode = .resizeFill
-                skview.presentScene(scene)
+                if let view = self.view as! SKView? {
+                    // Load the SKScene from 'GameScene.sks'
+                    if let scene = SKScene(fileNamed: "GameScene") {
+                        // Set the scale mode to scale to fit the window
+                        
+                        // Present the scene
+                        view.presentScene(scene)
+                    }
+                }
             }
             
             else if(self.atPoint(location) == self.playAgain) {
-                let scene = playScene(size: CGSize(width: self.frame.width, height: self.frame.height))
-                scene.size = self.size
+                let scene = playScene(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
-                scene.scaleMode = .resizeFill
-                skview.presentScene(scene, transition: SKTransition.moveIn(with: .down, duration: 1))
+                scene.scaleMode = .aspectFit
+                skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.25))
             }
         }
     }

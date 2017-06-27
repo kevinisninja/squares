@@ -30,7 +30,6 @@ class playScene: SKScene {
     override func didMove(to view: SKView) {
         self.background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.background.zPosition = 1
-        
         self.addChild(self.background)
         
         score.text = "Score " + String(score2)
@@ -142,13 +141,10 @@ class playScene: SKScene {
                     setupRound()
                 }
                 else {
-                    let scene = gameOver(size: CGSize(width: 200, height: 150))
-                    scene.size = self.size
+                    let scene = gameOver(size: self.size)
                     let skview = self.view!
                     skview.ignoresSiblingOrder = true
-                    scene.scaleMode = .resizeFill
-                    scene.backgroundColor = UIColor .clear
-                    skview.presentScene(scene, transition: SKTransition.moveIn(with: .up, duration: 0.5))
+                    skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.25))
                 }
             }
             
@@ -157,13 +153,10 @@ class playScene: SKScene {
                     setupRound()
                 }
                 else {
-                    let scene = gameOver(size: CGSize(width: 200, height: 150))
-                    scene.size = self.size
+                    let scene = gameOver(size: self.size)
                     let skview = self.view!
                     skview.ignoresSiblingOrder = true
-                    scene.scaleMode = .resizeFill
-                    scene.backgroundColor = UIColor .clear
-                    skview.presentScene(scene, transition: SKTransition.moveIn(with: .up, duration: 0.5))
+                    skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.25))
                 }
             }
             

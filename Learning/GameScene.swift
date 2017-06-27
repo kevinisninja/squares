@@ -41,11 +41,11 @@ class GameScene: SKScene {
                 skview.ignoresSiblingOrder = true
                 scene.scaleMode = .resizeFill
                 
-                background.run(transition) {
+                background.run(transition)
+                {
                     skview.presentScene(scene)
                 }
             }
-            
         }
     }
 
