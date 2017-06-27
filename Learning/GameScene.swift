@@ -124,11 +124,6 @@ class GameScene: SKScene {
         animateBackground.append(SKTexture(image: #imageLiteral(resourceName: "background_trans_68")))
         animateBackground.append(SKTexture(image: #imageLiteral(resourceName: "background_trans_69")))
         animateBackground.append(SKTexture(image: #imageLiteral(resourceName: "background_trans_70")))
-        animateBackground.append(SKTexture(image: #imageLiteral(resourceName: "background_trans_71")))
-        animateBackground.append(SKTexture(image: #imageLiteral(resourceName: "background_trans_72")))
-        animateBackground.append(SKTexture(image: #imageLiteral(resourceName: "background_trans_73")))
-        animateBackground.append(SKTexture(image: #imageLiteral(resourceName: "background_trans_74")))
-        animateBackground.append(SKTexture(image: #imageLiteral(resourceName: "background_trans_75")))
         animateBackground.append(SKTexture(image: #imageLiteral(resourceName: "background_trans_final")))
     }
 }

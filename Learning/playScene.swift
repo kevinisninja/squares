@@ -35,10 +35,12 @@ class playScene: SKScene {
         
         score.text = "Score " + String(score2)
         score.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 75)
+        self.score.zPosition = 2
         self.addChild(self.score)
         
         n_back2.text = "n_back: " + String(n_back)
         n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 100)
+        self.n_back2.zPosition = 2
         self.addChild(self.n_back2)
         
         
@@ -68,14 +70,17 @@ class playScene: SKScene {
         arraySquares[3].position = CGPoint(x: self.frame.midX + 75, y: self.frame.midY + 75)
         
         for squares in 0...3 {
+            self.arraySquares[squares].zPosition = 2
             self.addChild(self.arraySquares[squares])
         }
         let bottom = CGPoint(x:arraySquares[0].position.x, y:arraySquares[0].position.y - 140)
         yesButton.position = bottom
+        self.yesButton.zPosition = 2
         self.addChild(self.yesButton)
         
         let bottomNo = CGPoint(x:arraySquares[1].position.x, y:arraySquares[0].position.y - 140)
         noButton.position = bottomNo
+        self.noButton.zPosition = 2
         self.addChild(self.noButton)
         
         firstRound()
@@ -137,11 +142,13 @@ class playScene: SKScene {
                     setupRound()
                 }
                 else {
-                    let reveal = SKTransition.reveal(with: .down, duration: 0.5)
                     let scene = gameOver(size: CGSize(width: 200, height: 150))
+                    scene.size = self.size
                     let skview = self.view!
                     skview.ignoresSiblingOrder = true
-                    skview.presentScene(scene, transition: reveal)
+                    scene.scaleMode = .resizeFill
+                    scene.backgroundColor = UIColor .clear
+                    skview.presentScene(scene, transition: SKTransition.moveIn(with: .up, duration: 0.5))
                 }
             }
             
@@ -150,11 +157,13 @@ class playScene: SKScene {
                     setupRound()
                 }
                 else {
-                    let reveal = SKTransition.reveal(with: .down, duration: 0.5)
                     let scene = gameOver(size: CGSize(width: 200, height: 150))
+                    scene.size = self.size
                     let skview = self.view!
                     skview.ignoresSiblingOrder = true
-                    skview.presentScene(scene, transition: reveal)
+                    scene.scaleMode = .resizeFill
+                    scene.backgroundColor = UIColor .clear
+                    skview.presentScene(scene, transition: SKTransition.moveIn(with: .up, duration: 0.5))
                 }
             }
             

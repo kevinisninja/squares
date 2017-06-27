@@ -15,11 +15,12 @@ class gameOver: SKScene {
     private var playAgain = SKLabelNode(text: "Play Again")
     
     override func didMove(to view: SKView) {
-        self.backgroundColor = UIColor .white
         
+        menuButton.text = "Back to Menu"
         menuButton.position = CGPoint(x: self.frame.midX - 50, y: self.frame.midY)
         self.addChild(self.menuButton)
         
+        playAgain.text = "Play Again"
         playAgain.position = CGPoint(x: self.frame.midX + 50, y: self.frame.midY)
         self.addChild(self.playAgain)
     }
@@ -30,6 +31,7 @@ class gameOver: SKScene {
             
             if(self.atPoint(location) == self.menuButton) {
                 let scene = GameScene(size: CGSize(width: self.frame.width, height: self.frame.height))
+                scene.size = self.size
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
                 scene.scaleMode = .resizeFill
@@ -38,10 +40,11 @@ class gameOver: SKScene {
             
             else if(self.atPoint(location) == self.playAgain) {
                 let scene = playScene(size: CGSize(width: self.frame.width, height: self.frame.height))
+                scene.size = self.size
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
                 scene.scaleMode = .resizeFill
-                skview.presentScene(scene)
+                skview.presentScene(scene, transition: SKTransition.moveIn(with: .down, duration: 1))
             }
         }
     }
