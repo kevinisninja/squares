@@ -9,32 +9,32 @@
 import SpriteKit
 import UIKit
 class playScene: SKScene {
+    
+    private var parentNode = SKNode()
+    private var yesButton = SKSpriteNode(imageNamed: "yes")
+    private var noButton = SKSpriteNode(imageNamed: "no")
+    private var n_back2 = SKLabelNode(text: "n_back: 1")
+    private var score = SKLabelNode(text: "Score: 0")
 
+    private var score2 = 0
+    private var n_back = 1
+    private var cur = 0
+    private var compare = 0
+    private var ans = 0
+    private var stopPlay = false
+    
+    private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
+    private var arrayPositions = [Int]()
+    
+    private var background = SKSpriteNode(imageNamed: "background_trans_final")
+    
     private var gameOverNode = SKNode()
     private var gameOverBack = SKSpriteNode()
     private var gameOver = SKSpriteNode(imageNamed: "Spaceship")
     private var go_menuButton = SKLabelNode(text: "Back to Menu")
     private var go_playAgain = SKLabelNode(text: "Play Again")
     
-    private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
-    private var yesButton = SKSpriteNode(imageNamed: "yes")
-    private var noButton = SKSpriteNode(imageNamed: "no")
-    
-    private var score = SKLabelNode(text: "Score: 0")
-    private var score2 = 0
-    
-    private var cur = 0
-    private var compare = 0
-    private var ans = 0
-    
-    private var n_back = 1
-    private var n_back2 = SKLabelNode(text: "n_back: 1")
-    private var arrayPositions = [Int]()
-    
-    private var parentNode = SKNode()
     private var pauseNode = SKNode()
-    
-    private var background = SKSpriteNode(imageNamed: "background_trans_final")
     
     override func didMove(to view: SKView) {
         
@@ -181,22 +181,39 @@ class playScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
             
-            if self.atPoint(location) == self.yesButton {
+            if(self.atPoint(location) == self.yesButton && !stopPlay) {
                 if(ans == 1) {
                     setupRound()
                 }
                 else {
+                    stopPlay = true
                     parentNode.addChild(self.gameOverNode)
                 }
             }
-            
-            else if self.atPoint(location) == self.noButton {
+            else if(self.atPoint(location) == self.noButton && !stopPlay) {
                 if(ans == 0) {
                     setupRound()
                 }
                 else {
+                    stopPlay = true
                     parentNode.addChild(self.gameOverNode)
                 }
+            }
+            else if(self.atPoint(location) == self.go_playAgain && stopPlay) {
+                
+                let scene = playScene(size: self.size)
+                let skview = self.view!
+                skview.ignoresSiblingOrder = true
+                scene.scaleMode = .resizeFill
+                skview.presentScene(scene)
+            }
+            else if(self.atPoint(location) == self.go_menuButton && stopPlay) {
+                let scene = GameScene(size: self.size)
+                let skview = self.view!
+                skview.ignoresSiblingOrder = true
+                scene.scaleMode = .resizeFill
+                skview.presentScene(scene)
+                
             }
             
         }
