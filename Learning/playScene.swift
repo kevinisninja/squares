@@ -9,14 +9,12 @@
 import SpriteKit
 import UIKit
 class playScene: SKScene {
-    
+
+    private var gameOverNode = SKNode()
     private var gameOverBack = SKSpriteNode()
     private var gameOver = SKSpriteNode(imageNamed: "Spaceship")
     private var go_menuButton = SKLabelNode(text: "Back to Menu")
     private var go_playAgain = SKLabelNode(text: "Play Again")
-    
-    private var centerX = CGFloat()
-    private var centerY = CGFloat()
     
     private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
     private var yesButton = SKSpriteNode(imageNamed: "yes")
@@ -34,62 +32,78 @@ class playScene: SKScene {
     private var arrayPositions = [Int]()
     
     private var parentNode = SKNode()
+    private var pauseNode = SKNode()
+    
     private var background = SKSpriteNode(imageNamed: "background_trans_final")
     
     override func didMove(to view: SKView) {
-        centerX = self.frame.midX
-        centerY = self.frame.midY
         
+        //add children to the parent node because for some reason my positioning was screwing up
         self.addChild(self.parentNode)
         
+        //initialize the background
         background.size = self.size
         background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         background.zPosition = 1
         parentNode.addChild(self.background)
         
+        //adding buttons, replace these later with images
         score.text = "Score " + String(score2)
         score.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 75)
-        self.score.zPosition = 2
-        self.addChild(self.score)
+        score.zPosition = 2
+        parentNode.addChild(self.score)
         
         n_back2.text = "n_back: " + String(n_back)
         n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 100)
-        self.n_back2.zPosition = 2
-        self.addChild(self.n_back2)
+        n_back2.zPosition = 2
+        parentNode.addChild(self.n_back2)
+        
+        yesButton.position = CGPoint(x: self.frame.midX + 50, y: self.frame.midX - 80)
+        yesButton.zPosition = 2
+        parentNode.addChild(self.yesButton)
+        
+        noButton.position = CGPoint(x: self.frame.midX - 50, y: self.frame.midX - 80)
+        noButton.zPosition = 2
+        parentNode.addChild(self.noButton)
         
         init_squares()
-
-        let bottom = CGPoint(x:arraySquares[0].position.x, y:arraySquares[0].position.y - 140)
-        yesButton.position = bottom
-        self.yesButton.zPosition = 2
-        self.addChild(self.yesButton)
         
-        let bottomNo = CGPoint(x:arraySquares[1].position.x, y:arraySquares[0].position.y - 140)
-        noButton.position = bottomNo
-        self.noButton.zPosition = 2
-        self.addChild(self.noButton)
+        setup_pause()
         
-        self.gameOverBack.zPosition = 3
-        gameOverBack.color = UIColor(white: 0.0, alpha: 0.67)
-        gameOverBack.size = CGSize(width: CGFloat(self.frame.width), height: CGFloat(self.frame.height))
-        gameOverBack.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        
-        self.gameOver.zPosition = 4
-        self.gameOver.position = CGPoint(x: centerX, y: centerY)
-        gameOverBack.addChild(gameOver)
-        
-        go_menuButton.text = "Back to Menu"
-        go_menuButton.position = CGPoint(x: centerX - 100, y: centerY)
-        
-        self.go_menuButton.zPosition = 5
-        gameOverBack.addChild(go_menuButton)
-        
-        go_playAgain.text = "Play Again"
-        go_playAgain.position = CGPoint(x: centerX + 100, y: centerY)
-        self.go_playAgain.zPosition = 5
-        gameOverBack.addChild(go_playAgain)
+        setup_gameOver()
         
         firstRound()
+    }
+    
+    func setup_gameOver() {
+        
+        //this is the transparent background
+        gameOverBack.zPosition = 3
+        gameOverBack.color = UIColor(white: 0.0, alpha: 0.67)
+        gameOverBack.size = self.size
+        gameOverBack.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        gameOverNode.addChild(self.gameOverBack)
+        
+        //background GUI that needs to be designed
+        gameOver.zPosition = 4
+        gameOver.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        gameOverNode.addChild(self.gameOver)
+        
+        
+        //buttons on the GUI
+        go_menuButton.zPosition = 5
+        go_menuButton.text = "Back to Menu"
+        go_menuButton.position = CGPoint(x: self.frame.midX - 80, y: self.frame.midY - 100)
+        gameOverNode.addChild(self.go_menuButton)
+        
+        go_playAgain.zPosition = 5
+        go_playAgain.text = "Play Again"
+        go_playAgain.position = CGPoint(x: self.frame.midX + 80, y: self.frame.midY - 100)
+        gameOverNode.addChild(self.go_playAgain)
+    }
+    
+    func setup_pause() {
+        
     }
     
     func init_squares() {
@@ -97,21 +111,19 @@ class playScene: SKScene {
         for squares in 0...8 {
             arraySquares.append(SKSpriteNode())
             arraySquares[squares].size = CGSize(width: 90, height: 90)
-            arraySquares[squares].anchorPoint = CGPoint(x: 0.5, y: 0.5)
             self.arraySquares[squares].zPosition = 2
             parentNode.addChild(arraySquares[squares])
         }
         
-        arraySquares[0].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY + 100)
-        arraySquares[1].position = CGPoint(x: self.frame.midX, y: self.frame.midY + 100)
-        arraySquares[2].position = CGPoint(x: self.frame.midX + 100, y:self.frame.midY + 100)
-        arraySquares[3].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY)
-        arraySquares[4].position = CGPoint(x: self.frame.midX, y:self.frame.midY)
-        arraySquares[5].position = CGPoint(x: self.frame.midX + 100, y: self.frame.midY)
-        arraySquares[6].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY - 100)
-        arraySquares[7].position = CGPoint(x: self.frame.midX, y: self.frame.midY - 100)
-        arraySquares[8].position = CGPoint(x: self.frame.midX + 100, y: self.frame.midY - 100)
-        
+        arraySquares[0].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY + 120)
+        arraySquares[1].position = CGPoint(x: self.frame.midX, y: self.frame.midY + 120)
+        arraySquares[2].position = CGPoint(x: self.frame.midX + 100, y:self.frame.midY + 120)
+        arraySquares[3].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY + 20)
+        arraySquares[4].position = CGPoint(x: self.frame.midX, y:self.frame.midY + 20)
+        arraySquares[5].position = CGPoint(x: self.frame.midX + 100, y: self.frame.midY + 20)
+        arraySquares[6].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY - 80)
+        arraySquares[7].position = CGPoint(x: self.frame.midX, y: self.frame.midY - 80)
+        arraySquares[8].position = CGPoint(x: self.frame.midX + 100, y: self.frame.midY - 80)
     }
     
     func firstRound() {
@@ -174,7 +186,7 @@ class playScene: SKScene {
                     setupRound()
                 }
                 else {
-                    self.addChild(self.gameOverBack)
+                    parentNode.addChild(self.gameOverNode)
                 }
             }
             
@@ -183,7 +195,7 @@ class playScene: SKScene {
                     setupRound()
                 }
                 else {
-                    self.addChild(self.gameOverBack)
+                    parentNode.addChild(self.gameOverNode)
                 }
             }
             
