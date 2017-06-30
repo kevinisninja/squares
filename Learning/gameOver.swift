@@ -37,7 +37,7 @@ class gameOver: SKScene {
             let location = touch.location(in: self)
             
             if(self.atPoint(location) == self.menuButton) {
-                if let view = self.view as! SKView? {
+                if let view = self.view {
                     // Load the SKScene from 'GameScene.sks'
                     if let scene = SKScene(fileNamed: "GameScene") {
                         // Set the scale mode to scale to fit the window

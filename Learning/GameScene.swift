@@ -20,6 +20,7 @@ class GameScene: SKScene {
         self.background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.background.zPosition = 1
         self.addChild(self.background)
+        
         self.playButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.playButton.zPosition = 2
         self.addChild(self.playButton)

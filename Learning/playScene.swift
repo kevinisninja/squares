@@ -33,15 +33,19 @@ class playScene: SKScene {
     private var n_back2 = SKLabelNode(text: "n_back: 1")
     private var arrayPositions = [Int]()
     
+    private var parentNode = SKNode()
     private var background = SKSpriteNode(imageNamed: "background_trans_final")
     
     override func didMove(to view: SKView) {
         centerX = self.frame.midX
         centerY = self.frame.midY
         
-        self.background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        self.background.zPosition = 1
-        self.addChild(self.background)
+        self.addChild(self.parentNode)
+        
+        background.size = self.size
+        background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        background.zPosition = 1
+        parentNode.addChild(self.background)
         
         score.text = "Score " + String(score2)
         score.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 75)
@@ -53,36 +57,8 @@ class playScene: SKScene {
         self.n_back2.zPosition = 2
         self.addChild(self.n_back2)
         
-        
-        let square0 : SKSpriteNode!
-        square0 = SKSpriteNode()
-        arraySquares.append(square0)
-        
-        let square1 : SKSpriteNode!
-        square1 = SKSpriteNode()
-        arraySquares.append(square1)
-        
-        let square2 : SKSpriteNode!
-        square2 = SKSpriteNode()
-        arraySquares.append(square2)
-        
-        let square3 : SKSpriteNode!
-        square3 = SKSpriteNode()
-        arraySquares.append(square3)
-        
-        for squares in 0...3 {
-            arraySquares[squares].size = CGSize(width: 140, height: 140)
-        }
-        
-        arraySquares[0].position = CGPoint(x: self.frame.midX - 75, y: self.frame.midY - 75)
-        arraySquares[1].position = CGPoint(x: self.frame.midX + 75, y: self.frame.midY - 75)
-        arraySquares[2].position = CGPoint(x: self.frame.midX - 75, y: self.frame.midY + 75)
-        arraySquares[3].position = CGPoint(x: self.frame.midX + 75, y: self.frame.midY + 75)
-        
-        for squares in 0...3 {
-            self.arraySquares[squares].zPosition = 2
-            self.addChild(self.arraySquares[squares])
-        }
+        init_squares()
+
         let bottom = CGPoint(x:arraySquares[0].position.x, y:arraySquares[0].position.y - 140)
         yesButton.position = bottom
         self.yesButton.zPosition = 2
@@ -116,6 +92,28 @@ class playScene: SKScene {
         firstRound()
     }
     
+    func init_squares() {
+        
+        for squares in 0...8 {
+            arraySquares.append(SKSpriteNode())
+            arraySquares[squares].size = CGSize(width: 90, height: 90)
+            arraySquares[squares].anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            self.arraySquares[squares].zPosition = 2
+            parentNode.addChild(arraySquares[squares])
+        }
+        
+        arraySquares[0].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY + 100)
+        arraySquares[1].position = CGPoint(x: self.frame.midX, y: self.frame.midY + 100)
+        arraySquares[2].position = CGPoint(x: self.frame.midX + 100, y:self.frame.midY + 100)
+        arraySquares[3].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY)
+        arraySquares[4].position = CGPoint(x: self.frame.midX, y:self.frame.midY)
+        arraySquares[5].position = CGPoint(x: self.frame.midX + 100, y: self.frame.midY)
+        arraySquares[6].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY - 100)
+        arraySquares[7].position = CGPoint(x: self.frame.midX, y: self.frame.midY - 100)
+        arraySquares[8].position = CGPoint(x: self.frame.midX + 100, y: self.frame.midY - 100)
+        
+    }
+    
     func firstRound() {
         cur = Int(arc4random_uniform(4))
         compare = Int(arc4random_uniform(4))
@@ -127,6 +125,10 @@ class playScene: SKScene {
         
         arraySquares[cur].texture = SKTexture(imageNamed: "paint")
         arraySquares[compare].texture = SKTexture(imageNamed: "previous")
+        
+        for i in 0...8 {
+            arraySquares[i].texture = SKTexture(imageNamed: "paint")
+        }
         ans = 0
     }
     
