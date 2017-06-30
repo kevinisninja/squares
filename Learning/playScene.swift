@@ -10,6 +10,14 @@ import SpriteKit
 import UIKit
 class playScene: SKScene {
     
+    private var gameOverBack = SKSpriteNode()
+    private var gameOver = SKSpriteNode(imageNamed: "Spaceship")
+    private var go_menuButton = SKLabelNode(text: "Back to Menu")
+    private var go_playAgain = SKLabelNode(text: "Play Again")
+    
+    private var centerX = CGFloat()
+    private var centerY = CGFloat()
+    
     private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
     private var yesButton = SKSpriteNode(imageNamed: "yes")
     private var noButton = SKSpriteNode(imageNamed: "no")
@@ -28,6 +36,9 @@ class playScene: SKScene {
     private var background = SKSpriteNode(imageNamed: "background_trans_final")
     
     override func didMove(to view: SKView) {
+        centerX = self.frame.midX
+        centerY = self.frame.midY
+        
         self.background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.background.zPosition = 1
         self.addChild(self.background)
@@ -81,6 +92,26 @@ class playScene: SKScene {
         noButton.position = bottomNo
         self.noButton.zPosition = 2
         self.addChild(self.noButton)
+        
+        self.gameOverBack.zPosition = 3
+        gameOverBack.color = UIColor(white: 0.0, alpha: 0.67)
+        gameOverBack.size = CGSize(width: CGFloat(self.frame.width), height: CGFloat(self.frame.height))
+        gameOverBack.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        
+        self.gameOver.zPosition = 4
+        self.gameOver.position = CGPoint(x: centerX, y: centerY)
+        gameOverBack.addChild(gameOver)
+        
+        go_menuButton.text = "Back to Menu"
+        go_menuButton.position = CGPoint(x: centerX - 100, y: centerY)
+        
+        self.go_menuButton.zPosition = 5
+        gameOverBack.addChild(go_menuButton)
+        
+        go_playAgain.text = "Play Again"
+        go_playAgain.position = CGPoint(x: centerX + 100, y: centerY)
+        self.go_playAgain.zPosition = 5
+        gameOverBack.addChild(go_playAgain)
         
         firstRound()
     }
@@ -141,10 +172,7 @@ class playScene: SKScene {
                     setupRound()
                 }
                 else {
-                    let scene = gameOver(size: self.size)
-                    let skview = self.view!
-                    skview.ignoresSiblingOrder = true
-                    skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.25))
+                    self.addChild(self.gameOverBack)
                 }
             }
             
@@ -153,10 +181,7 @@ class playScene: SKScene {
                     setupRound()
                 }
                 else {
-                    let scene = gameOver(size: self.size)
-                    let skview = self.view!
-                    skview.ignoresSiblingOrder = true
-                    skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.25))
+                    self.addChild(self.gameOverBack)
                 }
             }
             
