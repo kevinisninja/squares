@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-    
+
     private let playButton = SKSpriteNode(imageNamed:"play")
     private var background = SKSpriteNode(imageNamed: "background")
     private var animateBackground = [SKTexture]()
@@ -37,7 +37,7 @@ class GameScene: SKScene {
             if self.atPoint(location) == self.playButton {
                 let transition = SKAction.animate(with: animateBackground, timePerFrame: 0.005)
                 
-                let scene = playScene(size: self.size)
+                let scene = DifficultySelect(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
                 scene.scaleMode = .resizeFill

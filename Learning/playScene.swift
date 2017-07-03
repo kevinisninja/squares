@@ -11,13 +11,14 @@ import UIKit
 class playScene: SKScene {
     
     private var parentNode = SKNode()
+    private var background = SKSpriteNode(imageNamed: "background_trans_final")
     private var yesButton = SKSpriteNode(imageNamed: "yes")
     private var noButton = SKSpriteNode(imageNamed: "no")
     private var n_back2 = SKLabelNode(text: "n_back: 1")
     private var score = SKLabelNode(text: "Score: 0")
 
     private var score2 = 0
-    private var n_back = 1
+    private var n_back = UserDefaults.standard.integer(forKey: "difficulty")
     private var cur = 0
     private var compare = 0
     private var ans = 0
@@ -25,8 +26,6 @@ class playScene: SKScene {
     
     private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
     private var arrayPositions = [Int]()
-    
-    private var background = SKSpriteNode(imageNamed: "background_trans_final")
     
     private var gameOverNode = SKNode()
     private var gameOverBack = SKSpriteNode()
@@ -137,10 +136,7 @@ class playScene: SKScene {
         
         arraySquares[cur].texture = SKTexture(imageNamed: "paint")
         arraySquares[compare].texture = SKTexture(imageNamed: "previous")
-        
-        for i in 0...8 {
-            arraySquares[i].texture = SKTexture(imageNamed: "paint")
-        }
+
         ans = 0
     }
     
@@ -152,20 +148,9 @@ class playScene: SKScene {
         arraySquares[compare].texture = SKTexture()
         arraySquares[cur].texture = SKTexture()
         
-        if( (score2 % 10 == 0 && score2 > 10) || (score2 == 5) ) {
-            n_back += 1
-            cur = Int(arc4random_uniform(4))
-            arrayPositions.append(cur)
-            
-            n_back2.text = "n_back: " + String(n_back)
-        }
-        else
-        {
-            compare = arrayPositions.remove(at: 0)
-            cur = Int(arc4random_uniform(4))
-            arrayPositions.append(cur)
-            
-        }
+        compare = arrayPositions.remove(at: 0)
+        cur = Int(arc4random_uniform(4))
+        arrayPositions.append(cur)
         
         arraySquares[cur].texture = SKTexture(imageNamed: "paint")
         
