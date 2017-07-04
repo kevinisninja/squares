@@ -194,16 +194,20 @@ class playScene: SKScene {
                 let scene = playScene(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
-                scene.scaleMode = .resizeFill
+                scene.scaleMode = .aspectFill
                 skview.presentScene(scene)
             }
             else if(self.atPoint(location) == self.go_menuButton && stopPlay) {
-                let scene = GameScene(size: self.size)
-                let skview = self.view!
-                skview.ignoresSiblingOrder = true
-                scene.scaleMode = .resizeFill
-                skview.presentScene(scene)
-                
+                if let view = self.view {
+                    // Load the SKScene from 'GameScene.sks'
+                    if let scene = SKScene(fileNamed: "GameScene") {
+                        // Set the scale mode to scale to fit the window
+                        scene.scaleMode = .aspectFill
+                        
+                        // Present the scene
+                        view.presentScene(scene)
+                    }
+                }
             }
             
         }
