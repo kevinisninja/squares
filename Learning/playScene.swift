@@ -29,7 +29,7 @@ class playScene: SKScene {
     
     private var gameOverNode = SKNode()
     private var gameOverBack = SKSpriteNode()
-    private var gameOver = SKSpriteNode(imageNamed: "Spaceship")
+    private var gameOver = SKSpriteNode(imageNamed: "go_back")
     private var go_menuButton = SKLabelNode(text: "Back to Menu")
     private var go_playAgain = SKLabelNode(text: "Play Again")
     
@@ -48,11 +48,13 @@ class playScene: SKScene {
         
         //adding buttons, replace these later with images
         score.text = "Score " + String(score2)
+        score.fontName = "Verdana-Bold"
         score.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 75)
         score.zPosition = 2
         parentNode.addChild(self.score)
         
         n_back2.text = "n_back: " + String(n_back)
+        n_back2.fontName = "Verdana-Bold"
         n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 100)
         n_back2.zPosition = 2
         parentNode.addChild(self.n_back2)
@@ -86,17 +88,20 @@ class playScene: SKScene {
         //background GUI that needs to be designed
         gameOver.zPosition = 4
         gameOver.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        gameOver.size = CGSize(width: 320, height: 200)
         gameOverNode.addChild(self.gameOver)
         
         
         //buttons on the GUI
         go_menuButton.zPosition = 5
         go_menuButton.text = "Back to Menu"
+        go_menuButton.fontName = "Verdana-Bold"
         go_menuButton.position = CGPoint(x: self.frame.midX - 80, y: self.frame.midY - 100)
         gameOverNode.addChild(self.go_menuButton)
         
         go_playAgain.zPosition = 5
         go_playAgain.text = "Play Again"
+        go_playAgain.fontName = "Verdana-Bold"
         go_playAgain.position = CGPoint(x: self.frame.midX + 80, y: self.frame.midY - 100)
         gameOverNode.addChild(self.go_playAgain)
     }
