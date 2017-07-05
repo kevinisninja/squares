@@ -83,7 +83,7 @@ class hiscores: SKScene {
                         scene.scaleMode = .aspectFill
                         
                         // Present the scene
-                        view.presentScene(scene, transition: SKTransition.crossFade(withDuration: 1.0))
+                        view.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
                     }
                 }
             }
