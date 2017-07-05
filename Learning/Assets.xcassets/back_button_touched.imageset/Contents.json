@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "go_back.png",
+      "filename" : "back_button_touched.png",
       "scale" : "1x"
     },
     {

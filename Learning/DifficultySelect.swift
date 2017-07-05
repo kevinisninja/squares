@@ -13,35 +13,29 @@ import UIKit
 class DifficultySelect: SKScene {
     
     private var parentNode = SKNode()
-    private var background = SKSpriteNode(imageNamed: "background_trans_final")
-    private var easy = SKSpriteNode(imageNamed: "easy")
-    private var medium = SKSpriteNode(imageNamed: "easy")
-    private var hard = SKSpriteNode(imageNamed: "easy")
-    private var extreme = SKSpriteNode(imageNamed: "easy")
+    private var easy = SKLabelNode(text: "Easy")
+    private var medium = SKLabelNode(text: "Normal")
+    private var hard = SKLabelNode(text: "Hard")
     
     override func didMove(to view: SKView) {
         
         //add children to the parent node because for some reason my positioning was screwing up
         self.addChild(self.parentNode)
         
-        //initialize the background
-        background.size = self.size
-        background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        background.zPosition = 1
-        parentNode.addChild(self.background)
+        easy.fontName = "AvenirNextCondensed-UltraLight"
+        easy.fontSize = CGFloat(100.0)
+        easy.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 125)
+        parentNode.addChild(easy)
         
-        //initialize difficulty buttons
-        easy.zPosition = 2
-        easy.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 150)
-        parentNode.addChild(self.easy)
+        medium.fontName = "AvenirNextCondensed-UltraLight"
+        medium.fontSize = CGFloat(100.0)
+        medium.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 25)
+        parentNode.addChild(medium)
         
-        medium.zPosition = 2
-        medium.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        parentNode.addChild(self.medium)
-        
-        hard.zPosition = 2
-        hard.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 150)
-        parentNode.addChild(self.hard)
+        hard.fontName = "AvenirNextCondensed-UltraLight"
+        hard.fontSize = CGFloat(100.0)
+        hard.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 175)
+        parentNode.addChild(hard)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -29,7 +29,7 @@ class playScene: SKScene {
     
     private var gameOverNode = SKNode()
     private var gameOverBack = SKSpriteNode()
-    private var gameOver = SKSpriteNode(imageNamed: "go_back")
+    private var gameOver = SKSpriteNode(imageNamed: "spaceship")
     private var go_menuButton = SKLabelNode(text: "Back to Menu")
     private var go_playAgain = SKLabelNode(text: "Play Again")
     
