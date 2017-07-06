@@ -14,6 +14,11 @@ class GameScene: SKScene {
     private var playNode = SKNode()
     private var hiscore = SKSpriteNode(imageNamed: "hiscore")
     private var hiscore_touch = false
+    private var _stats = SKSpriteNode(imageNamed: "stats")
+    private var stats_touch = false
+    private var _instructions = SKSpriteNode(imageNamed: "instructions")
+    private var instructions_touch = false
+    
     private var title = SKLabelNode(text: "S q u a r e s")
     private var text = SKLabelNode(text: "Tap to start")
     private var fade = true
@@ -35,8 +40,14 @@ class GameScene: SKScene {
         
         playNode.addChild(text)
         
-        hiscore.position = CGPoint(x: self.frame.maxX - 60, y: self.frame.maxY - 60)
+        _instructions.position = CGPoint(x: self.frame.maxX - 60,y: self.frame.maxY - 60)
+        playNode.addChild(self._instructions)
+        
+        hiscore.position = CGPoint(x: _instructions.frame.midX - 100, y: self.frame.maxY - 60)
         playNode.addChild(self.hiscore)
+        
+        _stats.position = CGPoint(x: hiscore.frame.midX - 100, y: self.frame.maxY - 60)
+        playNode.addChild(self._stats)
 
     }
     
@@ -47,6 +58,14 @@ class GameScene: SKScene {
             if self.atPoint(location) == self.hiscore {
                 hiscore.texture = SKTexture(imageNamed: "hiscore_touched")
                 hiscore_touch = true
+            }
+            else if self.atPoint(location) == self._stats {
+                _stats.texture = SKTexture(imageNamed: "stats_touched")
+                stats_touch = true
+            }
+            else if self.atPoint(location) == self._instructions {
+                _instructions.texture = SKTexture(imageNamed: "instructions_touched")
+                instructions_touch = true
             }
         }
     }
@@ -59,9 +78,25 @@ class GameScene: SKScene {
                 hiscore.texture = SKTexture(imageNamed: "hiscore")
                 hiscore_touch = false
             }
-            else if(self.atPoint(location) == self.hiscore && !hiscore_touch) {
+            else if(!hiscore_touch && self.atPoint(location) == self.hiscore) {
                 hiscore.texture = SKTexture(imageNamed: "hiscore_touched")
                 hiscore_touch = true
+            }
+            else if(stats_touch && self.atPoint(location) != self._stats) {
+                _stats.texture = SKTexture(imageNamed: "stats")
+                stats_touch = false
+            }
+            else if(!stats_touch && self.atPoint(location) == self._stats) {
+                _stats.texture = SKTexture(imageNamed: "stats_touched")
+                stats_touch = true
+            }
+            else if(instructions_touch && self.atPoint(location) != self._instructions) {
+                _instructions.texture = SKTexture(imageNamed: "instructions")
+                instructions_touch = false
+            }
+            else if(!instructions_touch && self.atPoint(location) == self._instructions) {
+                _instructions.texture = SKTexture(imageNamed: "instructions_touched")
+                instructions_touch = true
             }
         }
     }
@@ -79,6 +114,26 @@ class GameScene: SKScene {
                 scene.scaleMode = .aspectFill
                 skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
+            else if(stats_touch && self.atPoint(location) == self._stats) {
+                _stats.texture = SKTexture(imageNamed: "stats")
+                stats_touch = false
+                
+                let scene = stats(size: self.size)
+                let skview = self.view!
+                skview.ignoresSiblingOrder = true
+                scene.scaleMode = .aspectFill
+                skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
+            }
+            else if(instructions_touch && self.atPoint(location) == self._instructions) {
+                _instructions.texture = SKTexture(imageNamed: "instructions")
+                instructions_touch = false
+                
+                let scene = instructions(size: self.size)
+                let skview = self.view!
+                skview.ignoresSiblingOrder = true
+                scene.scaleMode = .aspectFill
+                skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
+            }
             else {
                 let scene = DifficultySelect(size: self.size)
                 let skview = self.view!
@@ -91,25 +146,6 @@ class GameScene: SKScene {
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        blink()
-    }
-    
-    func blink() {
-        if(fade)
-        {
-            text.alpha = text.alpha - 0.1
-            
-            if(text.alpha == 0.1) {
-                fade = false
-            }
-        }
-        else {
-            text.alpha = text.alpha + 0.1
-            
-            if(text.alpha == 1) {
-                fade = true
-            }
-        }
     }
     
  }
