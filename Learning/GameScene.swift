@@ -46,8 +46,8 @@ class GameScene: SKScene {
         hiscore.position = CGPoint(x: _instructions.frame.midX - 100, y: self.frame.maxY - 60)
         playNode.addChild(self.hiscore)
         
-        _stats.position = CGPoint(x: hiscore.frame.midX - 100, y: self.frame.maxY - 60)
-        playNode.addChild(self._stats)
+        //_stats.position = CGPoint(x: hiscore.frame.midX - 100, y: self.frame.maxY - 60)
+        //playNode.addChild(self._stats)
 
     }
     

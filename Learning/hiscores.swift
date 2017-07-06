@@ -16,9 +16,9 @@ class hiscores: SKScene {
     private var back_touch = false
     
     private var crown = SKSpriteNode(imageNamed: "crown")
-    private var easy_label = SKLabelNode(text: "E a s y : " + String(UserDefaults.standard.integer(forKey: "easy")))
-    private var normal_label = SKLabelNode(text: "N o r m a l : " + String(UserDefaults.standard.integer(forKey: "normal")))
-    private var hard_label = SKLabelNode(text: "H a r d : " + String(UserDefaults.standard.integer(forKey: "hard")))
+    private var easy_label = SKLabelNode(text: "E a s y : " + String(UserDefaults.standard.integer(forKey: "easy_hi")))
+    private var normal_label = SKLabelNode(text: "N o r m a l : " + String(UserDefaults.standard.integer(forKey: "normal_hi")))
+    private var hard_label = SKLabelNode(text: "H a r d : " + String(UserDefaults.standard.integer(forKey: "hard_hi")))
     
     override func didMove(to view: SKView) {
         self.addChild(self.playNode)
