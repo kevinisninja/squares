@@ -33,22 +33,22 @@ class DifficultySelect: SKScene {
         
         easy.fontName = "AvenirNextCondensed-UltraLight"
         easy.fontSize = CGFloat(70.0)
-        easy.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 155)
-        easy_back.position = CGPoint(x: self.frame.midX, y: easy.frame.midY + 13)
+        easy.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 200)
+        easy_back.position = CGPoint(x: self.frame.midX, y: easy.frame.midY + 5)
         parentNode.addChild(easy)
         parentNode.addChild(easy_back)
         
         medium.fontName = "AvenirNextCondensed-UltraLight"
         medium.fontSize = CGFloat(70.0)
-        medium.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 25)
-        norm_back.position = CGPoint(x: self.frame.midX, y: medium.frame.midY + 13)
+        medium.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        norm_back.position = CGPoint(x: self.frame.midX, y: medium.frame.midY)
         parentNode.addChild(medium)
         parentNode.addChild(norm_back)
         
         hard.fontName = "AvenirNextCondensed-UltraLight"
         hard.fontSize = CGFloat(70.0)
-        hard.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 205)
-        hard_back.position = CGPoint(x: self.frame.midX, y: hard.frame.midY + 13)
+        hard.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 200)
+        hard_back.position = CGPoint(x: self.frame.midX, y: hard.frame.midY)
         parentNode.addChild(hard)
         parentNode.addChild(hard_back)
         
