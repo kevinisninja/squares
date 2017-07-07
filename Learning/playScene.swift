@@ -11,7 +11,6 @@ import UIKit
 class playScene: SKScene {
     
     private var parentNode = SKNode()
-    private var background = SKSpriteNode(imageNamed: "background_trans_final")
     private var yesButton = SKSpriteNode(imageNamed: "yes")
     private var noButton = SKSpriteNode(imageNamed: "no")
     private var n_back2 = SKLabelNode(text: "n_back: 1")
@@ -29,7 +28,7 @@ class playScene: SKScene {
     
     private var gameOverNode = SKNode()
     private var gameOverBack = SKSpriteNode()
-    private var gameOver = SKSpriteNode(imageNamed: "spaceship")
+    private var go_text = SKLabelNode(text: "Game Over!")
     private var go_menuButton = SKLabelNode(text: "Back to Menu")
     private var go_playAgain = SKLabelNode(text: "Play Again")
     
@@ -40,22 +39,18 @@ class playScene: SKScene {
         //add children to the parent node because for some reason my positioning was screwing up
         self.addChild(self.parentNode)
         
-        //initialize the background
-        background.size = self.size
-        background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        background.zPosition = 1
-        parentNode.addChild(self.background)
-        
         //adding buttons, replace these later with images
-        score.text = "Score " + String(score2)
-        score.fontName = "Verdana-Bold"
-        score.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 75)
+        score.text = "Score: " + String(score2)
+        score.fontName = "AvenirNextCondensed-UltraLight"
+        score.fontSize = CGFloat(90.0)
+        score.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 150)
         score.zPosition = 2
         parentNode.addChild(self.score)
         
         n_back2.text = "n_back: " + String(n_back)
-        n_back2.fontName = "Verdana-Bold"
-        n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 100)
+        n_back2.fontName = "AvenirNextCondensed-UltraLight"
+        n_back2.fontSize = CGFloat(70.0)
+        n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 250)
         n_back2.zPosition = 2
         parentNode.addChild(self.n_back2)
         
@@ -85,25 +80,27 @@ class playScene: SKScene {
         gameOverBack.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         gameOverNode.addChild(self.gameOverBack)
         
-        //background GUI that needs to be designed
-        gameOver.zPosition = 4
-        gameOver.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        gameOver.size = CGSize(width: 320, height: 200)
-        gameOverNode.addChild(self.gameOver)
-        
-        
         //buttons on the GUI
-        go_menuButton.zPosition = 5
+        go_menuButton.zPosition = 4
         go_menuButton.text = "Back to Menu"
-        go_menuButton.fontName = "Verdana-Bold"
-        go_menuButton.position = CGPoint(x: self.frame.midX - 80, y: self.frame.midY - 100)
+        go_menuButton.fontName = "AvenirNextCondensed-UltraLight"
+        go_menuButton.fontSize = CGFloat(70.0)
+        go_menuButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         gameOverNode.addChild(self.go_menuButton)
         
-        go_playAgain.zPosition = 5
+        go_playAgain.zPosition = 4
         go_playAgain.text = "Play Again"
-        go_playAgain.fontName = "Verdana-Bold"
-        go_playAgain.position = CGPoint(x: self.frame.midX + 80, y: self.frame.midY - 100)
+        go_playAgain.fontName = "AvenirNextCondensed-UltraLight"
+        go_playAgain.fontSize = CGFloat(70.0)
+        go_playAgain.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 200)
         gameOverNode.addChild(self.go_playAgain)
+        
+        go_text.zPosition = 4
+        go_text.text = "Game Over!"
+        go_text.fontName = "AvenirNextCondensed-UltraLight"
+        go_text.fontSize = CGFloat(90.0)
+        go_text.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 300)
+        gameOverNode.addChild(self.go_text)
     }
     
     func setup_pause() {
