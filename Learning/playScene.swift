@@ -105,7 +105,7 @@ class playScene: SKScene {
             arrayLabels.append(SKLabelNode())
             arraySquares[squares].size = CGSize(width: 90, height: 90)
             arraySquares[squares].texture = SKTexture(imageNamed: "paint")
-            arrayFrames[squares].size = CGSize(width: 90, height: 90)
+            arrayFrames[squares].size = CGSize(width: 89, height: 89)
             arrayLabels[squares].zPosition = 3
             arraySquares[squares].zPosition = 2
             arrayFrames[squares].zPosition = 1
@@ -127,9 +127,9 @@ class playScene: SKScene {
             
             arraySquares[i].alpha = 0.0
             
-            arrayLabels[i].position = arraySquares[i].position
-            arrayLabels[i].alpha = 0.0
-            arrayLabels[i].fontSize = CGFloat(20.0)
+            arrayLabels[i].position = CGPoint(x: arraySquares[i].frame.midX - 2, y: arraySquares[i].frame.midY - 15)
+            arrayLabels[i].alpha = 1.0
+            arrayLabels[i].fontSize = CGFloat(40.0)
             arrayLabels[i].fontName = "AvenirNextCondensed-UltraLight"
             
             parentNode.addChild(arrayFrames[i])
@@ -140,19 +140,23 @@ class playScene: SKScene {
     }
     
     func firstRound() {
-        let dif = 0.50 / Double(n_back)
-        cur = gen()
-        compare = Int(arc4random_uniform(9))
-        arrayPositions.append(cur)
-        
-        while(compare == cur) {
-            compare = Int(arc4random_uniform(9))
+        let increment = 0.9 / Double(n_back)
+        var dif = increment
+        for i in 1...n_back {
+            cur = gen()
+            arrayPositions.append(cur)
+            arraySquares[cur].alpha = 1.0 - CGFloat(dif)
+            arrayFrames[cur].alpha = 0
+            arrayLabels[cur].text = String(i)
+            arrayLabels[cur].alpha = 1.0
+            dif = dif + increment
         }
         
-        arraySquares[cur].texture = SKTexture(imageNamed: "paint")
-        arraySquares[compare].texture = SKTexture(imageNamed: "previous")
-
-        ans = 0
+        
+        cur = gen()
+        arrayPositions.append(cur)
+        arraySquares[cur].alpha = 1.0
+        compare = arrayPositions.remove(at: 0)
     }
     
     func gen() -> Int {
@@ -184,6 +188,7 @@ class playScene: SKScene {
         score.text = "Score: " + String(score2)
         
         arraySquares[cur].run(SKAction.fadeOut(withDuration: 1.0))
+        arrayFrames[cur].run(SKAction.fadeIn(withDuration: 1.0))
 
         compare = arrayPositions.remove(at: 0)
         cur = Int(arc4random_uniform(9))
