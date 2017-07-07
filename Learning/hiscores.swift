@@ -23,18 +23,21 @@ class hiscores: SKScene {
     override func didMove(to view: SKView) {
         self.addChild(self.playNode)
         
-        crown.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 220)
+        crown.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 200)
         playNode.addChild(crown)
         
         easy_label.fontName = "AvenirNextCondensed-UltraLight"
-        easy_label.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 100)
+        easy_label.fontSize = CGFloat(70.0)
+        easy_label.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 300)
         playNode.addChild(easy_label)
         
         normal_label.fontName = "AvenirNextCondensed-UltraLight"
-        normal_label.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        normal_label.fontSize = CGFloat(70.0)
+        normal_label.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 100)
         playNode.addChild(normal_label)
         
         hard_label.fontName = "AvenirNextCondensed-UltraLight"
+        hard_label.fontSize = CGFloat(70.0)
         hard_label.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 100)
         playNode.addChild(hard_label)
         
