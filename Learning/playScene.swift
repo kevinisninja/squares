@@ -11,8 +11,6 @@ import UIKit
 class playScene: SKScene {
     
     private var parentNode = SKNode()
-    private var yesButton = SKSpriteNode(imageNamed: "yes")
-    private var noButton = SKSpriteNode(imageNamed: "no")
     private var n_back2 = SKLabelNode(text: "n_back: 1")
     private var score = SKLabelNode(text: "Score: 0")
 
@@ -24,15 +22,16 @@ class playScene: SKScene {
     private var stopPlay = false
     
     private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
+    private var arrayFrames : [SKSpriteNode] = [SKSpriteNode]()
+    private var arrayLabels : [SKLabelNode] = [SKLabelNode]()
     private var arrayPositions = [Int]()
+    private var fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
     
     private var gameOverNode = SKNode()
     private var gameOverBack = SKSpriteNode()
     private var go_text = SKLabelNode(text: "Game Over!")
     private var go_menuButton = SKLabelNode(text: "Back to Menu")
     private var go_playAgain = SKLabelNode(text: "Play Again")
-    
-    private var pauseNode = SKNode()
     
     override func didMove(to view: SKView) {
         
@@ -44,27 +43,18 @@ class playScene: SKScene {
         score.fontName = "AvenirNextCondensed-UltraLight"
         score.fontSize = CGFloat(90.0)
         score.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 150)
-        score.zPosition = 2
+        score.zPosition = 1
         parentNode.addChild(self.score)
         
         n_back2.text = "n_back: " + String(n_back)
         n_back2.fontName = "AvenirNextCondensed-UltraLight"
         n_back2.fontSize = CGFloat(70.0)
         n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 250)
-        n_back2.zPosition = 2
+        n_back2.zPosition = 1
         parentNode.addChild(self.n_back2)
         
-        yesButton.position = CGPoint(x: self.frame.midX + 50, y: self.frame.midX - 80)
-        yesButton.zPosition = 2
-        parentNode.addChild(self.yesButton)
-        
-        noButton.position = CGPoint(x: self.frame.midX - 50, y: self.frame.midX - 80)
-        noButton.zPosition = 2
-        parentNode.addChild(self.noButton)
         
         init_squares()
-        
-        setup_pause()
         
         setup_gameOver()
         
@@ -74,36 +64,36 @@ class playScene: SKScene {
     func setup_gameOver() {
         
         //this is the transparent background
-        gameOverBack.zPosition = 3
+        gameOverBack.zPosition = 4
         gameOverBack.color = UIColor(white: 0.0, alpha: 0.67)
         gameOverBack.size = self.size
         gameOverBack.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         gameOverNode.addChild(self.gameOverBack)
         
         //buttons on the GUI
-        go_menuButton.zPosition = 4
+        go_menuButton.zPosition = 5
         go_menuButton.text = "Back to Menu"
         go_menuButton.fontName = "AvenirNextCondensed-UltraLight"
         go_menuButton.fontSize = CGFloat(70.0)
         go_menuButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         gameOverNode.addChild(self.go_menuButton)
         
-        go_playAgain.zPosition = 4
+        go_playAgain.zPosition = 5
         go_playAgain.text = "Play Again"
         go_playAgain.fontName = "AvenirNextCondensed-UltraLight"
         go_playAgain.fontSize = CGFloat(70.0)
         go_playAgain.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 200)
         gameOverNode.addChild(self.go_playAgain)
         
-        go_text.zPosition = 4
+        go_text.zPosition = 5
         go_text.text = "Game Over!"
         go_text.fontName = "AvenirNextCondensed-UltraLight"
         go_text.fontSize = CGFloat(90.0)
         go_text.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 300)
         gameOverNode.addChild(self.go_text)
-    }
-    
-    func setup_pause() {
+        
+        gameOverNode.isHidden = true
+        parentNode.addChild(gameOverNode)
         
     }
     
@@ -111,9 +101,14 @@ class playScene: SKScene {
         
         for squares in 0...8 {
             arraySquares.append(SKSpriteNode())
+            arrayFrames.append(SKSpriteNode())
+            arrayLabels.append(SKLabelNode())
             arraySquares[squares].size = CGSize(width: 90, height: 90)
-            self.arraySquares[squares].zPosition = 2
-            parentNode.addChild(arraySquares[squares])
+            arraySquares[squares].texture = SKTexture(imageNamed: "paint")
+            arrayFrames[squares].size = CGSize(width: 90, height: 90)
+            arrayLabels[squares].zPosition = 3
+            arraySquares[squares].zPosition = 2
+            arrayFrames[squares].zPosition = 1
         }
         
         arraySquares[0].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY + 120)
@@ -125,15 +120,33 @@ class playScene: SKScene {
         arraySquares[6].position = CGPoint(x: self.frame.midX - 100, y: self.frame.midY - 80)
         arraySquares[7].position = CGPoint(x: self.frame.midX, y: self.frame.midY - 80)
         arraySquares[8].position = CGPoint(x: self.frame.midX + 100, y: self.frame.midY - 80)
+        
+        for i in 0...8 {
+            arrayFrames[i].position = arraySquares[i].position
+            arrayFrames[i].texture = SKTexture(imageNamed: "square_frame")
+            
+            arraySquares[i].alpha = 0.0
+            
+            arrayLabels[i].position = arraySquares[i].position
+            arrayLabels[i].alpha = 0.0
+            arrayLabels[i].fontSize = CGFloat(20.0)
+            arrayLabels[i].fontName = "AvenirNextCondensed-UltraLight"
+            
+            parentNode.addChild(arrayFrames[i])
+            parentNode.addChild(arraySquares[i])
+            parentNode.addChild(arrayLabels[i])
+
+        }
     }
     
     func firstRound() {
-        cur = Int(arc4random_uniform(4))
-        compare = Int(arc4random_uniform(4))
+        let dif = 0.50 / Double(n_back)
+        cur = gen()
+        compare = Int(arc4random_uniform(9))
         arrayPositions.append(cur)
         
         while(compare == cur) {
-            compare = Int(arc4random_uniform(4))
+            compare = Int(arc4random_uniform(9))
         }
         
         arraySquares[cur].texture = SKTexture(imageNamed: "paint")
@@ -142,33 +155,48 @@ class playScene: SKScene {
         ans = 0
     }
     
-    func setupRound() {
-        
-        score2 += 1
-        score.text = "Score " + String(score2)
-        
-        arraySquares[compare].texture = SKTexture()
-        arraySquares[cur].texture = SKTexture()
-        
-        compare = arrayPositions.remove(at: 0)
-        cur = Int(arc4random_uniform(4))
-        arrayPositions.append(cur)
-        
-        arraySquares[cur].texture = SKTexture(imageNamed: "paint")
-        
-        if(cur == compare) {
-            ans = 1
+    func gen() -> Int {
+        var pos = Int(arc4random_uniform(9))
+        var unique = false
+        if(arrayPositions.isEmpty) {
+            return pos
         }
         else {
-            ans = 0
+            var count = 0
+            while(!unique) {
+                if(count == arrayPositions.count) {
+                    unique = true
+                }
+                else if(arrayPositions[count] == pos) {
+                    pos = Int(arc4random_uniform(9))
+                    count = 0
+                }
+                else {
+                    count = count + 1
+                }
+            }
         }
+        return pos
+    }
+    
+    func setupRound() {
+        score2 += 1
+        score.text = "Score: " + String(score2)
+        
+        arraySquares[cur].run(SKAction.fadeOut(withDuration: 1.0))
+
+        compare = arrayPositions.remove(at: 0)
+        cur = Int(arc4random_uniform(9))
+        arrayPositions.append(cur)
+        
+        arraySquares[cur].run(SKAction.fadeIn(withDuration: 1.0))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
             
-            if(self.atPoint(location) == self.yesButton && !stopPlay) {
+            if(false) {
                 if(ans == 1) {
                     setupRound()
                 }
@@ -177,7 +205,7 @@ class playScene: SKScene {
                     parentNode.addChild(self.gameOverNode)
                 }
             }
-            else if(self.atPoint(location) == self.noButton && !stopPlay) {
+            else if(false) {
                 if(ans == 0) {
                     setupRound()
                 }

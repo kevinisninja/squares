@@ -50,7 +50,7 @@ class hiscores: SKScene {
             let location = touch.location(in: self)
             
             if(self.atPoint(location) == self.back) {
-                back.texture = SKTexture(imageNamed: "back_button_touched")
+                back.alpha = 0.5
                 back_touch = true
             }
         }
@@ -61,11 +61,11 @@ class hiscores: SKScene {
             let location = touch.location(in: self)
             
             if(back_touch && self.atPoint(location) != self.back) {
-                back.texture = SKTexture(imageNamed: "back_button")
+                back.alpha = 1.0
                 back_touch = false
             }
             else if(self.atPoint(location) == self.back && !back_touch) {
-                back.texture = SKTexture(imageNamed: "back_button_touched")
+                back.alpha = 0.5
                 back_touch = true
             }
         }
@@ -76,7 +76,7 @@ class hiscores: SKScene {
             let location = touch.location(in: self)
             
             if(back_touch && self.atPoint(location) == self.back) {
-                back.texture = SKTexture(imageNamed: "back_button")
+                back.alpha = 1.0
                 back_touch = false
                 
                 if let view = self.view {

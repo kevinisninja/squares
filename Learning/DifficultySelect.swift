@@ -61,22 +61,22 @@ class DifficultySelect: SKScene {
             let location = touch.location(in: self)
             
             if(self.atPoint(location) == self.back) {
-                back.texture = SKTexture(imageNamed: "back_button_touched")
+                back.alpha = 0.5
                 back_touch = true
             }
             else if(self.atPoint(location) == self.easy_back) {
                 easy.fontColor = UIColor .gray
-                easy_back.texture = SKTexture(imageNamed: "dif_select_back_touched")
+                easy_back.alpha = 0.5
                 easy_touch = true
             }
             else if(self.atPoint(location) == self.norm_back) {
                 medium.fontColor = UIColor .gray
-                norm_back.texture = SKTexture(imageNamed: "dif_select_back_touched")
+                norm_back.alpha = 0.5
                 medium_touch = true
             }
             else if(self.atPoint(location) == self.hard_back) {
                 hard.fontColor = UIColor .gray
-                hard_back.texture = SKTexture(imageNamed: "dif_select_back_touched")
+                hard_back.alpha = 0.5
                 hard_touch = true
             }
         }
@@ -87,41 +87,41 @@ class DifficultySelect: SKScene {
             let location = touch.location(in: self)
             
             if(back_touch && self.atPoint(location) != self.back) {
-                back.texture = SKTexture(imageNamed: "back_button")
+                back.alpha = 1.0
                 back_touch = false
             }
             else if(!back_touch && self.atPoint(location) == self.back) {
-                back.texture = SKTexture(imageNamed: "back_button_touched")
+                back.alpha = 0.5
                 back_touch = true
             }
             else if(easy_touch && self.atPoint(location) != self.easy_back) {
                 easy.fontColor = UIColor .white
-                easy_back.texture = SKTexture(imageNamed: "dif_select_back")
+                easy_back.alpha = 1.0
                 easy_touch = false
             }
             else if(!easy_touch && self.atPoint(location) == self.easy_back) {
                 easy.fontColor = UIColor .gray
-                easy_back.texture = SKTexture(imageNamed: "dif_select_back_touched")
+                easy_back.alpha = 0.5
                 easy_touch = true
             }
             else if(medium_touch && self.atPoint(location) != self.norm_back) {
                 medium.fontColor = UIColor .white
-                norm_back.texture = SKTexture(imageNamed: "dif_select_back")
+                norm_back.alpha = 1.0
                 medium_touch = false
             }
             else if(!medium_touch && self.atPoint(location) == self.norm_back) {
                 medium.fontColor = UIColor .gray
-                norm_back.texture = SKTexture(imageNamed: "dif_select_back_touched")
+                norm_back.alpha = 0.5
                 medium_touch = true
             }
             else if(hard_touch && self.atPoint(location) != self.hard_back) {
                 hard.fontColor = UIColor .white
-                hard_back.texture = SKTexture(imageNamed: "dif_select_back")
+                hard_back.alpha = 1.0
                 hard_touch = false
             }
             else if(!hard_touch && self.atPoint(location) == self.hard_back) {
                 hard.fontColor = UIColor .gray
-                hard_back.texture = SKTexture(imageNamed: "dif_select_back_touched")
+                hard_back.alpha = 0.5
                 hard_touch = true
             }
         }
@@ -141,7 +141,7 @@ class DifficultySelect: SKScene {
             
             if(easy_touch && self.atPoint(location) == self.easy_back) {
                 easy.fontColor = UIColor .white
-                easy_back.texture = SKTexture(imageNamed: "dif_select_back")
+                easy_back.alpha = 1.0
                 easy_touch = false
                 UserDefaults.standard.set(2, forKey: "difficulty")
                 presentPlayScene()
@@ -149,7 +149,7 @@ class DifficultySelect: SKScene {
             
             else if(medium_touch && self.atPoint(location) == self.norm_back) {
                 medium.fontColor = UIColor .white
-                norm_back.texture = SKTexture(imageNamed: "dif_select_back")
+                norm_back.alpha = 1.0
                 medium_touch = false
                 UserDefaults.standard.set(3, forKey: "difficulty")
                 presentPlayScene()
@@ -157,14 +157,14 @@ class DifficultySelect: SKScene {
             
             else if(hard_touch && self.atPoint(location) == self.hard_back) {
                 hard.fontColor = UIColor .white
-                hard_back.texture = SKTexture(imageNamed: "dif_select_back")
+                hard_back.alpha = 1.0
                 hard_touch = false
                 UserDefaults.standard.set(4, forKey: "difficulty")
                 presentPlayScene()
             }
             
             else if(back_touch && self.atPoint(location) == self.back) {
-                back.texture = SKTexture(imageNamed: "back_button")
+                back.alpha = 1.0
                 back_touch = false
                 
                 if let view = self.view {
