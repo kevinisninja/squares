@@ -1,3 +1,4 @@
+
 //
 //  playScene.swift
 //  Learning
@@ -90,6 +91,7 @@ class playScene: SKScene {
         go_text.fontName = "AvenirNextCondensed-UltraLight"
         go_text.fontSize = CGFloat(90.0)
         go_text.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 300)
+        go_text.run(SKAction.repeatForever(fadeAction))
         gameOverNode.addChild(self.go_text)
         
         gameOverNode.isHidden = true
@@ -141,13 +143,13 @@ class playScene: SKScene {
     
     func firstRound() {
         let increment = 0.9 / Double(n_back)
-        var dif = increment
+        var dif = 0.0
         for i in 1...n_back {
             cur = gen()
             arrayPositions.append(cur)
-            arraySquares[cur].alpha = 1.0 - CGFloat(dif)
-            arrayFrames[cur].alpha = 0
-            arrayLabels[cur].text = String(i)
+            arraySquares[cur].alpha = 0.1 + CGFloat(dif)
+            arrayFrames[cur].alpha = 0.0
+            arrayLabels[cur].text = String(n_back + 1 - i)
             arrayLabels[cur].alpha = 1.0
             dif = dif + increment
         }
@@ -168,7 +170,7 @@ class playScene: SKScene {
         else {
             var count = 0
             while(!unique) {
-                if(count == arrayPositions.count) {
+                if(count == n_back || count == arrayPositions.count) {
                     unique = true
                 }
                 else if(arrayPositions[count] == pos) {
@@ -186,38 +188,31 @@ class playScene: SKScene {
     func setupRound() {
         score2 += 1
         score.text = "Score: " + String(score2)
+        let temp = cur
+        if(score2 <= n_back) {
+            arraySquares[compare].run(SKAction.fadeOut(withDuration: 1.0))
+            arrayLabels[compare].run(SKAction.fadeOut(withDuration: 1.0))
+            arrayFrames[compare].run(SKAction.fadeAlpha(to: 1.0, duration: 1.0))
+            cur = gen()
+        }
+        else {
+            cur = Int(arc4random_uniform(9))
+        }
         
-        arraySquares[cur].run(SKAction.fadeOut(withDuration: 1.0))
-        arrayFrames[cur].run(SKAction.fadeIn(withDuration: 1.0))
-
         compare = arrayPositions.remove(at: 0)
-        cur = Int(arc4random_uniform(9))
         arrayPositions.append(cur)
-        
-        arraySquares[cur].run(SKAction.fadeIn(withDuration: 1.0))
+        arraySquares[temp].run(SKAction.fadeOut(withDuration: 1.0))
+        {
+            self.arraySquares[self.cur].run(SKAction.fadeIn(withDuration: 1.0))
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
             
-            if(false) {
-                if(ans == 1) {
-                    setupRound()
-                }
-                else {
-                    stopPlay = true
-                    parentNode.addChild(self.gameOverNode)
-                }
-            }
-            else if(false) {
-                if(ans == 0) {
-                    setupRound()
-                }
-                else {
-                    stopPlay = true
-                    parentNode.addChild(self.gameOverNode)
-                }
+            if(self.atPoint(location) == self.arraySquares[compare] || self.atPoint(location) == self.arrayLabels[compare] || self.atPoint(location) == self.arrayFrames[compare]) {
+                setupRound()
             }
             else if(self.atPoint(location) == self.go_playAgain && stopPlay) {
                 
@@ -238,6 +233,10 @@ class playScene: SKScene {
                         view.presentScene(scene)
                     }
                 }
+            }
+            else {
+                gameOverNode.isHidden = false
+                stopPlay = true
             }
             
         }
