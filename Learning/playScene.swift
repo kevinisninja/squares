@@ -25,6 +25,7 @@ class playScene: SKScene {
     private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
     private var arrayFrames : [SKSpriteNode] = [SKSpriteNode]()
     private var arrayLabels : [SKLabelNode] = [SKLabelNode]()
+    private var arrayMoved = [Bool]()
     private var arrayPositions = [Int]()
     private var fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
     
@@ -76,7 +77,7 @@ class playScene: SKScene {
         go_menuButton.text = "Back to Menu"
         go_menuButton.fontName = "AvenirNextCondensed-UltraLight"
         go_menuButton.fontSize = CGFloat(70.0)
-        go_menuButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        go_menuButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 1)
         gameOverNode.addChild(self.go_menuButton)
         
         go_playAgain.zPosition = 5
@@ -105,6 +106,7 @@ class playScene: SKScene {
             arraySquares.append(SKSpriteNode())
             arrayFrames.append(SKSpriteNode())
             arrayLabels.append(SKLabelNode())
+            arrayMoved.append(false)
             arraySquares[squares].size = CGSize(width: 90, height: 90)
             arraySquares[squares].texture = SKTexture(imageNamed: "paint")
             arrayFrames[squares].size = CGSize(width: 89, height: 89)
@@ -186,6 +188,9 @@ class playScene: SKScene {
     }
     
     func setupRound() {
+        for i in 0...8 {
+            arrayMoved[i] = false
+        }
         score2 += 1
         score.text = "Score: " + String(score2)
         let temp = cur
@@ -211,18 +216,172 @@ class playScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
             
-            if(self.atPoint(location) == self.arraySquares[compare] || self.atPoint(location) == self.arrayLabels[compare] || self.atPoint(location) == self.arrayFrames[compare]) {
+            if(!stopPlay && self.atPoint(location) == self.arraySquares[0] || self.atPoint(location) == self.arrayLabels[0] || self.atPoint(location) == self.arrayFrames[0]) {
+                push_down(pos: 0)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[1] || self.atPoint(location) == self.arrayLabels[1] || self.atPoint(location) == self.arrayFrames[1]) {
+                push_down(pos: 1)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[2] || self.atPoint(location) == self.arrayLabels[2] || self.atPoint(location) == self.arrayFrames[2]) {
+                push_down(pos: 2)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[3] || self.atPoint(location) == self.arrayLabels[3] || self.atPoint(location) == self.arrayFrames[3]) {
+                push_down(pos: 3)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[4] || self.atPoint(location) == self.arrayLabels[4] || self.atPoint(location) == self.arrayFrames[4]) {
+                push_down(pos: 4)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[5] || self.atPoint(location) == self.arrayLabels[5] || self.atPoint(location) == self.arrayFrames[5]) {
+                push_down(pos: 5)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[6] || self.atPoint(location) == self.arrayLabels[6] || self.atPoint(location) == self.arrayFrames[6]) {
+                push_down(pos: 6)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[7] || self.atPoint(location) == self.arrayLabels[7] || self.atPoint(location) == self.arrayFrames[7]) {
+                push_down(pos: 7)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[8] || self.atPoint(location) == self.arrayLabels[8] || self.atPoint(location) == self.arrayFrames[8]) {
+                push_down(pos: 8)
+            }
+            else if(stopPlay && self.atPoint(location) == self.go_playAgain) {
+                go_playAgain.alpha = 0.5
+            }
+            else if(stopPlay && self.atPoint(location) == self.go_menuButton) {
+                go_menuButton.alpha = 0.5
+            }
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch: AnyObject in touches {
+            let location = touch.location(in: self)
+            if(!stopPlay && self.atPoint(location) == self.arraySquares[0] || self.atPoint(location) == self.arrayLabels[0] || self.atPoint(location) == self.arrayFrames[0]) {
+                push_down(pos: 0)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[1] || self.atPoint(location) == self.arrayLabels[1] || self.atPoint(location) == self.arrayFrames[1]) {
+                push_down(pos: 1)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[2] || self.atPoint(location) == self.arrayLabels[2] || self.atPoint(location) == self.arrayFrames[2]) {
+                push_down(pos: 2)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[3] || self.atPoint(location) == self.arrayLabels[3] || self.atPoint(location) == self.arrayFrames[3]) {
+                push_down(pos: 3)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[4] || self.atPoint(location) == self.arrayLabels[4] || self.atPoint(location) == self.arrayFrames[4]) {
+                push_down(pos: 4)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[5] || self.atPoint(location) == self.arrayLabels[5] || self.atPoint(location) == self.arrayFrames[5]) {
+                push_down(pos: 5)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[6] || self.atPoint(location) == self.arrayLabels[6] || self.atPoint(location) == self.arrayFrames[6]) {
+                push_down(pos: 6)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[7] || self.atPoint(location) == self.arrayLabels[7] || self.atPoint(location) == self.arrayFrames[7]) {
+                push_down(pos: 7)
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[8] || self.atPoint(location) == self.arrayLabels[8] || self.atPoint(location) == self.arrayFrames[8]) {
+                push_down(pos: 8)
+            }
+            else if(save_space(pos: 0, loc: location)) {
+                push_up(pos: 0)
+            }
+            else if(save_space(pos: 1, loc: location)) {
+                push_up(pos: 1)
+            }
+            else if(save_space(pos: 2, loc: location)) {
+                push_up(pos: 2)
+            }
+            else if(save_space(pos: 3, loc: location)) {
+                push_up(pos: 3)
+            }
+            else if(save_space(pos: 4, loc: location)) {
+                push_up(pos: 4)
+            }
+            else if(save_space(pos: 5, loc: location)) {
+                push_up(pos: 5)
+            }
+            else if(save_space(pos: 6, loc: location)) {
+                push_up(pos: 6)
+            }
+            else if(save_space(pos: 7, loc: location)) {
+                push_up(pos: 7)
+            }
+            else if(save_space(pos: 8, loc: location)) {
+                push_up(pos: 8)
+            }
+            
+            if(stopPlay && self.atPoint(location) != self.go_playAgain) {
+                go_playAgain.alpha = 1.0
+            }
+            else if(stopPlay && self.atPoint(location) == self.go_playAgain) {
+                go_playAgain.alpha = 0.5
+            }
+            
+            if(stopPlay && self.atPoint(location) != self.go_menuButton) {
+                go_menuButton.alpha = 1.0
+            }
+            else if(stopPlay && self.atPoint(location) == self.go_menuButton) {
+                go_menuButton.alpha = 0.5
+            }
+        }
+    }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch: AnyObject in touches {
+            let location = touch.location(in: self)
+            
+            if(!stopPlay && self.atPoint(location) == self.arraySquares[compare] || self.atPoint(location) == self.arrayLabels[compare] || self.atPoint(location) == self.arrayFrames[compare]) {
+                
+                arraySquares[compare].alpha = arraySquares[compare].alpha * 2
+                arrayFrames[compare].alpha = arrayFrames[compare].alpha * 2
+                arrayLabels[compare].alpha = arrayLabels[compare].alpha * 2
                 setupRound()
             }
-            else if(self.atPoint(location) == self.go_playAgain && stopPlay) {
-                
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[0] || self.atPoint(location) == self.arrayLabels[0] || self.atPoint(location) == self.arrayFrames[0]) {
+                push_up(pos: 0)
+                fail()
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[1] || self.atPoint(location) == self.arrayLabels[1] || self.atPoint(location) == self.arrayFrames[1]) {
+                push_up(pos: 1)
+                fail()
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[2] || self.atPoint(location) == self.arrayLabels[2] || self.atPoint(location) == self.arrayFrames[2]) {
+                push_up(pos: 2)
+                fail()
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[3] || self.atPoint(location) == self.arrayLabels[3] || self.atPoint(location) == self.arrayFrames[3]) {
+                push_up(pos: 3)
+                fail()
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[4] || self.atPoint(location) == self.arrayLabels[4] || self.atPoint(location) == self.arrayFrames[4]) {
+                push_up(pos: 4)
+                fail()
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[5] || self.atPoint(location) == self.arrayLabels[5] || self.atPoint(location) == self.arrayFrames[5]) {
+                push_up(pos: 5)
+                fail()
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[6] || self.atPoint(location) == self.arrayLabels[6] || self.atPoint(location) == self.arrayFrames[6]) {
+                push_up(pos: 6)
+                fail()
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[7] || self.atPoint(location) == self.arrayLabels[7] || self.atPoint(location) == self.arrayFrames[7]) {
+                push_up(pos: 7)
+                fail()
+            }
+            else if(!stopPlay && self.atPoint(location) == self.arraySquares[8] || self.atPoint(location) == self.arrayLabels[8] || self.atPoint(location) == self.arrayFrames[8]) {
+                push_up(pos: 8)
+                fail()
+            }
+            else if(stopPlay && self.atPoint(location) == self.go_playAgain) {
+                go_playAgain.alpha = 1.0
                 let scene = playScene(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
                 scene.scaleMode = .aspectFill
                 skview.presentScene(scene)
             }
-            else if(self.atPoint(location) == self.go_menuButton && stopPlay) {
+            else if(stopPlay && self.atPoint(location) == self.go_menuButton) {
+                go_menuButton.alpha = 1.0
                 if let view = self.view {
                     // Load the SKScene from 'GameScene.sks'
                     if let scene = SKScene(fileNamed: "GameScene") {
@@ -234,11 +393,32 @@ class playScene: SKScene {
                     }
                 }
             }
-            else {
-                gameOverNode.isHidden = false
-                stopPlay = true
-            }
-            
         }
+    }
+    
+    func push_down(pos: Int) {
+        
+        if(!arrayMoved[pos]) {
+            arrayMoved[pos] = true
+            arraySquares[pos].alpha = arraySquares[pos].alpha / CGFloat(2)
+            arrayLabels[pos].alpha = arrayLabels[pos].alpha / CGFloat(2)
+            arrayFrames[pos].alpha = arrayFrames[pos].alpha / CGFloat(2)
+        }
+    }
+    func push_up(pos: Int) {
+        if(arrayMoved[pos]) {
+            arrayMoved[pos] = false
+            arraySquares[pos].alpha = arraySquares[pos].alpha * CGFloat(2)
+            arrayLabels[pos].alpha = arrayLabels[pos].alpha * CGFloat(2)
+            arrayFrames[pos].alpha = arrayFrames[pos].alpha * CGFloat(2)
+        }
+    }
+    func fail() {
+        gameOverNode.isHidden = false
+        stopPlay = true
+    }
+    
+    func save_space(pos: Int, loc: CGPoint) -> Bool {
+        return !stopPlay && self.atPoint(loc) != self.arraySquares[pos] && self.atPoint(loc) != self.arrayLabels[pos] && self.atPoint(loc) != self.arrayFrames[pos]
     }
 }
