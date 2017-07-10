@@ -32,6 +32,7 @@ class playScene: SKScene {
     private var gameOverNode = SKNode()
     private var gameOverBack = SKSpriteNode()
     private var go_text = SKLabelNode(text: "Game Over!")
+    private var go_hiscore = SKLabelNode(text: "New Highscore!")
     private var go_menuButton = SKLabelNode(text: "Back to Menu")
     private var go_playAgain = SKLabelNode(text: "Play Again")
     
@@ -67,7 +68,7 @@ class playScene: SKScene {
         
         //this is the transparent background
         gameOverBack.zPosition = 4
-        gameOverBack.color = UIColor(white: 0.0, alpha: 0.67)
+        gameOverBack.color = UIColor(white: 0.0, alpha: 0.9)
         gameOverBack.size = self.size
         gameOverBack.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         gameOverNode.addChild(self.gameOverBack)
@@ -92,7 +93,6 @@ class playScene: SKScene {
         go_text.fontName = "AvenirNextCondensed-UltraLight"
         go_text.fontSize = CGFloat(90.0)
         go_text.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 300)
-        go_text.run(SKAction.repeatForever(fadeAction))
         gameOverNode.addChild(self.go_text)
         
         gameOverNode.isHidden = true
@@ -414,6 +414,53 @@ class playScene: SKScene {
         }
     }
     func fail() {
+        if(n_back == 2 && score2 > UserDefaults.standard.integer(forKey: "easy_hi")) {
+            UserDefaults.standard.set(score2, forKey: "easy_hi")
+            go_hiscore.zPosition = 5
+            go_hiscore.text = "New Highscore!"
+            go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
+            go_hiscore.fontSize = CGFloat(90.0)
+            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
+            go_hiscore.run(SKAction.repeatForever(fadeAction))
+            gameOverNode.addChild(go_hiscore)
+        }
+        else if(n_back == 3 && score2 > UserDefaults.standard.integer(forKey: "normal_hi")) {
+            UserDefaults.standard.set(score2, forKey: "normal_hi")
+            go_hiscore.zPosition = 5
+            go_hiscore.text = "New Highscore!"
+            go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
+            go_hiscore.fontSize = CGFloat(90.0)
+            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
+            go_hiscore.run(SKAction.repeatForever(fadeAction))
+            gameOverNode.addChild(go_hiscore)
+        }
+        else if(n_back == 4 && score2 > UserDefaults.standard.integer(forKey: "hard_hi")) {
+            UserDefaults.standard.set(score2, forKey: "hard_hi")
+            go_hiscore.zPosition = 5
+            go_hiscore.text = "New Highscore!"
+            go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
+            go_hiscore.fontSize = CGFloat(90.0)
+            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
+            go_hiscore.run(SKAction.repeatForever(fadeAction))
+            gameOverNode.addChild(go_hiscore)
+        }
+        else {
+            if(n_back == 2) {
+                go_hiscore.text = "Current Highscore: " + String(UserDefaults.standard.integer(forKey: "easy_hi"))
+            }
+            else if(n_back == 3) {
+                go_hiscore.text = "Current Highscore: " + String(UserDefaults.standard.integer(forKey: "normal_hi"))
+            }
+            else if(n_back == 4) {
+                go_hiscore.text = "Current Highscore: " + String(UserDefaults.standard.integer(forKey: "hard_hi"))
+            }
+            gameOverNode.addChild(go_hiscore)
+            go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
+            go_hiscore.fontSize = CGFloat(90.0)
+            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
+            go_hiscore.run(SKAction.repeatForever(fadeAction))
+            go_text.run(SKAction.repeatForever(fadeAction))
+        }
         gameOverNode.isHidden = false
         stopPlay = true
     }
