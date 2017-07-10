@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A8439E845CDB4079F6938B5 /* libPods-Learning.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5497A14728AD1F05EFBB59BF /* libPods-Learning.a */; };
 		3408EDAF1F0A783A00CE6DD7 /* DifficultySelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3408EDAE1F0A783A00CE6DD7 /* DifficultySelect.swift */; };
 		343F02BF1F0DD6E5006DE6FD /* instructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343F02BE1F0DD6E5006DE6FD /* instructions.swift */; };
 		3450D3B41F0D2B7100A5D34D /* hiscores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3450D3B31F0D2B7100A5D34D /* hiscores.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		19C9027EC4B56247712C53CA /* Pods-Learning.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Learning.release.xcconfig"; path = "Pods/Target Support Files/Pods-Learning/Pods-Learning.release.xcconfig"; sourceTree = "<group>"; };
 		3408EDAE1F0A783A00CE6DD7 /* DifficultySelect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DifficultySelect.swift; sourceTree = "<group>"; };
 		343F02BE1F0DD6E5006DE6FD /* instructions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = instructions.swift; sourceTree = "<group>"; };
 		3450D3B31F0D2B7100A5D34D /* hiscores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hiscores.swift; sourceTree = "<group>"; };
@@ -61,6 +63,8 @@
 		34687C091EE599140031F522 /* LearningUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningUITests.swift; sourceTree = "<group>"; };
 		34687C0B1EE599140031F522 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34687C171EE5A05A0031F522 /* playScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = playScene.swift; sourceTree = "<group>"; };
+		5497A14728AD1F05EFBB59BF /* libPods-Learning.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Learning.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E303268167337A3DCEA0CF0 /* Pods-Learning.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Learning.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Learning/Pods-Learning.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A8439E845CDB4079F6938B5 /* libPods-Learning.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +93,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D6CA7946FAB91BA516FE48E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5497A14728AD1F05EFBB59BF /* libPods-Learning.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		34687BD71EE599130031F522 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +108,8 @@
 				34687BFD1EE599140031F522 /* LearningTests */,
 				34687C081EE599140031F522 /* LearningUITests */,
 				34687BE11EE599130031F522 /* Products */,
+				D6D2349BBC6AA0F02CC20B9A /* Pods */,
+				2D6CA7946FAB91BA516FE48E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,6 +161,15 @@
 			path = LearningUITests;
 			sourceTree = "<group>";
 		};
+		D6D2349BBC6AA0F02CC20B9A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6E303268167337A3DCEA0CF0 /* Pods-Learning.debug.xcconfig */,
+				19C9027EC4B56247712C53CA /* Pods-Learning.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -153,9 +177,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34687C0E1EE599140031F522 /* Build configuration list for PBXNativeTarget "Learning" */;
 			buildPhases = (
+				B0D18EFA883347C6C3FD6A6E /* [CP] Check Pods Manifest.lock */,
 				34687BDC1EE599130031F522 /* Sources */,
 				34687BDD1EE599130031F522 /* Frameworks */,
 				34687BDE1EE599130031F522 /* Resources */,
+				1E55CC4413A1DF0E3F3D0228 /* [CP] Embed Pods Frameworks */,
+				E3C6562D9C202D112764EED5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -277,6 +304,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1E55CC4413A1DF0E3F3D0228 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Learning/Pods-Learning-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B0D18EFA883347C6C3FD6A6E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E3C6562D9C202D112764EED5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Learning/Pods-Learning-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		34687BDC1EE599130031F522 /* Sources */ = {
@@ -441,6 +516,7 @@
 		};
 		34687C0F1EE599140031F522 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E303268167337A3DCEA0CF0 /* Pods-Learning.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
@@ -456,6 +532,7 @@
 		};
 		34687C101EE599140031F522 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19C9027EC4B56247712C53CA /* Pods-Learning.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";

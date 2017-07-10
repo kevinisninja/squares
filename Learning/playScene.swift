@@ -9,8 +9,12 @@
 
 import SpriteKit
 import UIKit
+import GoogleMobileAds
+
 class playScene: SKScene {
     
+    var interstitial: GADInterstitial!
+
     private var parentNode = SKNode()
     private var n_back2 = SKLabelNode(text: "n_back: 1")
     private var score = SKLabelNode(text: "Score: 0")
@@ -56,14 +60,27 @@ class playScene: SKScene {
         n_back2.zPosition = 1
         parentNode.addChild(self.n_back2)
         
-        
+        interstitial = createAndLoadInterstitial()
+        let request = GADRequest()
+        interstitial.load(request)
+
         init_squares()
         
         setup_gameOver()
         
         firstRound()
     }
-    
+
+    func createAndLoadInterstitial() -> GADInterstitial {
+        let interstitial2 = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/1033173712")
+        interstitial2.delegate = self as? GADInterstitialDelegate
+        interstitial2.load(GADRequest())
+        return interstitial2
+    }
+
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = createAndLoadInterstitial()
+    }
     func setup_gameOver() {
         
         //this is the transparent background
@@ -374,6 +391,16 @@ class playScene: SKScene {
             }
             else if(stopPlay && self.atPoint(location) == self.go_playAgain) {
                 go_playAgain.alpha = 1.0
+                if(UserDefaults.standard.integer(forKey: "no_ad_streak") >= 5) {
+                    UserDefaults.standard.set(0, forKey: "no_ad_streak")
+                    if interstitial.isReady {
+                        parentNode.isPaused = true
+                        interstitial.present(fromRootViewController: (self.view?.window?.rootViewController)!)
+                    }
+                }
+                else {
+                    UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "no_ad_streak") + 1, forKey: "no_ad_streak")
+                }
                 let scene = playScene(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
@@ -382,6 +409,15 @@ class playScene: SKScene {
             }
             else if(stopPlay && self.atPoint(location) == self.go_menuButton) {
                 go_menuButton.alpha = 1.0
+                if(UserDefaults.standard.integer(forKey: "no_ad_streak") >= 5) {
+                    UserDefaults.standard.set(0, forKey: "no_ad_streak")
+                    if interstitial.isReady {
+                        interstitial.present(fromRootViewController: (self.view?.window?.rootViewController)!)
+                    }
+                }
+                else {
+                    UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "no_ad_streak") + 1, forKey: "no_ad_streak")
+                }
                 if let view = self.view {
                     // Load the SKScene from 'GameScene.sks'
                     if let scene = SKScene(fileNamed: "GameScene") {
@@ -455,10 +491,10 @@ class playScene: SKScene {
                 go_hiscore.text = "Current Highscore: " + String(UserDefaults.standard.integer(forKey: "hard_hi"))
             }
             gameOverNode.addChild(go_hiscore)
+            go_hiscore.zPosition = 5
             go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
             go_hiscore.fontSize = CGFloat(90.0)
             go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
-            go_hiscore.run(SKAction.repeatForever(fadeAction))
             go_text.run(SKAction.repeatForever(fadeAction))
         }
         gameOverNode.isHidden = false

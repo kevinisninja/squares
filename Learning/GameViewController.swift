@@ -9,12 +9,19 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GoogleMobileAds
 
 class GameViewController: UIViewController {
     
+    var bannerView: GADBannerView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint(x: self.view.frame.minX, y: self.view.frame.maxY - 50))
+        self.view.addSubview(bannerView)
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/6300978111"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
