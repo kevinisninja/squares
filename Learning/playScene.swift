@@ -10,6 +10,7 @@
 import SpriteKit
 import UIKit
 import GoogleMobileAds
+import AudioToolbox
 
 class playScene: SKScene {
     
@@ -25,6 +26,10 @@ class playScene: SKScene {
     private var compare = 0
     private var ans = 0
     private var stopPlay = false
+    
+    private var arrayLives : [SKSpriteNode] = [SKSpriteNode]()
+    private var lives = 3
+    private var sequence = SKAction.sequence([SKAction.animate(with: [SKTexture(imageNamed: "hb1"), SKTexture(imageNamed: "hb2")], timePerFrame: 0.1), SKAction.fadeOut(withDuration: 0.2)])
     
     private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
     private var arrayFrames : [SKSpriteNode] = [SKSpriteNode]()
@@ -49,16 +54,30 @@ class playScene: SKScene {
         score.text = "Score: " + String(score2)
         score.fontName = "AvenirNextCondensed-UltraLight"
         score.fontSize = CGFloat(90.0)
-        score.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 150)
+        score.position = CGPoint(x: self.frame.midX, y: self.frame.minY + 150)
         score.zPosition = 1
         parentNode.addChild(self.score)
         
         n_back2.text = "n_back: " + String(n_back)
         n_back2.fontName = "AvenirNextCondensed-UltraLight"
         n_back2.fontSize = CGFloat(70.0)
-        n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 250)
+        n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.minY + 250)
         n_back2.zPosition = 1
         parentNode.addChild(self.n_back2)
+        
+        for i in 0...2 {
+            arrayLives.append(SKSpriteNode(imageNamed: "heart"))
+            arrayLives[i].zPosition = 1
+            arrayLives[i].size = CGSize(width: 150.0, height: 150.0)
+        }
+        
+        arrayLives[0].position = CGPoint(x: self.frame.midX - 150, y: self.frame.maxY - 200)
+        arrayLives[1].position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 200)
+        arrayLives[2].position = CGPoint(x: self.frame.midX + 150, y: self.frame.maxY - 200)
+        
+        for i in 0...2 {
+            parentNode.addChild(arrayLives[i])
+        }
         
         interstitial = createAndLoadInterstitial()
         let request = GADRequest()
@@ -449,35 +468,45 @@ class playScene: SKScene {
             arrayFrames[pos].alpha = arrayFrames[pos].alpha * CGFloat(2)
         }
     }
+    func setup_labels_gameover() {
+        go_hiscore.zPosition = 5
+        go_hiscore.text = "New Highscore!"
+        go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
+        go_hiscore.fontSize = CGFloat(90.0)
+        go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
+        go_hiscore.run(SKAction.repeatForever(fadeAction))
+    }
     func fail() {
+
+        lives = lives - 1
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        
+        if(lives == 0) {
+            arrayLives[lives].run(sequence)
+            {
+                self.present_gameOver()
+            }
+        }
+        else {
+            arrayLives[lives].run(sequence)
+        }
+        
+    }
+    
+    func present_gameOver() {
         if(n_back == 2 && score2 > UserDefaults.standard.integer(forKey: "easy_hi")) {
             UserDefaults.standard.set(score2, forKey: "easy_hi")
-            go_hiscore.zPosition = 5
-            go_hiscore.text = "New Highscore!"
-            go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
-            go_hiscore.fontSize = CGFloat(90.0)
-            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
-            go_hiscore.run(SKAction.repeatForever(fadeAction))
+            setup_labels_gameover()
             gameOverNode.addChild(go_hiscore)
         }
         else if(n_back == 3 && score2 > UserDefaults.standard.integer(forKey: "normal_hi")) {
             UserDefaults.standard.set(score2, forKey: "normal_hi")
-            go_hiscore.zPosition = 5
-            go_hiscore.text = "New Highscore!"
-            go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
-            go_hiscore.fontSize = CGFloat(90.0)
-            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
-            go_hiscore.run(SKAction.repeatForever(fadeAction))
+            setup_labels_gameover()
             gameOverNode.addChild(go_hiscore)
         }
         else if(n_back == 4 && score2 > UserDefaults.standard.integer(forKey: "hard_hi")) {
             UserDefaults.standard.set(score2, forKey: "hard_hi")
-            go_hiscore.zPosition = 5
-            go_hiscore.text = "New Highscore!"
-            go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
-            go_hiscore.fontSize = CGFloat(90.0)
-            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
-            go_hiscore.run(SKAction.repeatForever(fadeAction))
+            setup_labels_gameover()
             gameOverNode.addChild(go_hiscore)
         }
         else {
@@ -497,10 +526,10 @@ class playScene: SKScene {
             go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
             go_text.run(SKAction.repeatForever(fadeAction))
         }
-        gameOverNode.isHidden = false
-        stopPlay = true
+        
+        self.gameOverNode.isHidden = false
+        self.stopPlay = true
     }
-    
     func save_space(pos: Int, loc: CGPoint) -> Bool {
         return !stopPlay && self.atPoint(loc) != self.arraySquares[pos] && self.atPoint(loc) != self.arrayLabels[pos] && self.atPoint(loc) != self.arrayFrames[pos]
     }
