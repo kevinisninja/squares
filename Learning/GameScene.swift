@@ -16,6 +16,8 @@ class GameScene: SKScene {
     private var hiscore_touch = false
     private var _instructions = SKSpriteNode(imageNamed: "instructions")
     private var instructions_touch = false
+    private var _credits = SKSpriteNode(imageNamed: "credits")
+    private var credits_touch = false
     
     private var title = SKLabelNode(text: "S q u a r e s")
     private var text = SKLabelNode(text: "Tap to start")
@@ -27,21 +29,27 @@ class GameScene: SKScene {
         
         title.fontName = "AvenirNextCondensed-UltraLight"
         title.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 270)
-        title.fontSize = CGFloat(140.0)
+        title.fontSize = CGFloat(170.0)
         playNode.addChild(self.title)
         
         text.fontName = "AvenirNextCondensed-UltraLight"
-        text.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 50)
-        text.fontSize = CGFloat(70.0)
+        text.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 200)
+        text.fontSize = CGFloat(90.0)
         let fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
         text.run(SKAction.repeatForever(fadeAction))
         
         playNode.addChild(text)
         
-        _instructions.position = CGPoint(x: self.frame.maxX - 60,y: self.frame.maxY - 60)
+        _credits.position = CGPoint(x: self.frame.maxX - 70,y: self.frame.maxY - 70)
+        _credits.size = CGSize(width: 120.0, height: 120.0)
+        playNode.addChild(_credits)
+        
+        _instructions.position = CGPoint(x: _credits.frame.midX - 120,y: self.frame.maxY - 70)
+        _instructions.size = CGSize(width: 120.0, height: 120.0)
         playNode.addChild(self._instructions)
         
-        hiscore.position = CGPoint(x: _instructions.frame.midX - 100, y: self.frame.maxY - 60)
+        hiscore.position = CGPoint(x: _instructions.frame.midX - 120, y: self.frame.maxY - 70)
+        hiscore.size = CGSize(width: 120.0, height: 120.0)
         playNode.addChild(self.hiscore)
     }
     
@@ -56,6 +64,10 @@ class GameScene: SKScene {
             else if self.atPoint(location) == self._instructions {
                 _instructions.alpha = 0.5
                 instructions_touch = true
+            }
+            else if self.atPoint(location) == self._credits {
+                _credits.alpha = 0.5
+                credits_touch = true
             }
         }
     }
@@ -80,6 +92,14 @@ class GameScene: SKScene {
                 _instructions.alpha = 0.5
                 instructions_touch = true
             }
+            else if (credits_touch && self.atPoint(location) != self._credits) {
+                _credits.alpha = 1.0
+                credits_touch = false
+            }
+            else if(!credits_touch && self.atPoint(location) == self._credits) {
+                _credits.alpha = 0.5
+                credits_touch = true
+            }
         }
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -99,6 +119,16 @@ class GameScene: SKScene {
             else if(instructions_touch && self.atPoint(location) == self._instructions) {
                 _instructions.alpha = 1.0
                 instructions_touch = false
+                
+                let scene = instructions(size: self.size)
+                let skview = self.view!
+                skview.ignoresSiblingOrder = true
+                scene.scaleMode = .aspectFill
+                skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
+            }
+            else if(self._credits.atPoint(location) == self._credits) {
+                _credits.alpha = 1.0
+                credits_touch = false
                 
                 let scene = instructions(size: self.size)
                 let skview = self.view!
