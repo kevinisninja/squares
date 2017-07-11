@@ -20,6 +20,7 @@ class instructions: SKScene {
         
         
         back.position = CGPoint(x: self.frame.minX + 60, y: self.frame.maxY - 60)
+        back.size = CGSize(width: 150.0, height: 150.0)
         playNode.addChild(back)
     }
     

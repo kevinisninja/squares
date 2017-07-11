@@ -19,6 +19,9 @@ class GameScene: SKScene {
     private var _credits = SKSpriteNode(imageNamed: "credits")
     private var credits_touch = false
     
+    private var _settings = SKSpriteNode(imageNamed: "settings")
+    private var settings_touch = false
+    
     private var title = SKLabelNode(text: "S q u a r e s")
     private var text = SKLabelNode(text: "Tap to start")
     private var fade = true
@@ -51,6 +54,10 @@ class GameScene: SKScene {
         hiscore.position = CGPoint(x: _instructions.frame.midX - 120, y: self.frame.maxY - 70)
         hiscore.size = CGSize(width: 120.0, height: 120.0)
         playNode.addChild(self.hiscore)
+        
+        _settings.position = CGPoint(x: self.frame.minX + 60, y: self.frame.maxY - 60)
+        _settings.size = CGSize(width: 150.0, height: 150.0)
+        playNode.addChild(_settings)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -68,6 +75,10 @@ class GameScene: SKScene {
             else if self.atPoint(location) == self._credits {
                 _credits.alpha = 0.5
                 credits_touch = true
+            }
+            else if self.atPoint(location) == self._settings {
+                _settings.alpha = 0.5
+                settings_touch = true
             }
         }
     }
@@ -100,6 +111,14 @@ class GameScene: SKScene {
                 _credits.alpha = 0.5
                 credits_touch = true
             }
+            else if (settings_touch && self.atPoint(location) != self._settings) {
+                _settings.alpha = 1.0
+                settings_touch = false
+            }
+            else if (!settings_touch && self.atPoint(location) == self._settings) {
+                _settings.alpha = 0.5
+                settings_touch = true
+            }
         }
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -129,6 +148,16 @@ class GameScene: SKScene {
             else if(credits_touch && self.atPoint(location) == self._credits) {
                 _credits.alpha = 1.0
                 credits_touch = false
+                
+                let scene = credits(size: self.size)
+                let skview = self.view!
+                skview.ignoresSiblingOrder = true
+                scene.scaleMode = .aspectFill
+                skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
+            }
+            else if (settings_touch && self.atPoint(location) != self._settings) {
+                _settings.alpha = 1.0
+                settings_touch = false
                 
                 let scene = credits(size: self.size)
                 let skview = self.view!
