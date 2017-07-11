@@ -16,8 +16,8 @@ class settings: SKScene {
     private var back_touch = false
     
     private var animation_speed = SKLabelNode(text: "Animation speed: ")
-    private var speed_1x = SKLabelNode(text: "Normal")
-    private var speed_2x = SKLabelNode(text: "Fast")
+    private var speed_1x = SKLabelNode(text: "1x")
+    private var speed_2x = SKLabelNode(text: "2x")
     
     private var sound = SKLabelNode(text: "Sound Effects: ")
     private var sound_on = SKLabelNode(text: "On")
