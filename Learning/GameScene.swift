@@ -126,11 +126,11 @@ class GameScene: SKScene {
                 scene.scaleMode = .aspectFill
                 skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
-            else if(self._credits.atPoint(location) == self._credits) {
+            else if(credits_touch && self.atPoint(location) == self._credits) {
                 _credits.alpha = 1.0
                 credits_touch = false
                 
-                let scene = instructions(size: self.size)
+                let scene = credits(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
                 scene.scaleMode = .aspectFill
