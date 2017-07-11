@@ -14,9 +14,13 @@ import AudioToolbox
 
 class playScene: SKScene {
     
+    private var sfx : [SKAction] = [SKAction]()
+    private var note = 0
+    
     var interstitial: GADInterstitial!
 
     private var parentNode = SKNode()
+    private var audioNode = SKNode()
     private var n_back2 = SKLabelNode(text: "n_back: 1")
     private var score = SKLabelNode(text: "Score: 0")
 
@@ -36,7 +40,8 @@ class playScene: SKScene {
     private var arrayLabels : [SKLabelNode] = [SKLabelNode]()
     private var arrayMoved = [Bool]()
     private var arrayPositions = [Int]()
-    private var fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
+    private var factor = UserDefaults.standard.integer(forKey: "animation_speed") + 1
+    private var fadeAction : SKAction = SKAction()
     
     private var gameOverNode = SKNode()
     private var gameOverBack = SKSpriteNode()
@@ -46,9 +51,24 @@ class playScene: SKScene {
     private var go_playAgain = SKLabelNode(text: "Play Again")
     
     override func didMove(to view: SKView) {
-        
         //add children to the parent node because for some reason my positioning was screwing up
         self.addChild(self.parentNode)
+        
+        sfx.append(SKAction.playSoundFileNamed("C4", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("D4", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("E4", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("F4", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("G4", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("A5", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("B5", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("C5", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("D5", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("E5", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("F5", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("G5", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("A6", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("B6", waitForCompletion: false))
+        sfx.append(SKAction.playSoundFileNamed("C6", waitForCompletion: false))
         
         //adding buttons, replace these later with images
         score.text = "Score: " + String(score2)
@@ -64,6 +84,8 @@ class playScene: SKScene {
         n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.minY + 250)
         n_back2.zPosition = 1
         parentNode.addChild(self.n_back2)
+        
+        fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
         
         for i in 0...2 {
             arrayLives.append(SKSpriteNode(imageNamed: "heart"))
@@ -224,6 +246,19 @@ class playScene: SKScene {
     }
     
     func setupRound() {
+        if(UserDefaults.standard.bool(forKey: "sound_off") == false) {
+            self.run(sfx[note])
+        }
+        note = note + 1
+        if(note == 15) {
+            note = 0
+            if(lives < 3) {
+                arrayLives[lives].texture = SKTexture(imageNamed: "heart")
+                arrayLives[lives].run(SKAction.fadeIn(withDuration: 0.2))
+                lives = lives + 1
+            }
+        }
+        
         for i in 0...8 {
             arrayMoved[i] = false
         }
@@ -231,9 +266,9 @@ class playScene: SKScene {
         score.text = "Score: " + String(score2)
         let temp = cur
         if(score2 <= n_back) {
-            arraySquares[compare].run(SKAction.fadeOut(withDuration: 1.0))
-            arrayLabels[compare].run(SKAction.fadeOut(withDuration: 1.0))
-            arrayFrames[compare].run(SKAction.fadeAlpha(to: 1.0, duration: 1.0))
+            arraySquares[compare].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
+            arrayLabels[compare].run(SKAction.fadeOut(withDuration: 1.0 / 1.0 / Double(factor)))
+            arrayFrames[compare].run(SKAction.fadeAlpha(to: 1.0, duration: 1.0 / Double(factor)))
             cur = gen()
         }
         else {
@@ -242,9 +277,9 @@ class playScene: SKScene {
         
         compare = arrayPositions.remove(at: 0)
         arrayPositions.append(cur)
-        arraySquares[temp].run(SKAction.fadeOut(withDuration: 1.0))
+        arraySquares[temp].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
         {
-            self.arraySquares[self.cur].run(SKAction.fadeIn(withDuration: 1.0))
+            self.arraySquares[self.cur].run(SKAction.fadeIn(withDuration: 1.0 / Double(self.factor)))
         }
     }
     
@@ -480,14 +515,14 @@ class playScene: SKScene {
 
         lives = lives - 1
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        
+        note = 0
         if(lives == 0) {
             arrayLives[lives].run(sequence)
             {
                 self.present_gameOver()
             }
         }
-        else {
+        else if(lives > 0 && lives < 3){
             arrayLives[lives].run(sequence)
         }
         

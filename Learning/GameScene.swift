@@ -55,7 +55,7 @@ class GameScene: SKScene {
         hiscore.size = CGSize(width: 120.0, height: 120.0)
         playNode.addChild(self.hiscore)
         
-        _settings.position = CGPoint(x: self.frame.minX + 60, y: self.frame.maxY - 60)
+        _settings.position = CGPoint(x: self.frame.minX + 70, y: self.frame.maxY - 70)
         _settings.size = CGSize(width: 150.0, height: 150.0)
         playNode.addChild(_settings)
     }
@@ -155,11 +155,11 @@ class GameScene: SKScene {
                 scene.scaleMode = .aspectFill
                 skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
-            else if (settings_touch && self.atPoint(location) != self._settings) {
+            else if (settings_touch && self.atPoint(location) == self._settings) {
                 _settings.alpha = 1.0
                 settings_touch = false
                 
-                let scene = credits(size: self.size)
+                let scene = settings(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
                 scene.scaleMode = .aspectFill

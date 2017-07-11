@@ -9,6 +9,22 @@
 /* Begin PBXBuildFile section */
 		2A8439E845CDB4079F6938B5 /* libPods-Learning.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5497A14728AD1F05EFBB59BF /* libPods-Learning.a */; };
 		3408EDAF1F0A783A00CE6DD7 /* DifficultySelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3408EDAE1F0A783A00CE6DD7 /* DifficultySelect.swift */; };
+		343CA3C71F157A8B00B52185 /* A5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3B81F157A8B00B52185 /* A5.wav */; };
+		343CA3C81F157A8B00B52185 /* A6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3B91F157A8B00B52185 /* A6.wav */; };
+		343CA3C91F157A8B00B52185 /* B5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3BA1F157A8B00B52185 /* B5.wav */; };
+		343CA3CA1F157A8B00B52185 /* B6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3BB1F157A8B00B52185 /* B6.wav */; };
+		343CA3CB1F157A8B00B52185 /* C4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3BC1F157A8B00B52185 /* C4.wav */; };
+		343CA3CC1F157A8B00B52185 /* C5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3BD1F157A8B00B52185 /* C5.wav */; };
+		343CA3CD1F157A8B00B52185 /* C6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3BE1F157A8B00B52185 /* C6.wav */; };
+		343CA3CE1F157A8B00B52185 /* D4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3BF1F157A8B00B52185 /* D4.wav */; };
+		343CA3CF1F157A8B00B52185 /* D5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3C01F157A8B00B52185 /* D5.wav */; };
+		343CA3D01F157A8B00B52185 /* E4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3C11F157A8B00B52185 /* E4.wav */; };
+		343CA3D11F157A8B00B52185 /* E5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3C21F157A8B00B52185 /* E5.wav */; };
+		343CA3D21F157A8B00B52185 /* F4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3C31F157A8B00B52185 /* F4.wav */; };
+		343CA3D31F157A8B00B52185 /* F5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3C41F157A8B00B52185 /* F5.wav */; };
+		343CA3D41F157A8B00B52185 /* G4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3C51F157A8B00B52185 /* G4.wav */; };
+		343CA3D51F157A8B00B52185 /* G5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3C61F157A8B00B52185 /* G5.wav */; };
+		343CA3D71F157C3500B52185 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343CA3D61F157C3500B52185 /* settings.swift */; };
 		343F02BF1F0DD6E5006DE6FD /* instructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343F02BE1F0DD6E5006DE6FD /* instructions.swift */; };
 		3450D3B41F0D2B7100A5D34D /* hiscores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3450D3B31F0D2B7100A5D34D /* hiscores.swift */; };
 		3451E6331F151A310001C4C0 /* credits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3451E6321F151A310001C4C0 /* credits.swift */; };
@@ -45,6 +61,22 @@
 /* Begin PBXFileReference section */
 		19C9027EC4B56247712C53CA /* Pods-Learning.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Learning.release.xcconfig"; path = "Pods/Target Support Files/Pods-Learning/Pods-Learning.release.xcconfig"; sourceTree = "<group>"; };
 		3408EDAE1F0A783A00CE6DD7 /* DifficultySelect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DifficultySelect.swift; sourceTree = "<group>"; };
+		343CA3B81F157A8B00B52185 /* A5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = A5.wav; path = ../notes/A5.wav; sourceTree = "<group>"; };
+		343CA3B91F157A8B00B52185 /* A6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = A6.wav; path = ../notes/A6.wav; sourceTree = "<group>"; };
+		343CA3BA1F157A8B00B52185 /* B5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = B5.wav; path = ../notes/B5.wav; sourceTree = "<group>"; };
+		343CA3BB1F157A8B00B52185 /* B6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = B6.wav; path = ../notes/B6.wav; sourceTree = "<group>"; };
+		343CA3BC1F157A8B00B52185 /* C4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = C4.wav; path = ../notes/C4.wav; sourceTree = "<group>"; };
+		343CA3BD1F157A8B00B52185 /* C5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = C5.wav; path = ../notes/C5.wav; sourceTree = "<group>"; };
+		343CA3BE1F157A8B00B52185 /* C6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = C6.wav; path = ../notes/C6.wav; sourceTree = "<group>"; };
+		343CA3BF1F157A8B00B52185 /* D4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = D4.wav; path = ../notes/D4.wav; sourceTree = "<group>"; };
+		343CA3C01F157A8B00B52185 /* D5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = D5.wav; path = ../notes/D5.wav; sourceTree = "<group>"; };
+		343CA3C11F157A8B00B52185 /* E4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = E4.wav; path = ../notes/E4.wav; sourceTree = "<group>"; };
+		343CA3C21F157A8B00B52185 /* E5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = E5.wav; path = ../notes/E5.wav; sourceTree = "<group>"; };
+		343CA3C31F157A8B00B52185 /* F4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = F4.wav; path = ../notes/F4.wav; sourceTree = "<group>"; };
+		343CA3C41F157A8B00B52185 /* F5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = F5.wav; path = ../notes/F5.wav; sourceTree = "<group>"; };
+		343CA3C51F157A8B00B52185 /* G4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = G4.wav; path = ../notes/G4.wav; sourceTree = "<group>"; };
+		343CA3C61F157A8B00B52185 /* G5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = G5.wav; path = ../notes/G5.wav; sourceTree = "<group>"; };
+		343CA3D61F157C3500B52185 /* settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		343F02BE1F0DD6E5006DE6FD /* instructions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = instructions.swift; sourceTree = "<group>"; };
 		3450D3B31F0D2B7100A5D34D /* hiscores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hiscores.swift; sourceTree = "<group>"; };
 		3451E6321F151A310001C4C0 /* credits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = credits.swift; sourceTree = "<group>"; };
@@ -106,6 +138,21 @@
 		34687BD71EE599130031F522 = {
 			isa = PBXGroup;
 			children = (
+				343CA3B81F157A8B00B52185 /* A5.wav */,
+				343CA3B91F157A8B00B52185 /* A6.wav */,
+				343CA3BA1F157A8B00B52185 /* B5.wav */,
+				343CA3BB1F157A8B00B52185 /* B6.wav */,
+				343CA3BC1F157A8B00B52185 /* C4.wav */,
+				343CA3BD1F157A8B00B52185 /* C5.wav */,
+				343CA3BE1F157A8B00B52185 /* C6.wav */,
+				343CA3BF1F157A8B00B52185 /* D4.wav */,
+				343CA3C01F157A8B00B52185 /* D5.wav */,
+				343CA3C11F157A8B00B52185 /* E4.wav */,
+				343CA3C21F157A8B00B52185 /* E5.wav */,
+				343CA3C31F157A8B00B52185 /* F4.wav */,
+				343CA3C41F157A8B00B52185 /* F5.wav */,
+				343CA3C51F157A8B00B52185 /* G4.wav */,
+				343CA3C61F157A8B00B52185 /* G5.wav */,
 				34687BE21EE599130031F522 /* Learning */,
 				34687BFD1EE599140031F522 /* LearningTests */,
 				34687C081EE599140031F522 /* LearningUITests */,
@@ -134,6 +181,7 @@
 				34687BEB1EE599130031F522 /* GameViewController.swift */,
 				34687BE91EE599130031F522 /* GameScene.swift */,
 				3451E6321F151A310001C4C0 /* credits.swift */,
+				343CA3D61F157C3500B52185 /* settings.swift */,
 				343F02BE1F0DD6E5006DE6FD /* instructions.swift */,
 				3450D3B31F0D2B7100A5D34D /* hiscores.swift */,
 				3408EDAE1F0A783A00CE6DD7 /* DifficultySelect.swift */,
@@ -284,8 +332,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				343CA3CE1F157A8B00B52185 /* D4.wav in Resources */,
+				343CA3D31F157A8B00B52185 /* F5.wav in Resources */,
+				343CA3D41F157A8B00B52185 /* G4.wav in Resources */,
+				343CA3C81F157A8B00B52185 /* A6.wav in Resources */,
+				343CA3C91F157A8B00B52185 /* B5.wav in Resources */,
+				343CA3CA1F157A8B00B52185 /* B6.wav in Resources */,
+				343CA3CD1F157A8B00B52185 /* C6.wav in Resources */,
 				34687BEF1EE599130031F522 /* Main.storyboard in Resources */,
+				343CA3D21F157A8B00B52185 /* F4.wav in Resources */,
 				34687BE61EE599130031F522 /* GameScene.sks in Resources */,
+				343CA3D51F157A8B00B52185 /* G5.wav in Resources */,
+				343CA3CF1F157A8B00B52185 /* D5.wav in Resources */,
+				343CA3CC1F157A8B00B52185 /* C5.wav in Resources */,
+				343CA3CB1F157A8B00B52185 /* C4.wav in Resources */,
+				343CA3D01F157A8B00B52185 /* E4.wav in Resources */,
+				343CA3C71F157A8B00B52185 /* A5.wav in Resources */,
+				343CA3D11F157A8B00B52185 /* E5.wav in Resources */,
 				34687BF11EE599130031F522 /* Assets.xcassets in Resources */,
 				34687BF41EE599130031F522 /* LaunchScreen.storyboard in Resources */,
 				34687BE81EE599130031F522 /* Actions.sks in Resources */,
@@ -366,6 +429,7 @@
 				34687BEC1EE599130031F522 /* GameViewController.swift in Sources */,
 				34687C181EE5A05A0031F522 /* playScene.swift in Sources */,
 				34687BE41EE599130031F522 /* AppDelegate.swift in Sources */,
+				343CA3D71F157C3500B52185 /* settings.swift in Sources */,
 				3408EDAF1F0A783A00CE6DD7 /* DifficultySelect.swift in Sources */,
 				3451E6331F151A310001C4C0 /* credits.swift in Sources */,
 				3450D3B41F0D2B7100A5D34D /* hiscores.swift in Sources */,

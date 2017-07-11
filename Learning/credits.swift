@@ -29,6 +29,7 @@ class credits: SKScene {
         self.addChild(playNode)
         
         text1.position = CGPoint(x: self.frame.midX, y: self.frame.minY + 200)
+        text1.fontName = "AvenirNextCondensed-UltraLight"
         text1.fontSize = CGFloat(70.0)
         playNode.addChild(text1)
         
@@ -36,24 +37,29 @@ class credits: SKScene {
         back.size = CGSize(width: 150.0, height: 150.0)
         playNode.addChild(back)
         
-        text2.position = CGPoint(x: self.frame.midX - 120, y: back.frame.midY - 200)
+        text2.position = CGPoint(x: self.frame.midX - 120, y: back.frame.midY - 150)
         text2.fontSize = CGFloat(70.0)
+        text2.fontName = "AvenirNextCondensed-UltraLight"
         playNode.addChild(text2)
         
         text2_2.position = CGPoint(x: self.frame.midX, y: text2.frame.midY - 100)
         text2_2.fontSize = CGFloat(90.0)
+        text2_2.fontName = "AvenirNextCondensed-UltraLight"
         playNode.addChild(text2_2)
         
         text3.position = CGPoint(x: self.frame.midX - 120, y: text2_2.frame.maxY - 200)
         text3.fontSize = CGFloat(70.0)
+        text3.fontName = "AvenirNextCondensed-UltraLight"
         playNode.addChild(text3)
         
         text3_2.position = CGPoint(x: self.frame.midX - 60, y: text3.frame.midY - 100)
         text3_2.fontSize = CGFloat(90.0)
+        text3_2.fontName = "AvenirNextCondensed-UltraLight"
         playNode.addChild(text3_2)
         
         text3_3.position = CGPoint(x: self.frame.midX + 20, y: text3_2.frame.midY - 110)
         text3_3.fontSize = CGFloat(90.0)
+        text3_3.fontName = "AvenirNextCondensed-UltraLight"
         playNode.addChild(text3_3)
         
         logo.size = CGSize(width: 250.0, height: 250.0)

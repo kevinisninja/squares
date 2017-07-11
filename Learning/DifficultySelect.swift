@@ -34,7 +34,7 @@ class DifficultySelect: SKScene {
         easy.fontName = "AvenirNextCondensed-UltraLight"
         easy.fontSize = CGFloat(90.0)
         easy.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 250)
-        easy_back.position = CGPoint(x: self.frame.midX, y: easy.frame.midY + 5)
+        easy_back.position = CGPoint(x: self.frame.midX, y: easy.frame.midY + 12)
         easy_back.size = CGSize(width: 500.0, height: 250.0)
         parentNode.addChild(easy)
         parentNode.addChild(easy_back)
