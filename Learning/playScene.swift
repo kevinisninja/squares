@@ -241,9 +241,9 @@ class playScene: SKScene {
             
             arraySquares[i].alpha = 0.0
             
-            arrayLabels[i].position = CGPoint(x: arraySquares[i].frame.midX - 2, y: arraySquares[i].frame.midY - 15)
+            arrayLabels[i].position = CGPoint(x: arraySquares[i].frame.midX - 5, y: arraySquares[i].frame.midY - 20)
             arrayLabels[i].alpha = 1.0
-            arrayLabels[i].fontSize = CGFloat(40.0)
+            arrayLabels[i].fontSize = CGFloat(70.0)
             arrayLabels[i].fontName = "AvenirNextCondensed-UltraLight"
             
             parentNode.addChild(arrayFrames[i])
