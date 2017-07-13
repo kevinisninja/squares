@@ -19,7 +19,7 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint(x: self.view.frame.minX, y: self.view.frame.maxY - 50))
         self.view.addSubview(bannerView)
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/6300978111"
+        bannerView.adUnitID = "ca-app-pub-7002276202319179/7256238841"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         
@@ -34,8 +34,8 @@ class GameViewController: UIViewController {
             }
             
             view.ignoresSiblingOrder = true
-            view.showsFPS = true
-            view.showsNodeCount = true
+            view.showsFPS = false
+            view.showsNodeCount = false
         }
     }
     

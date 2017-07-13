@@ -127,7 +127,7 @@ class playScene: SKScene {
     }
 
     func createAndLoadInterstitial() -> GADInterstitial {
-        let interstitial2 = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/1033173712")
+        let interstitial2 = GADInterstitial(adUnitID: "ca-app-pub-7002276202319179/2686438443")
         interstitial2.delegate = self as? GADInterstitialDelegate
         interstitial2.load(GADRequest())
         return interstitial2
