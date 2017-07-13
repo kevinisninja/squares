@@ -106,9 +106,9 @@ class playScene: SKScene {
             arrayLives[i].size = CGSize(width: 150.0, height: 150.0)
         }
         
-        arrayLives[0].position = CGPoint(x: self.frame.midX - 150, y: self.frame.maxY - 200)
-        arrayLives[1].position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 200)
-        arrayLives[2].position = CGPoint(x: self.frame.midX + 150, y: self.frame.maxY - 200)
+        arrayLives[0].position = CGPoint(x: self.frame.midX - 150, y: self.frame.maxY - 250)
+        arrayLives[1].position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 250)
+        arrayLives[2].position = CGPoint(x: self.frame.midX + 150, y: self.frame.maxY - 250)
         
         for i in 0...2 {
             parentNode.addChild(arrayLives[i])
@@ -319,7 +319,7 @@ class playScene: SKScene {
         let temp = cur
         if(score2 <= n_back) {
             arraySquares[compare].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
-            arrayLabels[compare].run(SKAction.fadeOut(withDuration: 1.0 / 1.0 / Double(factor)))
+            arrayLabels[compare].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
             arrayFrames[compare].run(SKAction.fadeAlpha(to: 1.0, duration: 1.0 / Double(factor)))
             cur = gen()
         }
@@ -407,7 +407,6 @@ class playScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
             if(check_moved_in(pos: 0, loc: location)) {
-                
                 push_down(pos: 0)
             }
             else if(check_moved_in(pos: 1, loc: location)) {
@@ -514,8 +513,8 @@ class playScene: SKScene {
     
     func check_ended(pos: Int, loc: CGPoint) -> Bool {
         return !stopPlay && self.atPoint(loc) == self.arraySquares[pos] || self.atPoint(loc) == self.arrayFrames[pos] || self.atPoint(loc) == self.arrayLabels[pos]
-        
     }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
