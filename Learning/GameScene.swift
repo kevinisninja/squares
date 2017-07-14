@@ -44,19 +44,19 @@ class GameScene: SKScene {
         playNode.addChild(text)
         
         _credits.position = CGPoint(x: self.frame.maxX - 70,y: self.frame.maxY - 70)
-        _credits.size = CGSize(width: 120.0, height: 120.0)
+        _credits.size = CGSize(width: 110.0, height: 110.0)
         playNode.addChild(_credits)
         
-        _instructions.position = CGPoint(x: _credits.frame.midX - 120,y: self.frame.maxY - 70)
-        _instructions.size = CGSize(width: 120.0, height: 120.0)
+        _instructions.position = CGPoint(x: _credits.frame.midX - 110,y: self.frame.maxY - 70)
+        _instructions.size = CGSize(width: 110.0, height: 110.0)
         playNode.addChild(self._instructions)
         
-        hiscore.position = CGPoint(x: _instructions.frame.midX - 120, y: self.frame.maxY - 70)
-        hiscore.size = CGSize(width: 120.0, height: 120.0)
+        hiscore.position = CGPoint(x: _instructions.frame.midX - 110, y: self.frame.maxY - 70)
+        hiscore.size = CGSize(width: 110.0, height: 110.0)
         playNode.addChild(self.hiscore)
         
         _settings.position = CGPoint(x: self.frame.minX + 70, y: self.frame.maxY - 70)
-        _settings.size = CGSize(width: 150.0, height: 150.0)
+        _settings.size = CGSize(width: 120.0, height: 120.0)
         playNode.addChild(_settings)
     }
     

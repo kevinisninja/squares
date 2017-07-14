@@ -16,6 +16,7 @@ class playScene: SKScene {
     
     private var sfx : [SKAction] = [SKAction]()
     private var note = 0
+    private var up = true
     
     var interstitial: GADInterstitial!
 
@@ -40,7 +41,7 @@ class playScene: SKScene {
     private var arrayLabels : [SKLabelNode] = [SKLabelNode]()
     private var arrayMoved = [Bool]()
     private var arrayPositions = [Int]()
-    private var factor = UserDefaults.standard.integer(forKey: "animation_speed") + 1
+    private var factor = 0.0
     private var fadeAction : SKAction = SKAction()
     
     private var pauseNode = SKNode()
@@ -99,11 +100,21 @@ class playScene: SKScene {
         parentNode.addChild(self.n_back2)
         
         fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
-        
+        if(UserDefaults.standard.integer(forKey: "animation_speed") == 0)
+        {
+            factor = 1.0
+        }
+        else if(UserDefaults.standard.integer(forKey: "animation_speed") == 1)
+        {
+            factor = 0.5
+        }
+        else if(UserDefaults.standard.integer(forKey: "animation_speed") == 2) {
+            factor = 2.0
+        }
         for i in 0...2 {
             arrayLives.append(SKSpriteNode(imageNamed: "heart"))
             arrayLives[i].zPosition = 1
-            arrayLives[i].size = CGSize(width: 150.0, height: 150.0)
+            arrayLives[i].size = CGSize(width: 120.0, height: 120.0)
         }
         
         arrayLives[0].position = CGPoint(x: self.frame.midX - 150, y: self.frame.maxY - 250)
@@ -127,7 +138,7 @@ class playScene: SKScene {
     }
 
     func createAndLoadInterstitial() -> GADInterstitial {
-        let interstitial2 = GADInterstitial(adUnitID: "ca-app-pub-7002276202319179/2686438443")
+        let interstitial2 = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/1033173712")
         interstitial2.delegate = self as? GADInterstitialDelegate
         interstitial2.load(GADRequest())
         return interstitial2
@@ -254,16 +265,13 @@ class playScene: SKScene {
     }
     
     func firstRound() {
-        let increment = 0.9 / Double(n_back)
-        var dif = 0.0
+        
         for i in 1...n_back {
             cur = gen()
             arrayPositions.append(cur)
-            arraySquares[cur].alpha = 0.1 + CGFloat(dif)
-            arrayFrames[cur].alpha = 0.0
+            arrayFrames[cur].alpha = 1.0
             arrayLabels[cur].text = String(n_back + 1 - i)
             arrayLabels[cur].alpha = 1.0
-            dif = dif + increment
         }
         
         
@@ -271,6 +279,10 @@ class playScene: SKScene {
         arrayPositions.append(cur)
         arraySquares[cur].alpha = 1.0
         compare = arrayPositions.remove(at: 0)
+        
+        self.arrayFrames[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeIn(withDuration: 0.75)])))
+        
+        self.arrayLabels[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeIn(withDuration: 0.75)])))
     }
     
     func gen() -> Int {
@@ -298,12 +310,32 @@ class playScene: SKScene {
     }
     
     func setupRound() {
+        if(score2 < n_back) {
+            arrayFrames[compare].removeAllActions()
+            arrayLabels[compare].removeAllActions()
+            arrayLabels[compare].alpha = 1.0
+            arrayFrames[compare].alpha = 1.0
+        }
         if(UserDefaults.standard.bool(forKey: "sound_off") == false) {
             self.run(sfx[note])
         }
-        note = note + 1
-        if(note == 15) {
-            note = 0
+        
+        if(up) {
+            note = note + 1
+        }
+        else {
+            note = note - 1
+        }
+        if(note == 14 && up) {
+            up = false
+            if(lives < 3) {
+                arrayLives[lives].texture = SKTexture(imageNamed: "heart")
+                arrayLives[lives].run(SKAction.fadeIn(withDuration: 0.2))
+                lives = lives + 1
+            }
+        }
+        else if(note == 0 && !up) {
+            up = true
             if(lives < 3) {
                 arrayLives[lives].texture = SKTexture(imageNamed: "heart")
                 arrayLives[lives].run(SKAction.fadeIn(withDuration: 0.2))
@@ -318,9 +350,9 @@ class playScene: SKScene {
         score.text = "Score: " + String(score2)
         let temp = cur
         if(score2 <= n_back) {
-            arraySquares[compare].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
-            arrayLabels[compare].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
-            arrayFrames[compare].run(SKAction.fadeAlpha(to: 1.0, duration: 1.0 / Double(factor)))
+            arraySquares[compare].run(SKAction.fadeOut(withDuration: 0.50 / Double(factor)))
+            arrayLabels[compare].run(SKAction.fadeOut(withDuration: 0.50 / Double(factor)))
+            arrayFrames[compare].run(SKAction.fadeAlpha(to: 1.0, duration: 0.50 / Double(factor)))
             cur = gen()
         }
         else {
@@ -329,9 +361,15 @@ class playScene: SKScene {
         
         compare = arrayPositions.remove(at: 0)
         arrayPositions.append(cur)
-        arraySquares[temp].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
+        
+        arraySquares[temp].run(SKAction.fadeOut(withDuration: 0.50 / Double(factor)))
         {
-            self.arraySquares[self.cur].run(SKAction.fadeIn(withDuration: 1.0 / Double(self.factor)))
+            self.arraySquares[self.cur].run(SKAction.fadeIn(withDuration: 0.50 / Double(self.factor)))
+            if(self.score2 < self.n_back) {
+                self.arrayFrames[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeIn(withDuration: 0.75)])))
+                
+                self.arrayLabels[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeIn(withDuration: 0.75)])))
+            }
         }
     }
     
@@ -648,27 +686,42 @@ class playScene: SKScene {
     }
     
     func push_down(pos: Int) {
-        arraySquares[pos].alpha = arraySquares[pos].alpha / CGFloat(2)
-        arrayLabels[pos].alpha = arrayLabels[pos].alpha / CGFloat(2)
         
-        if(pos == cur) {
-            arrayFrames[pos].alpha = 0
+        if(score2 < n_back && pos == compare) {
+            arrayFrames[pos].removeAllActions()
+            arrayLabels[pos].removeAllActions()
+            arrayFrames[pos].alpha = 0.5
+            arrayLabels[pos].alpha = 0.5
         }
         else {
-            arrayFrames[pos].alpha = arrayFrames[pos].alpha / CGFloat(2)
+            arraySquares[pos].alpha = arraySquares[pos].alpha / CGFloat(2.0)
+            arrayLabels[pos].alpha = arrayLabels[pos].alpha / CGFloat(2.0)
+        
+            if(pos == cur) {
+                arrayFrames[pos].alpha = 0
+            }
+            else {
+                arrayFrames[pos].alpha = arrayFrames[pos].alpha / CGFloat(2)
+            }
         }
         arrayMoved[pos] = true
     }
     
     func push_up(pos: Int) {
-        arraySquares[pos].alpha = arraySquares[pos].alpha * CGFloat(2)
-        arrayLabels[pos].alpha = arrayLabels[pos].alpha * CGFloat(2)
         
+        arraySquares[pos].alpha = arraySquares[pos].alpha * CGFloat(2.0)
+        arrayLabels[pos].alpha = arrayLabels[pos].alpha * CGFloat(2.0)
         if(pos == cur) {
             arrayFrames[pos].alpha = 1.0
         }
         else {
             arrayFrames[pos].alpha = arrayFrames[pos].alpha * CGFloat(2)
+        }
+        
+        if(score2 < n_back && pos == compare) {
+            self.arrayFrames[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeIn(withDuration: 0.75)])))
+            
+            self.arrayLabels[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeIn(withDuration: 0.75)])))
         }
         
         arrayMoved[pos] = false

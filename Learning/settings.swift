@@ -18,6 +18,7 @@ class settings: SKScene {
     private var animation_speed = SKLabelNode(text: "Animation speed: ")
     private var speed_1x = SKLabelNode(text: "1x")
     private var speed_2x = SKLabelNode(text: "2x")
+    private var speed_halfx = SKLabelNode(text: "0.5x")
     
     private var sound = SKLabelNode(text: "Sound Effects: ")
     private var sound_on = SKLabelNode(text: "On")
@@ -30,6 +31,7 @@ class settings: SKScene {
         animation_speed.fontName = "AvenirNextCondensed-UltraLight"
         speed_1x.fontName = "AvenirNextCondensed-UltraLight"
         speed_2x.fontName = "AvenirNextCondensed-UltraLight"
+        speed_halfx.fontName = "AvenirNextCondensed-UltraLight"
         sound.fontName = "AvenirNextCondensed-UltraLight"
         sound_on.fontName = "AvenirNextCondensed-UltraLight"
         sound_off.fontName = "AvenirNextCondensed-UltraLight"
@@ -39,8 +41,9 @@ class settings: SKScene {
         
         speed_1x.fontSize = CGFloat(110.0)
         speed_2x.fontSize = CGFloat(110.0)
+        speed_halfx.fontSize = CGFloat(110.0)
         sound_on.fontSize = CGFloat(110.0)
-        sound_off.fontSize = CGFloat(90.0)
+        sound_off.fontSize = CGFloat(110.0)
         
         back.position = CGPoint(x: self.frame.minX + 60, y: self.frame.maxY - 60)
         back.size = CGSize(width: 150.0, height: 150.0)
@@ -49,23 +52,32 @@ class settings: SKScene {
         animation_speed.position = CGPoint(x: self.frame.midX, y: back.frame.midY - 300)
         playNode.addChild(animation_speed)
         
-        speed_1x.position = CGPoint(x: self.frame.midX - 100, y: animation_speed.frame.midY - 120)
-        speed_2x.position = CGPoint(x: self.frame.midX + 100, y: animation_speed.frame.midY - 120)
+        speed_halfx.position = CGPoint(x: self.frame.midX - 150, y: animation_speed.frame.midY - 130)
+        speed_1x.position = CGPoint(x: self.frame.midX, y: animation_speed.frame.midY - 130)
+        speed_2x.position = CGPoint(x: self.frame.midX + 150, y: animation_speed.frame.midY - 130)
         
         if(UserDefaults.standard.integer(forKey: "animation_speed") == 0) {
+            speed_2x.alpha = 0.5
+            speed_halfx.alpha = 0.5
+        }
+        else if(UserDefaults.standard.integer(forKey: "animation_speed") == 1) {
+            speed_1x.alpha = 0.5
             speed_2x.alpha = 0.5
         }
         else {
             speed_1x.alpha = 0.5
+            speed_halfx.alpha = 0.5
         }
+        
+        playNode.addChild(speed_halfx)
         playNode.addChild(speed_1x)
         playNode.addChild(speed_2x)
         
         sound.position = CGPoint(x: self.frame.midX, y: speed_1x.frame.midY - 250)
         playNode.addChild(sound)
         
-        sound_on.position = CGPoint(x: self.frame.midX - 100, y: sound.frame.midY - 120)
-        sound_off.position = CGPoint(x: self.frame.midX + 100, y: sound.frame.midY - 120)
+        sound_on.position = CGPoint(x: self.frame.midX - 100, y: sound.frame.midY - 130)
+        sound_off.position = CGPoint(x: self.frame.midX + 100, y: sound.frame.midY - 130)
         
         if(UserDefaults.standard.bool(forKey: "sound_off") == false)
         {
@@ -90,10 +102,17 @@ class settings: SKScene {
             else if(self.atPoint(location) == self.speed_1x) {
                 speed_1x.alpha = 1.0
                 speed_2x.alpha = 0.5
+                speed_halfx.alpha = 0.5
             }
             else if(self.atPoint(location) == self.speed_2x) {
                 speed_2x.alpha = 1.0
                 speed_1x.alpha = 0.5
+                speed_halfx.alpha = 0.5
+            }
+            else if(self.atPoint(location) == self.speed_halfx) {
+                speed_2x.alpha = 0.5
+                speed_1x.alpha = 0.5
+                speed_halfx.alpha = 1.0
             }
             else if(self.atPoint(location) == self.sound_on) {
                 sound_on.alpha = 1.0
@@ -121,9 +140,16 @@ class settings: SKScene {
             else if(self.atPoint(location) == self.speed_1x) {
                 speed_1x.alpha = 1.0
                 speed_2x.alpha = 0.5
+                speed_halfx.alpha = 0.5
             }
             else if(self.atPoint(location) == self.speed_2x) {
                 speed_2x.alpha = 1.0
+                speed_1x.alpha = 0.5
+                speed_halfx.alpha = 0.5
+            }
+            else if(self.atPoint(location) == self.speed_halfx) {
+                speed_halfx.alpha = 1.0
+                speed_2x.alpha = 0.5
                 speed_1x.alpha = 0.5
             }
             else if(self.atPoint(location) == self.sound_on) {
@@ -159,10 +185,18 @@ class settings: SKScene {
             else if(self.atPoint(location) == self.speed_1x) {
                 speed_1x.alpha = 1.0
                 speed_2x.alpha = 0.5
+                speed_halfx.alpha = 0.5
                 UserDefaults.standard.set(0, forKey: "animation_speed")
             }
             else if(self.atPoint(location) == self.speed_2x) {
                 speed_2x.alpha = 1.0
+                speed_1x.alpha = 0.5
+                speed_halfx.alpha = 0.5
+                UserDefaults.standard.set(2, forKey: "animation_speed")
+            }
+            else if(self.atPoint(location) == self.speed_halfx) {
+                speed_halfx.alpha = 1.0
+                speed_2x.alpha = 0.5
                 speed_1x.alpha = 0.5
                 UserDefaults.standard.set(1, forKey: "animation_speed")
             }
