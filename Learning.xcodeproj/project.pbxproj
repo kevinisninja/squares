@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2A8439E845CDB4079F6938B5 /* libPods-Learning.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5497A14728AD1F05EFBB59BF /* libPods-Learning.a */; };
 		3408EDAF1F0A783A00CE6DD7 /* DifficultySelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3408EDAE1F0A783A00CE6DD7 /* DifficultySelect.swift */; };
+		343358291F191CDA00CB9804 /* speedMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343358281F191CDA00CB9804 /* speedMode.swift */; };
 		343CA3C71F157A8B00B52185 /* A5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3B81F157A8B00B52185 /* A5.wav */; };
 		343CA3C81F157A8B00B52185 /* A6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3B91F157A8B00B52185 /* A6.wav */; };
 		343CA3C91F157A8B00B52185 /* B5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 343CA3BA1F157A8B00B52185 /* B5.wav */; };
@@ -61,6 +62,7 @@
 /* Begin PBXFileReference section */
 		19C9027EC4B56247712C53CA /* Pods-Learning.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Learning.release.xcconfig"; path = "Pods/Target Support Files/Pods-Learning/Pods-Learning.release.xcconfig"; sourceTree = "<group>"; };
 		3408EDAE1F0A783A00CE6DD7 /* DifficultySelect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DifficultySelect.swift; sourceTree = "<group>"; };
+		343358281F191CDA00CB9804 /* speedMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = speedMode.swift; sourceTree = "<group>"; };
 		343CA3B81F157A8B00B52185 /* A5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = A5.wav; path = ../notes/A5.wav; sourceTree = "<group>"; };
 		343CA3B91F157A8B00B52185 /* A6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = A6.wav; path = ../notes/A6.wav; sourceTree = "<group>"; };
 		343CA3BA1F157A8B00B52185 /* B5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = B5.wav; path = ../notes/B5.wav; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				3450D3B31F0D2B7100A5D34D /* hiscores.swift */,
 				3408EDAE1F0A783A00CE6DD7 /* DifficultySelect.swift */,
 				34687C171EE5A05A0031F522 /* playScene.swift */,
+				343358281F191CDA00CB9804 /* speedMode.swift */,
 				34687BED1EE599130031F522 /* Main.storyboard */,
 				34687BF01EE599130031F522 /* Assets.xcassets */,
 				34687BF21EE599130031F522 /* LaunchScreen.storyboard */,
@@ -428,6 +431,7 @@
 				343F02BF1F0DD6E5006DE6FD /* instructions.swift in Sources */,
 				34687BEC1EE599130031F522 /* GameViewController.swift in Sources */,
 				34687C181EE5A05A0031F522 /* playScene.swift in Sources */,
+				343358291F191CDA00CB9804 /* speedMode.swift in Sources */,
 				34687BE41EE599130031F522 /* AppDelegate.swift in Sources */,
 				343CA3D71F157C3500B52185 /* settings.swift in Sources */,
 				3408EDAF1F0A783A00CE6DD7 /* DifficultySelect.swift in Sources */,

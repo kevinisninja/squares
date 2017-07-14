@@ -16,20 +16,6 @@ class instructions: SKScene {
     private var back = SKSpriteNode(imageNamed: "back_button")
     private var back_touch = false
     
-    private var text1 = SKLabelNode(text: "Welcome to Squares!")
-    
-    private var text2 = SKLabelNode(text: "This is a game based on the")
-    private var text3 = SKLabelNode(text: "n_back memory test.")
-    
-    private var text4 = SKLabelNode(text: "At every round, one square")
-    private var text5 = SKLabelNode(text: "will be lit. To proceed to")
-    private var text6 = SKLabelNode(text: "the next round, you must")
-    private var text7 = SKLabelNode(text: "select the square that was")
-    private var text8 = SKLabelNode(text: "lit n turns ago.")
-    
-    private var text9 = SKLabelNode(text: "n will be 2, 3, or 4")
-    private var text10 = SKLabelNode(text: "based on your difficulty.")
-    
     private var cont = SKLabelNode(text: "Tap to continue")
     private var should_disappear = false
     
@@ -75,58 +61,7 @@ class instructions: SKScene {
         back.size = CGSize(width: 150.0, height: 150.0)
         playNode.addChild(back)
         
-        text1.fontName = "AvenirNextCondensed-UltraLight"
-        text1.fontSize = CGFloat(100.0)
-        text1.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 250)
-        playNode.addChild(text1)
-        
-        text2.fontName = "AvenirNextCondensed-UltraLight"
-        text2.fontSize = CGFloat(70.0)
-        text2.position = CGPoint(x: self.frame.midX, y: text1.frame.midY - 120)
-        playNode.addChild(text2)
-        
-        text3.fontName = "AvenirNextCondensed-UltraLight"
-        text3.fontSize = CGFloat(70.0)
-        text3.position = CGPoint(x: self.frame.midX, y: text2.frame.midY - 90)
-        playNode.addChild(text3)
-        
-        text4.fontName = "AvenirNextCondensed-UltraLight"
-        text4.fontSize = CGFloat(70.0)
-        text4.position = CGPoint(x: self.frame.midX, y: text3.frame.midY - 120)
-        playNode.addChild(text4)
-        
-        text5.fontName = "AvenirNextCondensed-UltraLight"
-        text5.fontSize = CGFloat(70.0)
-        text5.position = CGPoint(x: self.frame.midX, y: text4.frame.midY - 90)
-        playNode.addChild(text5)
-        
-        text6.fontName = "AvenirNextCondensed-UltraLight"
-        text6.fontSize = CGFloat(70.0)
-        text6.position = CGPoint(x: self.frame.midX, y: text5.frame.midY - 90)
-        playNode.addChild(text6)
-        
-        text7.fontName = "AvenirNextCondensed-UltraLight"
-        text7.fontSize = CGFloat(70.0)
-        text7.position = CGPoint(x: self.frame.midX, y: text6.frame.midY - 90)
-        playNode.addChild(text7)
-        
-        text8.fontName = "AvenirNextCondensed-UltraLight"
-        text8.fontSize = CGFloat(70.0)
-        text8.position = CGPoint(x: self.frame.midX, y: text7.frame.midY - 90)
-        playNode.addChild(text8)
-
-        text9.fontName = "AvenirNextCondensed-UltraLight"
-        text9.fontSize = CGFloat(70.0)
-        text9.position = CGPoint(x: self.frame.midX, y: text8.frame.midY - 120)
-        playNode.addChild(text9)
-        
-        text10.fontName = "AvenirNextCondensed-UltraLight"
-        text10.fontSize = CGFloat(70.0)
-        text10.position = CGPoint(x: self.frame.midX, y: text9.frame.midY - 90)
-        playNode.addChild(text10)
-        
         cont.fontName = "AvenirNextCondensed-UltraLight"
-        cont.position = CGPoint(x: self.frame.midX, y: text10.frame.midY - 150)
         cont.fontSize = CGFloat(90.0)
         let fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
         cont.run(SKAction.repeatForever(fadeAction))
@@ -252,8 +187,6 @@ class instructions: SKScene {
         let temp = cur
         if(score2 <= 2) {
             if(score2 == 2) {
-                text1.text = "After that it's your job to"
-                text2.text = "remember. Enjoy the game!"
             }
             arraySquares[compare].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
             arrayLabels[compare].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
@@ -279,25 +212,8 @@ class instructions: SKScene {
 
     func disappear() {
         let action = SKAction.fadeOut(withDuration: 0.6)
-        text1.run(action)
-        text2.run(action)
-        text3.run(action)
-        text4.run(action)
-        text5.run(action)
-        text6.run(action)
-        text7.run(action)
-        text8.run(action)
-        text9.run(action)
-        text10.run(action)
         cont.removeAllActions()
         cont.run(action) {
-            self.text1.text = "The first n squares will"
-            self.text1.fontSize = CGFloat(70.0)
-            self.text2.text = "be provided to you"
-            self.text2.position = CGPoint(x: self.frame.midX, y: self.text1.frame.midY - 90)
-            self.text1.run(SKAction.fadeIn(withDuration: 0.6))
-            self.text2.run(SKAction.fadeIn(withDuration: 0.6))
-            
             self.simNode.alpha = 0.0
             self.simNode.isPaused = false
             self.simNode.isHidden = false

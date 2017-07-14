@@ -21,7 +21,7 @@ class GameViewController: UIViewController {
         self.view.addSubview(bannerView)
         bannerView.adUnitID = "ca-app-pub-3940256099942544/6300978111"
         bannerView.rootViewController = self
-        bannerView.load(GADRequest())
+        //bannerView.load(GADRequest())
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'

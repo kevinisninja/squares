@@ -141,24 +141,29 @@ class settings: SKScene {
                 speed_1x.alpha = 1.0
                 speed_2x.alpha = 0.5
                 speed_halfx.alpha = 0.5
+                UserDefaults.standard.set(0, forKey: "animation_speed")
             }
             else if(self.atPoint(location) == self.speed_2x) {
                 speed_2x.alpha = 1.0
                 speed_1x.alpha = 0.5
                 speed_halfx.alpha = 0.5
+                UserDefaults.standard.set(2, forKey: "animation_speed")
             }
             else if(self.atPoint(location) == self.speed_halfx) {
                 speed_halfx.alpha = 1.0
                 speed_2x.alpha = 0.5
                 speed_1x.alpha = 0.5
+                UserDefaults.standard.set(1, forKey: "animation_speed")
             }
             else if(self.atPoint(location) == self.sound_on) {
                 sound_on.alpha = 1.0
                 sound_off.alpha = 0.5
+                UserDefaults.standard.set(false, forKey: "sound_off")
             }
             else if(self.atPoint(location) == self.sound_off) {
                 sound_off.alpha = 1.0
                 sound_on.alpha = 0.5
+                UserDefaults.standard.set(true, forKey: "sound_off")
             }
         }
     }

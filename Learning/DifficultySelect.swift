@@ -22,10 +22,17 @@ class DifficultySelect: SKScene {
     private var back = SKSpriteNode(imageNamed: "back_button")
     private var back_touch = false
     
+    private var infinite = SKLabelNode(text: "∞")
+    private var timed = SKLabelNode(text: "60s")
+    
     private var easy_back = SKSpriteNode(imageNamed: "dif_select_back")
     private var norm_back = SKSpriteNode(imageNamed: "dif_select_back")
     private var hard_back = SKSpriteNode(imageNamed: "dif_select_back")
     
+    private var inf_back = SKSpriteNode(imageNamed: "small_back")
+    private var timed_back = SKSpriteNode(imageNamed: "small_back")
+    
+    private var changed = UserDefaults.standard.integer(forKey: "mode")
     override func didMove(to view: SKView) {
         
         //add children to the parent node because for some reason my positioning was screwing up
@@ -55,6 +62,34 @@ class DifficultySelect: SKScene {
         parentNode.addChild(hard)
         parentNode.addChild(hard_back)
         
+        infinite.fontName = "AvenirNextCondensed-UltraLight"
+        timed.fontName = "AvenirNextCondensed-UltraLight"
+        infinite.fontSize = CGFloat(60.0)
+        timed.fontSize = CGFloat(50.0)
+        infinite.position = CGPoint(x: self.frame.midX - 115, y: easy_back.frame.maxY + 50)
+        timed.position = CGPoint(x: self.frame.midX + 120, y: easy_back.frame.maxY + 48)
+        inf_back.size = CGSize(width: 238.0, height: 80.0)
+        timed_back.size = CGSize(width: 238.0, height: 80.0)
+        inf_back.position = CGPoint(x: infinite.frame.midX - 3, y: infinite.frame.midY)
+        timed_back.position = CGPoint(x: timed.frame.midX - 2, y: timed.frame.midY - 1)
+        
+        if(UserDefaults.standard.integer(forKey: "mode") == 0) {
+            timed.alpha = 0.5
+            timed_back.alpha = 0.5
+            inf_back.zPosition = 2
+            timed_back.zPosition = 1
+        }
+        else {
+            infinite.alpha = 0.5
+            inf_back.alpha = 0.5
+            timed_back.zPosition = 2
+            inf_back.zPosition = 1
+        }
+        parentNode.addChild(infinite)
+        parentNode.addChild(timed)
+        parentNode.addChild(inf_back)
+        parentNode.addChild(timed_back)
+        
         back.position = CGPoint(x: self.frame.minX + 60, y: self.frame.maxY - 60)
         back.size = CGSize(width: 150.0, height: 150.0)
         parentNode.addChild(back)
@@ -82,6 +117,22 @@ class DifficultySelect: SKScene {
                 hard.fontColor = UIColor .gray
                 hard_back.alpha = 0.5
                 hard_touch = true
+            }
+            else if(self.atPoint(location) == inf_back || self.atPoint(location) == infinite) {
+                timed.alpha = 0.5
+                timed_back.alpha = 0.5
+                inf_back.zPosition = 2
+                timed_back.zPosition = 1
+                inf_back.alpha = 1.0
+                infinite.alpha = 1.0
+            }
+            else if(self.atPoint(location) == timed_back || self.atPoint(location) == timed) {
+                infinite.alpha = 0.5
+                inf_back.alpha = 0.5
+                timed_back.zPosition = 2
+                inf_back.zPosition = 1
+                timed_back.alpha = 1.0
+                timed.alpha = 1.0
             }
         }
     }
@@ -128,6 +179,24 @@ class DifficultySelect: SKScene {
                 hard_back.alpha = 0.5
                 hard_touch = true
             }
+            else if(self.atPoint(location) == inf_back || self.atPoint(location) == infinite) {
+                timed.alpha = 0.5
+                timed_back.alpha = 0.5
+                inf_back.zPosition = 2
+                timed_back.zPosition = 1
+                inf_back.alpha = 1.0
+                infinite.alpha = 1.0
+                UserDefaults.standard.set(0, forKey: "mode")
+            }
+            else if(self.atPoint(location) == timed_back || self.atPoint(location) == timed) {
+                infinite.alpha = 0.5
+                inf_back.alpha = 0.5
+                timed_back.zPosition = 2
+                inf_back.zPosition = 1
+                timed_back.alpha = 1.0
+                timed.alpha = 1.0
+                UserDefaults.standard.set(1, forKey: "mode")
+            }
         }
     }
     
@@ -138,7 +207,14 @@ class DifficultySelect: SKScene {
         scene.scaleMode = .aspectFill
         skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
     }
-    
+
+    func presentSpeedMode() {
+        let scene = speedMode(size: self.size)
+        let skview = self.view!
+        skview.ignoresSiblingOrder = true
+        scene.scaleMode = .aspectFill
+        skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
+    }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
@@ -148,7 +224,13 @@ class DifficultySelect: SKScene {
                 easy_back.alpha = 1.0
                 easy_touch = false
                 UserDefaults.standard.set(2, forKey: "difficulty")
-                presentPlayScene()
+                
+                if(UserDefaults.standard.integer(forKey: "mode") == 0) {
+                    presentPlayScene()
+                }
+                else if(UserDefaults.standard.integer(forKey: "mode") == 1) {
+                    presentSpeedMode()
+                }
             }
             
             else if(medium_touch && self.atPoint(location) == self.norm_back) {
@@ -156,7 +238,13 @@ class DifficultySelect: SKScene {
                 norm_back.alpha = 1.0
                 medium_touch = false
                 UserDefaults.standard.set(3, forKey: "difficulty")
-                presentPlayScene()
+                
+                if(UserDefaults.standard.integer(forKey: "mode") == 0) {
+                    presentPlayScene()
+                }
+                else if(UserDefaults.standard.integer(forKey: "mode") == 1) {
+                    presentSpeedMode()
+                }
             }
             
             else if(hard_touch && self.atPoint(location) == self.hard_back) {
@@ -164,9 +252,32 @@ class DifficultySelect: SKScene {
                 hard_back.alpha = 1.0
                 hard_touch = false
                 UserDefaults.standard.set(4, forKey: "difficulty")
-                presentPlayScene()
+
+                if(UserDefaults.standard.integer(forKey: "mode") == 0) {
+                    presentPlayScene()
+                }
+                else if(UserDefaults.standard.integer(forKey: "mode") == 1) {
+                    presentSpeedMode()
+                }
             }
-            
+            else if(self.atPoint(location) == inf_back || self.atPoint(location) == infinite) {
+                timed.alpha = 0.5
+                timed_back.alpha = 0.5
+                inf_back.zPosition = 2
+                timed_back.zPosition = 1
+                inf_back.alpha = 1.0
+                infinite.alpha = 1.0
+                UserDefaults.standard.set(0, forKey: "mode")
+            }
+            else if(self.atPoint(location) == timed_back || self.atPoint(location) == timed) {
+                infinite.alpha = 0.5
+                inf_back.alpha = 0.5
+                timed_back.zPosition = 2
+                inf_back.zPosition = 1
+                timed_back.alpha = 1.0
+                timed.alpha = 1.0
+                UserDefaults.standard.set(1, forKey: "mode")
+            }
             else if(back_touch && self.atPoint(location) == self.back) {
                 back.alpha = 1.0
                 back_touch = false
@@ -182,6 +293,18 @@ class DifficultySelect: SKScene {
                     }
                 }
             }
+            /*
+            if(changed != UserDefaults.standard.integer(forKey: "mode")) {
+                
+                changed = UserDefaults.standard.integer(forKey: "mode")
+                easy.run(SKAction.fadeOut(withDuration: 0.2))
+                medium.run(SKAction.fadeOut(withDuration: 0.2))
+                hard.run(SKAction.fadeOut(withDuration: 0.2)) {
+                    self.easy.run(SKAction.fadeIn(withDuration: 0.2))
+                    self.medium.run(SKAction.fadeIn(withDuration: 0.2))
+                    self.hard.run(SKAction.fadeIn(withDuration: 0.2))
+                }
+            }*/
         }
         
     }
