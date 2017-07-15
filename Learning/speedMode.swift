@@ -69,11 +69,14 @@ class speedMode: SKScene {
     private var go_hiscore = SKLabelNode(text: "New Highscore!")
     private var go_menuButton = SKLabelNode(text: "Back to Menu")
     private var go_playAgain = SKLabelNode(text: "Play Again")
-    
+
     var timer = Timer()
     var counter = 0
-    var time_left = SKLabelNode(text: "60")
+    var time_left = SKLabelNode(text: "30")
     var first_touch = true
+    
+    private var repet = SKLabelNode(text: "Where was the white square")
+    private var repet2 = SKLabelNode(text: " turns ago?")
     
     override func didMove(to view: SKView) {
         //add children to the parent node because for some reason my positioning was screwing up
@@ -102,6 +105,16 @@ class speedMode: SKScene {
         score.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 360)
         score.zPosition = 1
         parentNode.addChild(self.score)
+        
+        repet2.text = String(n_back) + " turns ago?"
+        repet.fontSize = CGFloat(70.0)
+        repet.fontName = "AvenirNextCondensed-UltraLight"
+        repet2.fontSize = CGFloat(70.0)
+        repet2.fontName = "AvenirNextCondensed-UltraLight"
+        repet.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 350)
+        repet2.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 430)
+        parentNode.addChild(repet)
+        parentNode.addChild(repet2)
         
         time_left.fontName = "AvenirNextCondensed-UltraLight"
         time_left.fontSize = CGFloat(90.0)
@@ -139,9 +152,9 @@ class speedMode: SKScene {
     
     func timerAction() {
         counter += 1
-        time_left.text = String(60 - counter)
+        time_left.text = String(30 - counter)
         
-        if(counter == 60) {
+        if(counter == 30) {
             present_gameOver()
         }
     }
@@ -221,7 +234,7 @@ class speedMode: SKScene {
         go_text.text = "Game Over!"
         go_text.fontName = "AvenirNextCondensed-UltraLight"
         go_text.fontSize = CGFloat(90.0)
-        go_text.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 310)
+        go_text.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 280)
         gameOverNode.addChild(self.go_text)
         
         gameOverNode.isHidden = true
@@ -352,6 +365,17 @@ class speedMode: SKScene {
         for i in 0...8 {
             arrayMoved[i] = false
         }
+        
+        if(score2 < 5) {
+            repet.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.05), SKAction.fadeIn(withDuration: 0.05)]))
+            repet2.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.05 ), SKAction.fadeIn(withDuration: 0.05)]))
+            
+        }
+        else if(score2 == 5) {
+            repet.run(SKAction.fadeOut(withDuration: 0.05))
+            repet2.run(SKAction.fadeOut(withDuration: 0.05))
+        }
+        
         score2 += 1
         score.text = "Score: " + String(score2)
         if(score2 <= n_back || tired) {
@@ -812,8 +836,10 @@ class speedMode: SKScene {
     
     func present_gameOver() {
         timer.invalidate()
+        score.zPosition = 5
         if(n_back == 2 && score2 > UserDefaults.standard.integer(forKey: "easy_speed_hi")) {
             UserDefaults.standard.set(score2, forKey: "easy_speed_hi")
+            
             setup_labels_gameover()
             gameOverNode.addChild(go_hiscore)
         }
@@ -841,7 +867,7 @@ class speedMode: SKScene {
             go_hiscore.zPosition = 5
             go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
             go_hiscore.fontSize = CGFloat(90.0)
-            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 410)
+            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 450)
             go_text.run(SKAction.repeatForever(fadeAction))
         }
         
@@ -858,7 +884,7 @@ class speedMode: SKScene {
         go_hiscore.text = "New Highscore!"
         go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
         go_hiscore.fontSize = CGFloat(90.0)
-        go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
+        go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 450)
         go_hiscore.run(SKAction.repeatForever(fadeAction))
     }
     

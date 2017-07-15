@@ -22,7 +22,6 @@ class playScene: SKScene {
 
     private var parentNode = SKNode()
     private var audioNode = SKNode()
-    private var n_back2 = SKLabelNode(text: "n_back: 1")
     private var score = SKLabelNode(text: "Score: 0")
 
     private var score2 = 0
@@ -71,6 +70,9 @@ class playScene: SKScene {
     private var go_menuButton = SKLabelNode(text: "Back to Menu")
     private var go_playAgain = SKLabelNode(text: "Play Again")
     
+    private var repet = SKLabelNode(text: "Where was the white square")
+    private var repet2 = SKLabelNode(text: " turns ago?")
+    
     override func didMove(to view: SKView) {
         //add children to the parent node because for some reason my positioning was screwing up
         self.addChild(self.parentNode)
@@ -98,6 +100,16 @@ class playScene: SKScene {
         score.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 360)
         score.zPosition = 1
         parentNode.addChild(self.score)
+        
+        repet2.text = String(n_back) + " turns ago?"
+        repet.fontSize = CGFloat(70.0)
+        repet.fontName = "AvenirNextCondensed-UltraLight"
+        repet2.fontSize = CGFloat(70.0)
+        repet2.fontName = "AvenirNextCondensed-UltraLight"
+        repet.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 350)
+        repet2.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 430)
+        parentNode.addChild(repet)
+        parentNode.addChild(repet2)
         
         fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
         if(UserDefaults.standard.integer(forKey: "animation_speed") == 0)
@@ -212,7 +224,7 @@ class playScene: SKScene {
         go_text.text = "Game Over!"
         go_text.fontName = "AvenirNextCondensed-UltraLight"
         go_text.fontSize = CGFloat(90.0)
-        go_text.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 310)
+        go_text.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 280)
         gameOverNode.addChild(self.go_text)
         
         gameOverNode.isHidden = true
@@ -339,6 +351,16 @@ class playScene: SKScene {
                     }
                 }
             }
+        }
+        
+        if(score2 < 5) {
+            repet.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.50 / Double(factor)), SKAction.fadeIn(withDuration: 0.50 / Double(factor))]))
+            repet2.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.50 / Double(factor)), SKAction.fadeIn(withDuration: 0.50 / Double(factor))]))
+            
+        }
+        else if(score2 == 5) {
+            repet.run(SKAction.fadeOut(withDuration: 0.50 / Double(factor)))
+            repet2.run(SKAction.fadeOut(withDuration: 0.50 / Double(factor)))
         }
         
         for i in 0...8 {
@@ -796,6 +818,7 @@ class playScene: SKScene {
     }
     
     func present_gameOver() {
+        score.zPosition = 5
         if(n_back == 2 && score2 > UserDefaults.standard.integer(forKey: "easy_hi")) {
             UserDefaults.standard.set(score2, forKey: "easy_hi")
             setup_labels_gameover()
@@ -825,7 +848,7 @@ class playScene: SKScene {
             go_hiscore.zPosition = 5
             go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
             go_hiscore.fontSize = CGFloat(90.0)
-            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 410)
+            go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 450)
             go_text.run(SKAction.repeatForever(fadeAction))
         }
         
@@ -842,7 +865,7 @@ class playScene: SKScene {
         go_hiscore.text = "New Highscore!"
         go_hiscore.fontName = "AvenirNextCondensed-UltraLight"
         go_hiscore.fontSize = CGFloat(90.0)
-        go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
+        go_hiscore.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 450)
         go_hiscore.run(SKAction.repeatForever(fadeAction))
     }
     

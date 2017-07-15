@@ -23,7 +23,7 @@ class DifficultySelect: SKScene {
     private var back_touch = false
     
     private var infinite = SKLabelNode(text: "∞")
-    private var timed = SKLabelNode(text: "60s")
+    private var timed = SKLabelNode(text: "Timed")
     
     private var easy_back = SKSpriteNode(imageNamed: "dif_select_back")
     private var norm_back = SKSpriteNode(imageNamed: "dif_select_back")
@@ -67,11 +67,11 @@ class DifficultySelect: SKScene {
         infinite.fontSize = CGFloat(60.0)
         timed.fontSize = CGFloat(50.0)
         infinite.position = CGPoint(x: self.frame.midX - 115, y: easy_back.frame.maxY + 50)
-        timed.position = CGPoint(x: self.frame.midX + 120, y: easy_back.frame.maxY + 48)
+        timed.position = CGPoint(x: self.frame.midX + 115, y: easy_back.frame.maxY + 47)
         inf_back.size = CGSize(width: 238.0, height: 80.0)
         timed_back.size = CGSize(width: 238.0, height: 80.0)
         inf_back.position = CGPoint(x: infinite.frame.midX - 3, y: infinite.frame.midY)
-        timed_back.position = CGPoint(x: timed.frame.midX - 2, y: timed.frame.midY - 1)
+        timed_back.position = CGPoint(x: timed.frame.midX + 3, y: timed.frame.midY - 1)
         
         if(UserDefaults.standard.integer(forKey: "mode") == 0) {
             timed.alpha = 0.5

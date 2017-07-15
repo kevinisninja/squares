@@ -31,7 +31,7 @@ class hiscores: SKScene {
     private var inf_back = SKSpriteNode(imageNamed: "small_back")
     private var timed_back = SKSpriteNode(imageNamed: "small_back")
     private var infinite = SKLabelNode(text: "∞")
-    private var timed = SKLabelNode(text: "60s")
+    private var timed = SKLabelNode(text: "Timed")
     
     private var changed = UserDefaults.standard.integer(forKey: "mode_hi")
     
@@ -87,11 +87,11 @@ class hiscores: SKScene {
         infinite.fontSize = CGFloat(60.0)
         timed.fontSize = CGFloat(50.0)
         infinite.position = CGPoint(x: self.frame.midX - 108, y: easy_back.frame.maxY + 25)
-        timed.position = CGPoint(x: self.frame.midX + 113, y: easy_back.frame.maxY + 23)
+        timed.position = CGPoint(x: self.frame.midX + 108, y: easy_back.frame.maxY + 22)
         inf_back.size = CGSize(width: 222.0, height: 80.0)
         timed_back.size = CGSize(width: 222.0, height: 80.0)
         inf_back.position = CGPoint(x: infinite.frame.midX - 3, y: infinite.frame.midY)
-        timed_back.position = CGPoint(x: timed.frame.midX - 2, y: timed.frame.midY - 1)
+        timed_back.position = CGPoint(x: timed.frame.midX + 3, y: timed.frame.midY - 1)
         
         if(UserDefaults.standard.integer(forKey: "mode_hi") == 0) {
             timed.alpha = 0.5
