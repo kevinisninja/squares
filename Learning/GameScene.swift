@@ -55,7 +55,7 @@ class GameScene: SKScene {
         hiscore.size = CGSize(width: 110.0, height: 110.0)
         playNode.addChild(self.hiscore)
         
-        _settings.position = CGPoint(x: self.frame.minX + 70, y: self.frame.maxY - 70)
+        _settings.position = CGPoint(x: self.frame.minX + 70, y: self.frame.maxY - 65)
         _settings.size = CGSize(width: 120.0, height: 120.0)
         playNode.addChild(_settings)
     }

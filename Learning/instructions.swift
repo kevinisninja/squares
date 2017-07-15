@@ -15,14 +15,14 @@ class instructions: SKScene {
     private var playNode = SKNode()
     private var back = SKSpriteNode(imageNamed: "back_button")
     private var back_touch = false
-    
-    private var cont = SKLabelNode(text: "Tap to continue")
-    private var should_disappear = false
-    
+
     private var audioNode = SKNode()
     private var sfx : [SKAction] = [SKAction]()
     private var note = 0
     
+    private var done = false
+    
+    private var squares_off = 0
     private var simNode = SKNode()
     private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
     private var arrayFrames : [SKSpriteNode] = [SKSpriteNode]()
@@ -32,11 +32,18 @@ class instructions: SKScene {
     private var cur = 0
     private var compare = 0
     private var score2 = 0
+    private var up = true
     private var orig_alpha = CGFloat(0.0)
     private var orig_alpha_label = CGFloat(0.0)
     private var orig_alpha_frame = CGFloat(0.0)
     private var was_pushed = false
     private var factor = UserDefaults.standard.integer(forKey: "animation_speed") + 1
+    
+    private var text1 = SKLabelNode(text: "Follow the white square!")
+    private var text2 = SKLabelNode(text: "Tap to continue")
+    private var text2_touch = false
+    
+    private var timer = Timer()
     
     override func didMove(to view: SKView) {
         self.addChild(playNode)
@@ -61,11 +68,17 @@ class instructions: SKScene {
         back.size = CGSize(width: 150.0, height: 150.0)
         playNode.addChild(back)
         
-        cont.fontName = "AvenirNextCondensed-UltraLight"
-        cont.fontSize = CGFloat(90.0)
+        text1.fontName = "AvenirNextCondensed-UltraLight"
+        text1.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
+        text1.fontSize = CGFloat(70.0)
+        playNode.addChild(text1)
+        
+        text2.fontName = "AvenirNextCondensed-UltraLight"
+        text2.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 400)
+        text2.fontSize = CGFloat(70.0)
         let fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
-        cont.run(SKAction.repeatForever(fadeAction))
-        playNode.addChild(cont)
+        text2.run(SKAction.repeatForever(fadeAction))
+        playNode.addChild(text2)
         
         init_squares()
         
@@ -113,38 +126,57 @@ class instructions: SKScene {
             simNode.addChild(arrayLabels[i])
             
         }
-        
-        simNode.isHidden = true
-        simNode.isPaused = true
         playNode.addChild(simNode)
     }
     
     func firstRound() {
-        let increment = 0.9 / Double(2)
-        var dif = 0.0
-        
+        stop_animate_compare()
         cur = 3
         arrayPositions.append(cur)
-        arraySquares[cur].alpha = 0.1 + CGFloat(dif)
-        arrayFrames[cur].alpha = 0.0
-        arrayLabels[cur].text = String(2)
-        arrayLabels[cur].alpha = 1.0
-        dif = dif + increment
-        
-        cur = 4
-        arrayPositions.append(cur)
-        arraySquares[cur].alpha = 0.1 + CGFloat(dif)
-        arrayFrames[cur].alpha = 0.0
-        arrayLabels[cur].text = String(1)
-        arrayLabels[cur].alpha = 1.0
-        dif = dif + increment
-        
-        cur = 2
-        arrayPositions.append(cur)
         arraySquares[cur].alpha = 1.0
-        compare = arrayPositions.remove(at: 0)
+        compare = cur
+        animate_compare()
     }
 
+    func secondRound() {
+        stop_animate_compare()
+        cur = 4
+        arrayPositions.append(cur)
+        arraySquares[cur].alpha = 0.0
+        compare = cur
+        animate_compare()
+        text1.run(SKAction.fadeOut(withDuration: 0.75))
+        {
+            self.text1.text = "Remember the order!"
+            self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+        }
+    }
+    
+    func thirdRound() {
+        stop_animate_compare()
+        cur = 2
+        arrayPositions.append(cur)
+        arraySquares[cur].alpha = 0.0
+        arraySquares[cur].run(SKAction.fadeIn(withDuration: 0.75))
+        
+        self.text2.removeAllActions()
+        self.text2.run(SKAction.fadeOut(withDuration: 0.75))
+        text2.text = "Try Again!"
+        text1.run(SKAction.fadeOut(withDuration: 0.75)) {
+            self.text1.text = "Where was it 2 turns ago?"
+            self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+        }
+        
+        compare = arrayPositions.remove(at: 0)
+        
+        timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(timerAction), userInfo: nil, repeats: false)
+    }
+    
+    func timerAction() {
+        animate_compare()
+        timer.invalidate()
+    }
+    
     func gen() -> Int {
         var pos = Int(arc4random_uniform(9))
         var unique = false
@@ -172,68 +204,106 @@ class instructions: SKScene {
     func setupRound() {
         self.view?.isUserInteractionEnabled = false
         stop_animate_compare()
+        
+        if(score2 < 2)
+        {
+            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+            }
+        }
+        else if(score2 == 2) {
+            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1.text = "You've got the idea!"
+                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+            }
+        }
+        else if(score2 == 3) {
+            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1.text = "For normal, it'll be 3 turns ago!"
+                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+            }
+        }
+        else if(score2 == 4) {
+            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1.text = "For hard, 4 turns ago!"
+                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+            }
+        }
+        else if(score2 == 5) {
+            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1.text = "The first couple squares"
+                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+            }
+        }
+        else if(score2 == 6) {
+            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1.text = "will be given to you!"
+                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+            }
+        }
+        else if(score2 == 7) {
+            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1.text = "Getting 15 in a row"
+                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+            }
+        }
+        else if(score2 == 8) {
+            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1.text = "will get you another life!"
+                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+                self.text2.text = "Play Now"
+                self.text2.run(SKAction.fadeIn(withDuration: 0.75))
+                self.done = true
+            }
+        }
+        
         if(UserDefaults.standard.bool(forKey: "sound_off") == false) {
             self.run(sfx[note])
-        }
-        note = note + 1
-        if(note == 15) {
-            note = 0
+            
+            if(up) {
+                note = note + 1
+                if(note == 15 && up) {
+                    up = false
+                    note = 13
+                }
+            }
+            else {
+                note = note - 1
+                if(note == -1 && !up) {
+                    up = true
+                    note = 1
+                }
+            }
         }
         
         for i in 0...8 {
             arrayMoved[i] = false
         }
         score2 += 1
+        
         let temp = cur
-        if(score2 <= 2) {
-            if(score2 == 2) {
-            }
-            arraySquares[compare].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
-            arrayLabels[compare].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
-            arrayFrames[compare].run(SKAction.fadeAlpha(to: 1.0, duration: 1.0 / Double(factor)))
-            cur = gen()
-        }
-        else {
-            cur = Int(arc4random_uniform(9))
-        }
+        cur = gen()
         
         compare = arrayPositions.remove(at: 0)
         arrayPositions.append(cur)
-        arraySquares[temp].run(SKAction.fadeOut(withDuration: 1.0 / Double(factor)))
+        arraySquares[temp].run(SKAction.fadeOut(withDuration: 0.75))
         {
-            self.arraySquares[self.cur].run(SKAction.fadeIn(withDuration: 1.0 / Double(self.factor))) {
-                self.animate_compare()
-                self.run(SKAction.wait(forDuration: 1.0 / Double(self.factor))) {
-                    self.view?.isUserInteractionEnabled = true
-                }
+            self.arraySquares[self.cur].run(SKAction.fadeIn(withDuration: 0.75)) {
+                self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
+                self.view?.isUserInteractionEnabled = true
             }
-        }
-    }
-
-    func disappear() {
-        let action = SKAction.fadeOut(withDuration: 0.6)
-        cont.removeAllActions()
-        cont.run(action) {
-            self.simNode.alpha = 0.0
-            self.simNode.isPaused = false
-            self.simNode.isHidden = false
-            self.simNode.run(SKAction.fadeIn(withDuration: 0.6))
-            
-            self.animate_compare()
         }
     }
     
     func animate_compare() {
-        if(score2 < 2) {
+        if(squares_off < 2) {
             if(!was_pushed) {
-                self.orig_alpha_frame = arrayFrames[compare].alpha
-                self.orig_alpha = self.arraySquares[self.compare].alpha
-                self.orig_alpha_label = arrayLabels[compare].alpha
+                self.orig_alpha_frame = 0.0
+                self.orig_alpha = 1.0
+                self.orig_alpha_label = 0.0
             }
             
-            arrayFrames[compare].alpha = 0.0
             self.arraySquares[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeAlpha(to: self.orig_alpha, duration: 1.0)])))
-            self.arrayLabels[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeAlpha(to: self.orig_alpha_label, duration: 1.0)])))
         }
         else {
             if(!was_pushed)
@@ -254,6 +324,11 @@ class instructions: SKScene {
     }
     
     func stop_animate_compare() {
+        if(score2 < 2) {
+            orig_alpha = 0.0
+            orig_alpha_frame = 1.0
+            orig_alpha_label = 0.0
+        }
         arraySquares[compare].removeAllActions()
         arraySquares[compare].alpha = orig_alpha
         
@@ -359,6 +434,10 @@ class instructions: SKScene {
                 back.alpha = 0.5
                 back_touch = true
             }
+            else if(self.atPoint(location) == self.text2 && done) {
+                text2.alpha = 0.5
+                text2_touch = true
+            }
         }
     }
     
@@ -405,7 +484,11 @@ class instructions: SKScene {
                 back.alpha = 1.0
                 back_touch = false
             }
-                
+            else if(text2_touch && self.atPoint(location) != self.text2 && done) {
+                text2.alpha = 1.0
+                text2_touch = false
+            }
+            
             if(check_moved_out(pos: 0, loc: location)) {
                 push_up(pos: 0)
             }
@@ -437,6 +520,10 @@ class instructions: SKScene {
                 back.alpha = 0.5
                 back_touch = true
             }
+            else if(!text2_touch && self.atPoint(location) == self.text2 && done) {
+                text2.alpha = 0.5
+                text2_touch = true
+            }
         }
     }
     
@@ -448,6 +535,14 @@ class instructions: SKScene {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
             
+            if(squares_off == 0) {
+                secondRound()
+                squares_off = squares_off + 1
+            }
+            else if(squares_off == 1) {
+                thirdRound()
+                squares_off = 2
+            }
             if(self.atPoint(location) == self.arraySquares[compare] || self.atPoint(location) == self.arrayLabels[compare] || self.atPoint(location) == self.arrayFrames[compare]) {
                 
                 push_up(pos: compare)
@@ -456,38 +551,64 @@ class instructions: SKScene {
             else if(check_ended(pos: 0, loc: location)) {
                 push_up(pos: 0)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                if(!done) {
+                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                }
             }
             else if(check_ended(pos: 1, loc: location)) {
                 push_up(pos: 1)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-            }
+                if(!done) {
+                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                }            }
             else if(check_ended(pos: 2, loc: location)) {
                 push_up(pos: 2)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                if(!done) {
+                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                }
             }
             else if(check_ended(pos: 3, loc: location)) {
                 push_up(pos: 3)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                if(!done) {
+                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                }
             }
             else if(check_ended(pos: 4, loc: location)) {
                 push_up(pos: 4)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                if(!done) {
+                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                }
             }
             else if(check_ended(pos: 5, loc: location)) {
                 push_up(pos: 5)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                if(!done) {
+                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                }
             }
             else if(check_ended(pos: 6, loc: location)) {
                 push_up(pos: 6)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                if(!done) {
+                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                }
             }
             else if(check_ended(pos: 7, loc: location)) {
                 push_up(pos: 7)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                if(!done) {
+                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                }
             }
             else if(check_ended(pos: 8, loc: location)) {
                 push_up(pos: 8)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                if(!done) {
+                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                }
             }
             else if(back_touch && self.atPoint(location) == self.back) {
                 back.alpha = 1.0
@@ -504,9 +625,15 @@ class instructions: SKScene {
                     }
                 }
             }
-            else if(!should_disappear) {
-                disappear()
-                should_disappear = true
+            else if(text2_touch && self.atPoint(location) == self.text2 && done) {
+                text2.alpha = 1.0
+                text2_touch = false
+                
+                let scene = DifficultySelect(size: self.size)
+                let skview = self.view!
+                skview.ignoresSiblingOrder = true
+                scene.scaleMode = .aspectFill
+                skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
         }
     }

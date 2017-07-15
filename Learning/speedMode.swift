@@ -31,6 +31,8 @@ class speedMode: SKScene {
     private var compare = 0
     private var ans = 0
     private var stopPlay = false
+    private var missed_one = false
+    private var tired = false
     
     private var arrayLives : [SKSpriteNode] = [SKSpriteNode]()
     private var lives = 3
@@ -71,6 +73,7 @@ class speedMode: SKScene {
     var timer = Timer()
     var counter = 0
     var time_left = SKLabelNode(text: "60")
+    var first_touch = true
     
     override func didMove(to view: SKView) {
         //add children to the parent node because for some reason my positioning was screwing up
@@ -96,22 +99,15 @@ class speedMode: SKScene {
         score.text = "Score: " + String(score2)
         score.fontName = "AvenirNextCondensed-UltraLight"
         score.fontSize = CGFloat(90.0)
-        score.position = CGPoint(x: self.frame.midX, y: self.frame.minY + 150)
+        score.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 360)
         score.zPosition = 1
         parentNode.addChild(self.score)
         
         time_left.fontName = "AvenirNextCondensed-UltraLight"
         time_left.fontSize = CGFloat(90.0)
         time_left.zPosition = 1
-        time_left.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 80)
+        time_left.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 100)
         parentNode.addChild(time_left)
-        
-        n_back2.text = "n_back: " + String(n_back)
-        n_back2.fontName = "AvenirNextCondensed-UltraLight"
-        n_back2.fontSize = CGFloat(70.0)
-        n_back2.position = CGPoint(x: self.frame.midX, y: self.frame.minY + 250)
-        n_back2.zPosition = 1
-        parentNode.addChild(self.n_back2)
         
         fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
         
@@ -124,12 +120,12 @@ class speedMode: SKScene {
         for i in 0...2 {
             arrayLives.append(SKSpriteNode(imageNamed: "heart"))
             arrayLives[i].zPosition = 1
-            arrayLives[i].size = CGSize(width: 120.0, height: 120.0)
+            arrayLives[i].size = CGSize(width: 90.0, height: 90.0)
         }
         
-        arrayLives[0].position = CGPoint(x: self.frame.midX - 150, y: arraySquares[0].frame.maxY + 150)
-        arrayLives[1].position = CGPoint(x: self.frame.midX, y: arraySquares[0].frame.maxY + 150)
-        arrayLives[2].position = CGPoint(x: self.frame.midX + 150, y: arraySquares[0].frame.maxY + 150)
+        arrayLives[2].position = CGPoint(x: self.frame.maxX - 70, y: self.frame.maxY - 70)
+        arrayLives[1].position = CGPoint(x: arrayLives[2].frame.midX - 70, y: self.frame.maxY - 70)
+        arrayLives[0].position = CGPoint(x: arrayLives[1].frame.midX - 70, y: self.frame.maxY - 70)
         
         for i in 0...2 {
             parentNode.addChild(arrayLives[i])
@@ -162,8 +158,8 @@ class speedMode: SKScene {
     }
     
     func setup_pause() {
-        pauseIcon.size = CGSize(width: 120.0, height: 120.0)
-        pauseIcon.position = CGPoint(x: self.frame.maxX - 70,y: self.frame.maxY - 70)
+        pauseIcon.size = CGSize(width: 100.0, height: 100.0)
+        pauseIcon.position = CGPoint(x: self.frame.minX + 70,y: self.frame.maxY - 70)
         pauseIcon.zPosition = 1
         parentNode.addChild(pauseIcon)
         
@@ -188,7 +184,7 @@ class speedMode: SKScene {
         pauseNode.addChild(pause_restart)
         
         pause_close.zPosition = 5
-        pause_close.position = CGPoint(x: self.frame.minX + 60, y: self.frame.maxY - 60)
+        pause_close.position = CGPoint(x: self.frame.minX + 70, y: self.frame.maxY - 70)
         pause_close.size = CGSize(width: 150.0, height: 150.0)
         pauseNode.addChild(pause_close)
         
@@ -295,8 +291,6 @@ class speedMode: SKScene {
         arrayPositions.append(cur)
         arraySquares[cur].alpha = 1.0
         compare = arrayPositions.remove(at: 0)
-        
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
         animate_compare()
     }
     
@@ -325,13 +319,13 @@ class speedMode: SKScene {
     }
     
     func setupRound() {
-        
+        missed_one = false
         if(UserDefaults.standard.bool(forKey: "sound_off") == false) {
             self.run(sfx[note])
             
             if(up) {
                 note = note + 1
-                if(note == 15 && up) {
+                if(note == 15) {
                     up = false
                     note = 13
                     if(lives < 3) {
@@ -360,7 +354,7 @@ class speedMode: SKScene {
         }
         score2 += 1
         score.text = "Score: " + String(score2)
-        if(score2 <= n_back) {
+        if(score2 <= n_back || tired) {
             stop_animate_compare()
         }
         let temp = cur
@@ -570,6 +564,10 @@ class speedMode: SKScene {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
             
+            if(first_touch) {
+                timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+                first_touch = false
+            }
             if(check_ended(pos: compare, loc: location)) {
                 
                 push_up(pos: compare)
@@ -702,31 +700,53 @@ class speedMode: SKScene {
     
     func animate_compare() {
         if(!was_pushed) {
-            self.orig_alpha_frame = arrayFrames[compare].alpha
-            self.orig_alpha = self.arraySquares[self.compare].alpha
-            self.orig_alpha_label = arrayLabels[compare].alpha
+            if(score2 >= n_back) {
+                orig_alpha = 0.0
+                orig_alpha_frame = 1.0
+                orig_alpha_label = 0.0
+                tired = true
+            }
+            else {
+                self.orig_alpha_frame = arrayFrames[compare].alpha
+                self.orig_alpha = self.arraySquares[self.compare].alpha
+                self.orig_alpha_label = arrayLabels[compare].alpha
+            }
         }
         
-        arrayFrames[compare].alpha = 0.0
-        self.arraySquares[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: self.orig_alpha, duration: 0.75)])))
-        self.arrayLabels[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: self.orig_alpha_label, duration: 0.75)])))
+        if(score2 >= n_back) {
+            arrayFrames[compare].alpha = 1.0
+            self.arrayFrames[compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: self.orig_alpha_frame, duration: 0.75)])))
+        }
+        else {
+            arrayFrames[compare].alpha = 0.0
+            self.arraySquares[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: self.orig_alpha, duration: 0.75)])))
+            self.arrayLabels[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: self.orig_alpha_label, duration: 0.75)])))
+        }
     }
     
     func stop_animate_compare() {
+        tired = false
         arraySquares[compare].removeAllActions()
         arraySquares[compare].alpha = orig_alpha
         
         arrayLabels[compare].removeAllActions()
         arrayLabels[compare].alpha = orig_alpha_label
+        
+        arrayFrames[compare].removeAllActions()
+        arrayFrames[compare].alpha = orig_alpha_frame
         was_pushed = false
     }
     
     func stop_animate_hover() {
+        
         arraySquares[compare].removeAllActions()
         arraySquares[compare].alpha = orig_alpha / CGFloat(2.0)
         
         arrayLabels[compare].removeAllActions()
         arrayLabels[compare].alpha = orig_alpha_label / CGFloat(2.0)
+        
+        arrayFrames[compare].removeAllActions()
+        arrayFrames[compare].alpha = orig_alpha_frame / CGFloat(2.0)
         was_pushed = true
     }
     
@@ -768,10 +788,16 @@ class speedMode: SKScene {
     
     
     func fail() {
+        if(missed_one) {
+            missed_one = false
+            animate_compare()
+        }
         
+        missed_one = true
         lives = lives - 1
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         note = 0
+        up = true
         if(lives == 0) {
             arrayLives[lives].run(sequence)
             {
