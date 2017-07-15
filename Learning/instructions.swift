@@ -45,7 +45,6 @@ class instructions: SKScene {
     
     private var test1 = SKSpriteNode(imageNamed: "tut_back")
     private var test2 = SKSpriteNode(imageNamed: "tut_back")
-    private var timer = Timer()
     
     override func didMove(to view: SKView) {
         self.addChild(playNode)
@@ -146,13 +145,14 @@ class instructions: SKScene {
     func firstRound() {
         cur = 3
         arrayPositions.append(cur)
-        arraySquares[cur].alpha = 1.0
+        arraySquares[cur].alpha = 0.0
+        arraySquares[cur].run(SKAction.fadeIn(withDuration: 0.75))
         compare = cur
-        animate_compare()
+        //animate_compare()
     }
 
     func secondRound() {
-        stop_animate_compare()
+        //stop_animate_compare()
         cur = 4
         arrayPositions.append(cur)
         arraySquares[cur].alpha = 0.0
@@ -163,9 +163,9 @@ class instructions: SKScene {
         test1.run(SKAction.fadeIn(withDuration: 0.75))
         arrayFrames[temp].run(SKAction.fadeOut(withDuration: 0.75))
         arrayLabels[temp].run(SKAction.fadeIn(withDuration: 0.75))
-        arraySquares[temp].run(SKAction.fadeAlpha(to: 0.55, duration: 0.75)) {
-            self.animate_compare()
-        }
+        arraySquares[temp].run(SKAction.fadeAlpha(to: 0.55, duration: 0.75))
+        arraySquares[cur].alpha = 0.0
+        arraySquares[cur].run(SKAction.fadeIn(withDuration: 0.75))
         text1.run(SKAction.fadeOut(withDuration: 0.75))
         {
             self.text1.text = "Remember the order!"
@@ -174,7 +174,7 @@ class instructions: SKScene {
     }
     
     func thirdRound() {
-        stop_animate_compare()
+        //stop_animate_compare()
         cur = 2
         arrayPositions.append(cur)
         arraySquares[cur].alpha = 0.0
