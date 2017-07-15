@@ -166,11 +166,20 @@ class GameScene: SKScene {
                 skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
             else {
-                let scene = DifficultySelect(size: self.size)
-                let skview = self.view!
-                skview.ignoresSiblingOrder = true
-                scene.scaleMode = .aspectFill
-                skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
+                if(UserDefaults.standard.bool(forKey: "completed_tutorial") == false) {
+                    let scene = instructions(size: self.size)
+                    let skview = self.view!
+                    skview.ignoresSiblingOrder = true
+                    scene.scaleMode = .aspectFill
+                    skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
+                }
+                else {
+                    let scene = DifficultySelect(size: self.size)
+                    let skview = self.view!
+                    skview.ignoresSiblingOrder = true
+                    scene.scaleMode = .aspectFill
+                    skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
+                }
             }
         }
     }

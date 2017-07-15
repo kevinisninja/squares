@@ -795,7 +795,7 @@ class speedMode: SKScene {
         
         missed_one = true
         lives = lives - 1
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        play_vib()
         note = 0
         up = true
         if(lives == 0) {
@@ -862,5 +862,10 @@ class speedMode: SKScene {
         go_hiscore.run(SKAction.repeatForever(fadeAction))
     }
     
+    func play_vib() {
+        if(UserDefaults.standard.bool(forKey: "vib_off") == false) {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
+    }
     
 }

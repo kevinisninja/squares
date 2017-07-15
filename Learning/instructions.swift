@@ -21,7 +21,7 @@ class instructions: SKScene {
     private var note = 0
     
     private var done = false
-    
+    private var timer = Timer()
     private var squares_off = 0
     private var simNode = SKNode()
     private var arraySquares : [SKSpriteNode] = [SKSpriteNode]()
@@ -43,6 +43,8 @@ class instructions: SKScene {
     private var text2 = SKLabelNode(text: "Tap to continue")
     private var text2_touch = false
     
+    private var test1 = SKSpriteNode(imageNamed: "tut_back")
+    private var test2 = SKSpriteNode(imageNamed: "tut_back")
     private var timer = Timer()
     
     override func didMove(to view: SKView) {
@@ -66,7 +68,9 @@ class instructions: SKScene {
         
         back.position = CGPoint(x: self.frame.minX + 60, y: self.frame.maxY - 60)
         back.size = CGSize(width: 150.0, height: 150.0)
-        playNode.addChild(back)
+        if(UserDefaults.standard.bool(forKey: "completed_tutorial") == true) {
+            playNode.addChild(back)
+        }
         
         text1.fontName = "AvenirNextCondensed-UltraLight"
         text1.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
@@ -79,6 +83,16 @@ class instructions: SKScene {
         let fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
         text2.run(SKAction.repeatForever(fadeAction))
         playNode.addChild(text2)
+        
+        test1.zRotation = CGFloat(Double.pi)
+        test1.position = CGPoint(x: self.frame.midX - 125, y: self.frame.midY + 20)
+        test1.alpha = 0.0
+        playNode.addChild(test1)
+        
+        test2.zRotation = CGFloat(Double.pi + Double.pi / 4)
+        test2.position = CGPoint(x: self.frame.midX + 70, y: self.frame.midY + 90)
+        test2.alpha = 0.0
+        playNode.addChild(test2)
         
         init_squares()
         
@@ -130,7 +144,6 @@ class instructions: SKScene {
     }
     
     func firstRound() {
-        stop_animate_compare()
         cur = 3
         arrayPositions.append(cur)
         arraySquares[cur].alpha = 1.0
@@ -143,8 +156,16 @@ class instructions: SKScene {
         cur = 4
         arrayPositions.append(cur)
         arraySquares[cur].alpha = 0.0
+        let temp = compare
         compare = cur
-        animate_compare()
+        arrayLabels[temp].alpha = 0.0
+        arrayLabels[temp].text = "1"
+        test1.run(SKAction.fadeIn(withDuration: 0.75))
+        arrayFrames[temp].run(SKAction.fadeOut(withDuration: 0.75))
+        arrayLabels[temp].run(SKAction.fadeIn(withDuration: 0.75))
+        arraySquares[temp].run(SKAction.fadeAlpha(to: 0.55, duration: 0.75)) {
+            self.animate_compare()
+        }
         text1.run(SKAction.fadeOut(withDuration: 0.75))
         {
             self.text1.text = "Remember the order!"
@@ -157,11 +178,27 @@ class instructions: SKScene {
         cur = 2
         arrayPositions.append(cur)
         arraySquares[cur].alpha = 0.0
+        
+        arraySquares[3].run(SKAction.fadeAlpha(to: 0.1, duration: 0.75))
+        arrayLabels[3].run(SKAction.fadeOut(withDuration: 0.375)) {
+            self.arrayLabels[3].text = "2"
+            self.arrayLabels[3].run(SKAction.fadeIn(withDuration: 0.375))
+        }
+        
+        test2.run(SKAction.fadeIn(withDuration: 0.75))
+        arrayFrames[4].alpha = 0.0
+        arraySquares[4].run(SKAction.fadeAlpha(to: 0.55, duration: 0.75))
+        arrayLabels[4].run(SKAction.fadeOut(withDuration: 0.375)) {
+            self.arrayLabels[4].text = "1"
+            self.arrayLabels[4].run(SKAction.fadeIn(withDuration: 0.375))
+        }
+        
         arraySquares[cur].run(SKAction.fadeIn(withDuration: 0.75))
         
         self.text2.removeAllActions()
-        self.text2.run(SKAction.fadeOut(withDuration: 0.75))
-        text2.text = "Try Again!"
+        self.text2.run(SKAction.fadeOut(withDuration: 0.75)) {
+            self.text2.text = "Try Again!"
+        }
         text1.run(SKAction.fadeOut(withDuration: 0.75)) {
             self.text1.text = "Where was it 2 turns ago?"
             self.text1.run(SKAction.fadeIn(withDuration: 0.75))
@@ -169,7 +206,7 @@ class instructions: SKScene {
         
         compare = arrayPositions.remove(at: 0)
         
-        timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(timerAction), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(timerAction), userInfo: nil, repeats: false)
     }
     
     func timerAction() {
@@ -231,29 +268,18 @@ class instructions: SKScene {
         }
         else if(score2 == 5) {
             text1.run(SKAction.fadeOut(withDuration: 0.75)) {
-                self.text1.text = "The first couple squares"
-                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
-            }
-        }
-        else if(score2 == 6) {
-            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
-                self.text1.text = "will be given to you!"
-                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
-            }
-        }
-        else if(score2 == 7) {
-            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
                 self.text1.text = "Getting 15 in a row"
                 self.text1.run(SKAction.fadeIn(withDuration: 0.75))
             }
         }
-        else if(score2 == 8) {
+        else if(score2 == 6) {
             text1.run(SKAction.fadeOut(withDuration: 0.75)) {
                 self.text1.text = "will get you another life!"
                 self.text1.run(SKAction.fadeIn(withDuration: 0.75))
                 self.text2.text = "Play Now"
                 self.text2.run(SKAction.fadeIn(withDuration: 0.75))
                 self.done = true
+                UserDefaults.standard.set(true, forKey: "completed_tutorial")
             }
         }
         
@@ -289,7 +315,7 @@ class instructions: SKScene {
         arraySquares[temp].run(SKAction.fadeOut(withDuration: 0.75))
         {
             self.arraySquares[self.cur].run(SKAction.fadeIn(withDuration: 0.75)) {
-                self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
+                self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
                 self.view?.isUserInteractionEnabled = true
             }
         }
@@ -313,12 +339,24 @@ class instructions: SKScene {
                 self.orig_alpha_label = arrayLabels[compare].alpha
             }
             
-            if(compare != cur) {
-                self.arrayFrames[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeAlpha(to: self.orig_alpha_frame, duration: 1.0)])))
+            if(score2 < 2) {
+                arrayFrames[compare].alpha = 0.0
+                self.arraySquares[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: self.orig_alpha, duration: 0.75)])))
+                self.arrayLabels[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 1.0, duration: 0.75)])))
+                
+                if(score2 == 0) {
+                    test1.run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 1.0, duration: 0.75)])))
+                }
+                else if(score2 == 1) {
+                    test2.run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 1.0, duration: 0.75)])))
+                }
+            }
+            else if(compare != cur) {
+                self.arrayFrames[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: self.orig_alpha_frame, duration: 0.75)])))
             }
             else {
                 arrayFrames[compare].alpha = 0.0
-                self.arraySquares[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeAlpha(to: self.orig_alpha, duration: 1.0)])))
+                self.arraySquares[self.compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: self.orig_alpha, duration: 0.75)])))
             }
         }
     }
@@ -328,9 +366,25 @@ class instructions: SKScene {
             orig_alpha = 0.0
             orig_alpha_frame = 1.0
             orig_alpha_label = 0.0
+            
         }
-        arraySquares[compare].removeAllActions()
-        arraySquares[compare].alpha = orig_alpha
+        
+        if(squares_off == 2 && score2 == 0) {
+            test1.removeAllActions()
+            test1.run(SKAction.fadeOut(withDuration: 0.75))
+        }
+        else if(score2 == 1) {
+            test2.removeAllActions()
+            test2.run(SKAction.fadeOut(withDuration: 0.75))
+        }
+        if(squares_off < 2) {
+            arraySquares[compare].removeAllActions()
+            arraySquares[compare].run(SKAction.fadeIn(withDuration: 0.75))
+        }
+        else {
+            arraySquares[compare].removeAllActions()
+            arraySquares[compare].alpha = orig_alpha
+        }
         
         arrayLabels[compare].removeAllActions()
         arrayLabels[compare].alpha = orig_alpha_label
@@ -543,6 +597,7 @@ class instructions: SKScene {
                 thirdRound()
                 squares_off = 2
             }
+            
             if(self.atPoint(location) == self.arraySquares[compare] || self.atPoint(location) == self.arrayLabels[compare] || self.atPoint(location) == self.arrayFrames[compare]) {
                 
                 push_up(pos: compare)
@@ -550,64 +605,85 @@ class instructions: SKScene {
             }
             else if(check_ended(pos: 0, loc: location)) {
                 push_up(pos: 0)
-                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                if(!done) {
-                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                if(squares_off == 2) {
+                    play_vib()
+                    if(!done) {
+                        text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.75), SKAction.fadeOut(withDuration: 0.75)]))
+                    }
                 }
             }
             else if(check_ended(pos: 1, loc: location)) {
                 push_up(pos: 1)
-                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                if(!done) {
-                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
-                }            }
+                if(squares_off == 2) {
+                    play_vib()
+                    if(!done) {
+                        text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.75), SKAction.fadeOut(withDuration: 0.75)]))
+                    }
+                }
+            }
             else if(check_ended(pos: 2, loc: location)) {
                 push_up(pos: 2)
-                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                if(!done) {
-                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                if(squares_off == 2) {
+                    play_vib()
+                    if(!done) {
+                        text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.75), SKAction.fadeOut(withDuration: 0.75)]))
+                    }
                 }
             }
             else if(check_ended(pos: 3, loc: location)) {
                 push_up(pos: 3)
-                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                if(!done) {
-                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                if(squares_off == 2) {
+                    play_vib()
+                    if(!done) {
+                        text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.75), SKAction.fadeOut(withDuration: 0.75)]))
+                    }
                 }
             }
             else if(check_ended(pos: 4, loc: location)) {
                 push_up(pos: 4)
-                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                if(!done) {
-                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                if(squares_off == 2) {
+                    play_vib()
+                    if(!done) {
+                        text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.75), SKAction.fadeOut(withDuration: 0.75)]))
+                    }
                 }
             }
             else if(check_ended(pos: 5, loc: location)) {
                 push_up(pos: 5)
-                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                if(!done) {
-                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                if(squares_off == 2) {
+                    play_vib()
+                    if(!done) {
+                        text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.75), SKAction.fadeOut(withDuration: 0.75)]))
+                    }
                 }
             }
             else if(check_ended(pos: 6, loc: location)) {
                 push_up(pos: 6)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                if(!done) {
-                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                if(squares_off == 2) {
+                    play_vib()
+                    if(!done) {
+                        text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.75), SKAction.fadeOut(withDuration: 0.75)]))
+                    }
                 }
             }
             else if(check_ended(pos: 7, loc: location)) {
                 push_up(pos: 7)
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                if(!done) {
-                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                if(squares_off == 2) {
+                    play_vib()
+                    if(!done) {
+                        text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.75), SKAction.fadeOut(withDuration: 0.75)]))
+                    }
                 }
             }
             else if(check_ended(pos: 8, loc: location)) {
                 push_up(pos: 8)
-                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                if(!done) {
-                    text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5), SKAction.fadeOut(withDuration: 0.5)]))
+                if(squares_off == 2) {
+                    play_vib()
+                    if(!done) {
+                        text2.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.75), SKAction.fadeOut(withDuration: 0.75)]))
+                    }
                 }
             }
             else if(back_touch && self.atPoint(location) == self.back) {
@@ -635,6 +711,12 @@ class instructions: SKScene {
                 scene.scaleMode = .aspectFill
                 skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
+        }
+    }
+    
+    func play_vib() {
+        if(UserDefaults.standard.bool(forKey: "vib_off") == false) {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         }
     }
     

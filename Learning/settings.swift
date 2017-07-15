@@ -23,6 +23,10 @@ class settings: SKScene {
     private var sound = SKLabelNode(text: "Sound Effects: ")
     private var sound_on = SKLabelNode(text: "On")
     private var sound_off = SKLabelNode(text: "Off")
+    
+    private var vib = SKLabelNode(text: "Vibrations: ")
+    private var vib_on = SKLabelNode(text: "On")
+    private var vib_off = SKLabelNode(text: "Off")
 
     
     override func didMove(to view: SKView) {
@@ -35,15 +39,21 @@ class settings: SKScene {
         sound.fontName = "AvenirNextCondensed-UltraLight"
         sound_on.fontName = "AvenirNextCondensed-UltraLight"
         sound_off.fontName = "AvenirNextCondensed-UltraLight"
+        vib.fontName = "AvenirNextCondensed-UltraLight"
+        vib_on.fontName = "AvenirNextCondensed-UltraLight"
+        vib_off.fontName = "AvenirNextCondensed-UltraLight"
         
         animation_speed.fontSize = CGFloat(90.0)
         sound.fontSize = CGFloat(90.0)
+        vib.fontSize = CGFloat(90.0)
         
         speed_1x.fontSize = CGFloat(110.0)
         speed_2x.fontSize = CGFloat(110.0)
         speed_halfx.fontSize = CGFloat(110.0)
         sound_on.fontSize = CGFloat(110.0)
         sound_off.fontSize = CGFloat(110.0)
+        vib_on.fontSize = CGFloat(110.0)
+        vib_off.fontSize = CGFloat(110.0)
         
         back.position = CGPoint(x: self.frame.minX + 60, y: self.frame.maxY - 60)
         back.size = CGSize(width: 150.0, height: 150.0)
@@ -89,6 +99,22 @@ class settings: SKScene {
         
         playNode.addChild(sound_on)
         playNode.addChild(sound_off)
+        
+        vib.position = CGPoint(x: self.frame.midX, y: sound_on.frame.midY - 250)
+        playNode.addChild(vib)
+        
+        vib_on.position = CGPoint(x: self.frame.midX - 100, y: vib.frame.midY - 130)
+        vib_off.position = CGPoint(x: self.frame.midX + 100, y: vib.frame.midY - 130)
+        
+        if(UserDefaults.standard.bool(forKey: "vib_off") == false) {
+            vib_off.alpha = 0.5
+        }
+        else {
+            vib_on.alpha = 0.5
+        }
+        
+        playNode.addChild(vib_on)
+        playNode.addChild(vib_off)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -121,6 +147,14 @@ class settings: SKScene {
             else if(self.atPoint(location) == self.sound_off) {
                 sound_off.alpha = 1.0
                 sound_on.alpha = 0.5
+            }
+            else if(self.atPoint(location) == self.vib_on) {
+                vib_on.alpha = 1.0
+                vib_off.alpha = 0.5
+            }
+            else if(self.atPoint(location) == self.vib_off) {
+                vib_off.alpha = 1.0
+                vib_on.alpha = 0.5
             }
         }
     }
@@ -164,6 +198,16 @@ class settings: SKScene {
                 sound_off.alpha = 1.0
                 sound_on.alpha = 0.5
                 UserDefaults.standard.set(true, forKey: "sound_off")
+            }
+            else if(self.atPoint(location) == self.vib_on) {
+                vib_on.alpha = 1.0
+                vib_off.alpha = 0.5
+                UserDefaults.standard.set(false, forKey: "vib_off")
+            }
+            else if(self.atPoint(location) == self.vib_off) {
+                vib_off.alpha = 1.0
+                vib_on.alpha = 0.5
+                UserDefaults.standard.set(true, forKey: "vib_off")
             }
         }
     }
@@ -214,6 +258,16 @@ class settings: SKScene {
                 sound_off.alpha = 1.0
                 sound_on.alpha = 0.5
                 UserDefaults.standard.set(true, forKey: "sound_off")
+            }
+            else if(self.atPoint(location) == self.vib_on) {
+                vib_on.alpha = 1.0
+                vib_off.alpha = 0.5
+                UserDefaults.standard.set(false, forKey: "vib_off")
+            }
+            else if(self.atPoint(location) == self.vib_off) {
+                vib_off.alpha = 1.0
+                vib_on.alpha = 0.5
+                UserDefaults.standard.set(true, forKey: "vib_off")
             }
         }
     }
