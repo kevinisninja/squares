@@ -353,12 +353,12 @@ class playScene: SKScene {
             }
         }
         
-        if(score2 < 5) {
+        if(score2 < 3) {
             repet.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.50 / Double(factor)), SKAction.fadeIn(withDuration: 0.50 / Double(factor))]))
             repet2.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.50 / Double(factor)), SKAction.fadeIn(withDuration: 0.50 / Double(factor))]))
             
         }
-        else if(score2 == 5) {
+        else if(score2 == 3) {
             repet.run(SKAction.fadeOut(withDuration: 0.50 / Double(factor)))
             repet2.run(SKAction.fadeOut(withDuration: 0.50 / Double(factor)))
         }

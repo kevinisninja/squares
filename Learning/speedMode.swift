@@ -366,12 +366,12 @@ class speedMode: SKScene {
             arrayMoved[i] = false
         }
         
-        if(score2 < 5) {
+        if(score2 < 3) {
             repet.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.05), SKAction.fadeIn(withDuration: 0.05)]))
             repet2.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.05 ), SKAction.fadeIn(withDuration: 0.05)]))
             
         }
-        else if(score2 == 5) {
+        else if(score2 == 3) {
             repet.run(SKAction.fadeOut(withDuration: 0.05))
             repet2.run(SKAction.fadeOut(withDuration: 0.05))
         }
