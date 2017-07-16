@@ -42,6 +42,7 @@ class instructions: SKScene {
     private var text1 = SKLabelNode(text: "Follow the white square!")
     private var text2 = SKLabelNode(text: "Tap to continue")
     private var text2_touch = false
+    private var text1_2 = SKLabelNode(text: "sample")
     
     private var text3 = SKLabelNode(text: "One more time!")
     private var text3_touch = false
@@ -87,6 +88,13 @@ class instructions: SKScene {
         text1.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 400)
         text1.fontSize = CGFloat(70.0)
         playNode.addChild(text1)
+        
+        text1_2.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 430)
+        text1_2.fontSize = CGFloat(70.0)
+        text1_2.fontName = "AvenirNextCondensed-UltraLight"
+        text1_2.text = "For normal, it'll be: "
+        text1_2.alpha = 0.0
+        playNode.addChild(text1_2)
         
         text2.fontName = "AvenirNextCondensed-UltraLight"
         text2.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 400)
@@ -144,7 +152,7 @@ class instructions: SKScene {
             arraySquares[i].alpha = 0.0
             
             arrayLabels[i].position = CGPoint(x: arraySquares[i].frame.midX - 5, y: arraySquares[i].frame.midY - 20)
-            arrayLabels[i].alpha = 1.0
+            arrayLabels[i].alpha = 0.0
             arrayLabels[i].fontSize = CGFloat(70.0)
             arrayLabels[i].fontName = "AvenirNextCondensed-UltraLight"
             
@@ -271,23 +279,27 @@ class instructions: SKScene {
         }
         else if(score2 == 3) {
             text1.run(SKAction.fadeOut(withDuration: 0.75)) {
-                self.text1.text = "For normal, it'll be 3 turns ago!"
+                self.text1_2.run(SKAction.fadeAlpha(to: 1.0, duration: 0.75))
+                self.text1.text = "Where was it 3 turns ago?"
+                self.text1.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 350)
                 self.text1.run(SKAction.fadeIn(withDuration: 0.75))
             }
         }
         else if(score2 == 4) {
+            text1_2.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1_2.text = "For hard, it'll be: "
+                self.text1_2.run(SKAction.fadeIn(withDuration: 0.75))
+            }
             text1.run(SKAction.fadeOut(withDuration: 0.75)) {
-                self.text1.text = "For hard, 4 turns ago!"
+                self.text1.text = "Where was it 4 turns ago?"
                 self.text1.run(SKAction.fadeIn(withDuration: 0.75))
             }
         }
         else if(score2 == 5) {
-            text1.run(SKAction.fadeOut(withDuration: 0.75)) {
-                self.text1.text = "Getting 15 in a row"
-                self.text1.run(SKAction.fadeIn(withDuration: 0.75))
+            text1_2.run(SKAction.fadeOut(withDuration: 0.75)) {
+                self.text1_2.text = "Getting 15 in a row "
+                self.text1_2.run(SKAction.fadeIn(withDuration: 0.75))
             }
-        }
-        else if(score2 == 6) {
             text1.run(SKAction.fadeOut(withDuration: 0.75)) {
                 self.text1.text = "will get you another life!"
                 self.text1.run(SKAction.fadeIn(withDuration: 0.75))
@@ -297,7 +309,7 @@ class instructions: SKScene {
                 UserDefaults.standard.set(true, forKey: "completed_tutorial")
             }
         }
-        
+
         if(UserDefaults.standard.bool(forKey: "sound_off") == false) {
             self.run(sfx[note])
             
@@ -326,11 +338,22 @@ class instructions: SKScene {
         let temp = cur
         cur = gen()
         
-        compare = arrayPositions.remove(at: 0)
         arrayPositions.append(cur)
-        arraySquares[temp].run(SKAction.fadeOut(withDuration: 0.75))
+        compare = arrayPositions.remove(at: 0)
+        
+        arraySquares[compare].run(SKAction.fadeAlpha(to: 0.1, duration: 0.75))
+        arrayLabels[compare].run(SKAction.fadeOut(withDuration: 0.375)) {
+            self.arrayLabels[self.compare].text = "2"
+            self.arrayLabels[self.compare].run(SKAction.fadeIn(withDuration: 0.375))
+        }
+        
+        arraySquares[temp].run(SKAction.fadeAlpha(to: 0.55, duration: 0.75))
+        
+        arrayLabels[temp].text = "1"
+        arrayLabels[temp].run(SKAction.fadeIn(withDuration: 0.75))
         {
             self.arraySquares[self.cur].run(SKAction.fadeIn(withDuration: 0.75))
+            self.arrayFrames[self.cur].run(SKAction.fadeOut(withDuration: 0.75))
         }
     }
     
@@ -341,12 +364,13 @@ class instructions: SKScene {
             test1.run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 1.0, duration: 0.75)])))
         }
         else if( (score2 == 1 && round == 3 && compare == 4) && !was_pushed) {
-            arraySquares[compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 0.55, duration: 0.75)])))
+            arraySquares[compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 0.1, duration: 0.75)])))
             arrayLabels[compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 1.0, duration: 0.75)])))
             test2.run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 1.0, duration: 0.75)])))
         }
         else if( !was_pushed ) {
-            arrayFrames[compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 1.0, duration: 0.75)])))
+            arraySquares[compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 0.1, duration: 0.75)])))
+            arrayLabels[compare].run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 0.75), SKAction.fadeAlpha(to: 1.0, duration: 0.75)])))
         }
     }
     
@@ -364,13 +388,14 @@ class instructions: SKScene {
             arrayLabels[compare].run(SKAction.fadeOut(withDuration: 0.75))
             test1.run(SKAction.fadeOut(withDuration: 0.75))
             arrayFrames[compare].run(SKAction.fadeIn(withDuration: 0.75))
+            arrayFrames[arrayPositions[1]].run(SKAction.fadeOut(withDuration: 0.75))
         }
         else if( (score2 == 1 && round == 3 && compare == 4) ) {
             arraySquares[compare].removeAllActions()
             arrayLabels[compare].removeAllActions()
             test2.removeAllActions()
             
-            arraySquares[compare].alpha = 0.55
+            arraySquares[compare].alpha = 0.1
             arrayLabels[compare].alpha = 1.0
             test2.alpha = 1.0
             
@@ -378,10 +403,19 @@ class instructions: SKScene {
             arrayLabels[compare].run(SKAction.fadeOut(withDuration: 0.75))
             test2.run(SKAction.fadeOut(withDuration: 0.75))
             arrayFrames[compare].run(SKAction.fadeIn(withDuration: 0.75))
+            arrayFrames[arrayPositions[1]].run(SKAction.fadeOut(withDuration: 0.75))
         }
         else {
-            arrayFrames[compare].removeAllActions()
-            arrayFrames[compare].alpha = 1.0
+            arraySquares[compare].removeAllActions()
+            arrayLabels[compare].removeAllActions()
+            
+            arraySquares[compare].alpha = 0.1
+            arrayLabels[compare].alpha = 1.0
+            
+            arraySquares[compare].run(SKAction.fadeOut(withDuration: 0.75))
+            arrayLabels[compare].run(SKAction.fadeOut(withDuration: 0.75))
+            arrayFrames[compare].run(SKAction.fadeIn(withDuration: 0.75))
+            arrayFrames[arrayPositions[1]].run(SKAction.fadeOut(withDuration: 0.75))
         }
         was_pushed = false
     }
@@ -396,31 +430,33 @@ class instructions: SKScene {
             arraySquares[compare].alpha = 0.05
             arrayLabels[compare].alpha = 0.5
             test1.alpha = 0.5
-            
-            was_pushed = true
-            return
         }
         else if( (score2 == 1 && round == 3 && compare == 4) ) {
             arraySquares[compare].removeAllActions()
             arrayLabels[compare].removeAllActions()
             test2.removeAllActions()
             
-            arraySquares[compare].alpha = 0.275
+            arraySquares[compare].alpha = 0.05
             arrayLabels[compare].alpha = 0.5
             test2.alpha = 0.5
-            
-            was_pushed = true
-            return
         }
         else {
-            arrayFrames[compare].removeAllActions()
+            arraySquares[compare].removeAllActions()
+            arrayLabels[compare].removeAllActions()
+            
+            arraySquares[compare].alpha = 0.05
+            arrayLabels[compare].alpha = 0.5
         }
+        
         was_pushed = true
     }
     
     func push_down(pos: Int) {
         
-        if( (round == 1 && pos == 3 ) || (round == 2 && pos == 4) || (score2 == 0 && round == 3 && pos == 2) ) {
+        if( round > 1 && pos == arrayPositions[1] ) {
+            arraySquares[pos].alpha = 0.5
+        }
+        else if( (round == 1 && pos == 3 ) ) {
             arraySquares[pos].alpha = 0.5
         }
         else if( (round == 2 && pos == 3) || (score2 == 0 && round == 3 && pos == 4) ) {
@@ -433,12 +469,12 @@ class instructions: SKScene {
                 test2.alpha = 0.5
             }
         }
-        else if( (score2 == 0 && round == 3 && pos == 3) || (score2 == 1 && round == 3 && pos == 4) ) {
-            stop_animate_hover()
+        else if( round > 1 && pos == arrayPositions[0] ) {
+            arraySquares[pos].alpha = 0.275
+            arrayLabels[pos].alpha = 0.5
         }
-        else if(pos == compare) {
+        else if( pos == compare ) {
             stop_animate_hover()
-            arrayFrames[compare].alpha = 0.5
         }
         else {
             arrayFrames[pos].alpha = 0.5
@@ -448,7 +484,11 @@ class instructions: SKScene {
     }
     
     func push_up(pos: Int) {
-        if( (round == 1 && pos == 3 ) || (round == 2 && pos == 4) || (score2 == 0 && round == 3 && pos == 2) ) {
+        if( round > 1 && pos == arrayPositions[1] ) {
+            arrayFrames[pos].alpha = 0.0
+            arraySquares[pos].alpha = 1.0
+        }
+        else if( (round == 1 && pos == 3 ) ) {
             arraySquares[pos].alpha = 1.0
         }
         else if( (round == 2 && pos == 3) || (score2 == 0 && round == 3 && pos == 4) ) {
@@ -461,12 +501,12 @@ class instructions: SKScene {
                 test2.alpha = 1.0
             }
         }
-        else if( (score2 == 0 && round == 3 && pos == 3) || (score2 == 1 && round == 3 && pos == 4) ) {
-            was_pushed = false
-            animate_compare()
+        else if( round > 1 && pos == arrayPositions[0] ) {
+            arraySquares[pos].alpha = 0.55
+            arrayLabels[pos].alpha = 1.0
         }
-        else if(pos == compare) {
-            arrayFrames[compare].alpha = 1.0
+        else if( pos == compare ) {
+            was_pushed = false
             animate_compare()
         }
         else {

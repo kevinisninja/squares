@@ -633,6 +633,16 @@ class playScene: SKScene {
                 pause_menu.alpha = 1.0
                 menu_touch = false
                 
+                if(UserDefaults.standard.integer(forKey: "no_ad_streak") >= 5) {
+                    UserDefaults.standard.set(0, forKey: "no_ad_streak")
+                    if interstitial.isReady {
+                        interstitial.present(fromRootViewController: (self.view?.window?.rootViewController)!)
+                    }
+                }
+                else {
+                    UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "no_ad_streak") + 1, forKey: "no_ad_streak")
+                }
+                
                 if let view = self.view {
                     // Load the SKScene from 'GameScene.sks'
                     if let scene = SKScene(fileNamed: "GameScene") {
@@ -647,6 +657,16 @@ class playScene: SKScene {
             else if(stopPlay && restart_touch && self.atPoint(location) == self.pause_restart) {
                 pause_restart.alpha = 1.0
                 restart_touch = false
+                
+                if(UserDefaults.standard.integer(forKey: "no_ad_streak") >= 5) {
+                    UserDefaults.standard.set(0, forKey: "no_ad_streak")
+                    if interstitial.isReady {
+                        interstitial.present(fromRootViewController: (self.view?.window?.rootViewController)!)
+                    }
+                }
+                else {
+                    UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "no_ad_streak") + 1, forKey: "no_ad_streak")
+                }
                 
                 let scene = playScene(size: self.size)
                 let skview = self.view!
