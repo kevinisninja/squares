@@ -132,7 +132,7 @@ class GameScene: SKScene {
                 let scene = hiscores(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
-                scene.scaleMode = .aspectFill
+                scene.scaleMode = .aspectFit
                 skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
             else if(instructions_touch && self.atPoint(location) == self._instructions) {
@@ -142,7 +142,7 @@ class GameScene: SKScene {
                 let scene = instructions(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
-                scene.scaleMode = .aspectFill
+                scene.scaleMode = .aspectFit
                 skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
             else if(credits_touch && self.atPoint(location) == self._credits) {
@@ -152,7 +152,7 @@ class GameScene: SKScene {
                 let scene = credits(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
-                scene.scaleMode = .aspectFill
+                scene.scaleMode = .aspectFit
                 skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
             else if (settings_touch && self.atPoint(location) == self._settings) {
@@ -162,7 +162,7 @@ class GameScene: SKScene {
                 let scene = settings(size: self.size)
                 let skview = self.view!
                 skview.ignoresSiblingOrder = true
-                scene.scaleMode = .aspectFill
+                scene.scaleMode = .aspectFit
                 skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
             }
             else {
@@ -170,14 +170,14 @@ class GameScene: SKScene {
                     let scene = instructions(size: self.size)
                     let skview = self.view!
                     skview.ignoresSiblingOrder = true
-                    scene.scaleMode = .aspectFill
+                    scene.scaleMode = .aspectFit
                     skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
                 }
                 else {
                     let scene = DifficultySelect(size: self.size)
                     let skview = self.view!
                     skview.ignoresSiblingOrder = true
-                    scene.scaleMode = .aspectFill
+                    scene.scaleMode = .aspectFit
                     skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
                 }
             }

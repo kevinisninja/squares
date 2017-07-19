@@ -204,7 +204,7 @@ class DifficultySelect: SKScene {
         let scene = playScene(size: self.size)
         let skview = self.view!
         skview.ignoresSiblingOrder = true
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .aspectFit
         skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
     }
 
@@ -212,7 +212,7 @@ class DifficultySelect: SKScene {
         let scene = speedMode(size: self.size)
         let skview = self.view!
         skview.ignoresSiblingOrder = true
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .aspectFit
         skview.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -286,7 +286,7 @@ class DifficultySelect: SKScene {
                     // Load the SKScene from 'GameScene.sks'
                     if let scene = SKScene(fileNamed: "GameScene") {
                         // Set the scale mode to scale to fit the window
-                        scene.scaleMode = .aspectFill
+                        scene.scaleMode = .aspectFit
                         
                         // Present the scene
                         view.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.6))
