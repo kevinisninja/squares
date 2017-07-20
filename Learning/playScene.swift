@@ -138,8 +138,6 @@ class playScene: SKScene {
         }
         
         interstitial = createAndLoadInterstitial()
-        let request = GADRequest()
-        interstitial.load(request)
 
         init_squares()
         

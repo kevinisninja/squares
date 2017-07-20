@@ -125,8 +125,6 @@ class speedMode: SKScene {
         fadeAction = SKAction.sequence([SKAction.fadeOut(withDuration: 1.0), SKAction.fadeIn(withDuration: 1.0)])
         
         interstitial = createAndLoadInterstitial()
-        let request = GADRequest()
-        interstitial.load(request)
         
         init_squares()
         
